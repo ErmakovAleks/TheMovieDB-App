@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SecureTextField" customModule="TheMovieDB_App" customModuleProvider="target">
+            <connections>
+                <outlet property="eyeButton" destination="gAY-Th-t3Y" id="ZrH-ZN-adZ"/>
+                <outlet property="textField" destination="xRz-Sz-Fwi" id="Aoo-93-zuc"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="371" height="46"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AUg-2Y-tkB" userLabel="Container">
+                    <rect key="frame" x="0.0" y="0.0" width="371" height="46"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xRz-Sz-Fwi">
+                            <rect key="frame" x="0.0" y="0.0" width="371" height="46"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gAY-Th-t3Y">
+                            <rect key="frame" x="334" y="12" width="27" height="22"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" image="eye.slash" catalog="system"/>
+                            <state key="disabled" image="eye.slash" catalog="system"/>
+                            <state key="selected" image="eye" catalog="system"/>
+                            <connections>
+                                <action selector="eyeButtonTapped:" destination="-1" eventType="touchUpInside" id="KqX-lE-bj5"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="gAY-Th-t3Y" firstAttribute="centerY" secondItem="AUg-2Y-tkB" secondAttribute="centerY" id="48Q-yC-PGh"/>
+                        <constraint firstAttribute="trailing" secondItem="gAY-Th-t3Y" secondAttribute="trailing" constant="10" id="NzK-KN-U3G"/>
+                        <constraint firstAttribute="trailing" secondItem="xRz-Sz-Fwi" secondAttribute="trailing" id="Rzr-S7-Ode"/>
+                        <constraint firstAttribute="bottom" secondItem="xRz-Sz-Fwi" secondAttribute="bottom" id="mJy-ga-wph"/>
+                        <constraint firstItem="xRz-Sz-Fwi" firstAttribute="leading" secondItem="AUg-2Y-tkB" secondAttribute="leading" id="sCy-J6-sxe"/>
+                        <constraint firstItem="xRz-Sz-Fwi" firstAttribute="top" secondItem="AUg-2Y-tkB" secondAttribute="top" id="uUL-ws-b0N"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="AUg-2Y-tkB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="9Kd-qD-dh1"/>
+                <constraint firstAttribute="bottom" secondItem="AUg-2Y-tkB" secondAttribute="bottom" id="b9y-BM-Xbd"/>
+                <constraint firstItem="AUg-2Y-tkB" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="czf-z3-tJl"/>
+                <constraint firstAttribute="trailing" secondItem="AUg-2Y-tkB" secondAttribute="trailing" id="rxw-TP-0E0"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="80.769230769230759" y="-183.41232227488152"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="eye" catalog="system" width="128" height="79"/>
+        <image name="eye.slash" catalog="system" width="128" height="84"/>
+    </resources>
+</document>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginView" customModule="TheMovieDB_App" customModuleProvider="target">
+            <connections>
+                <outlet property="loginButton" destination="HiE-Jc-zDd" id="bDd-Lb-4JW"/>
+                <outlet property="loginTextField" destination="Jgl-vc-o4U" id="OTg-fY-UQq"/>
+                <outlet property="passwordTextField" destination="62t-Hx-BpO" id="qmv-gX-dU2"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome," textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w26-oN-Gyz">
+                    <rect key="frame" x="111.66666666666667" y="191.33333333333334" width="166.66666666666663" height="49.333333333333343"/>
+                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="36"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Glad to see you!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S9N-YB-uF2">
+                    <rect key="frame" x="62.666666666666657" y="240.66666666666666" width="265" height="49.333333333333343"/>
+                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="36"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="9lD-gw-PUm">
+                    <rect key="frame" x="32" y="322" width="326" height="100"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jgl-vc-o4U" customClass="SecureTextField" customModule="TheMovieDB_App" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="326" height="44"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="62t-Hx-BpO" customClass="SecureTextField" customModule="TheMovieDB_App" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="56" width="326" height="44"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="100" id="ifg-Ot-HiK"/>
+                    </constraints>
+                </stackView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HiE-Jc-zDd" userLabel="LoginButton">
+                    <rect key="frame" x="32" y="470" width="326" height="44"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Login">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="9lD-gw-PUm" secondAttribute="trailing" constant="32" id="2tD-6e-tpB"/>
+                <constraint firstItem="S9N-YB-uF2" firstAttribute="centerX" secondItem="w26-oN-Gyz" secondAttribute="centerX" id="E8z-j8-LnV"/>
+                <constraint firstItem="HiE-Jc-zDd" firstAttribute="top" secondItem="9lD-gw-PUm" secondAttribute="bottom" constant="48" id="K7O-RW-M7O"/>
+                <constraint firstItem="S9N-YB-uF2" firstAttribute="top" secondItem="w26-oN-Gyz" secondAttribute="bottom" id="LK6-m3-cqY"/>
+                <constraint firstItem="HiE-Jc-zDd" firstAttribute="leading" secondItem="9lD-gw-PUm" secondAttribute="leading" id="Lal-X6-5ov"/>
+                <constraint firstItem="9lD-gw-PUm" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="32" id="OnU-mA-2le"/>
+                <constraint firstItem="HiE-Jc-zDd" firstAttribute="height" secondItem="62t-Hx-BpO" secondAttribute="height" id="U5u-bi-gx2"/>
+                <constraint firstItem="9lD-gw-PUm" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="VmF-KI-pof"/>
+                <constraint firstItem="9lD-gw-PUm" firstAttribute="top" secondItem="S9N-YB-uF2" secondAttribute="bottom" constant="32" id="d5L-9f-xJl"/>
+                <constraint firstAttribute="centerY" secondItem="9lD-gw-PUm" secondAttribute="bottom" id="dz1-Wd-fef"/>
+                <constraint firstItem="HiE-Jc-zDd" firstAttribute="trailing" secondItem="9lD-gw-PUm" secondAttribute="trailing" id="j1i-A5-K4h"/>
+                <constraint firstItem="9lD-gw-PUm" firstAttribute="centerX" secondItem="w26-oN-Gyz" secondAttribute="centerX" id="no0-ep-Uh3"/>
+            </constraints>
+            <point key="canvasLocation" x="-112.30769230769231" y="20.616113744075829"/>
+        </view>
+    </objects>
+</document>
