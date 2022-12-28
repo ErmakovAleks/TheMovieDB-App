@@ -58,6 +58,10 @@ class SessionService: NetworkSessionProcessable {
         urlComponents.host = requestModel.host
         urlComponents.path = requestModel.path
         
+        if let headers = requestModel.header {
+            urlComponents.queryItems = headers.map { URLQueryItem(name: $0.key, value: $0.value) }
+        }
+        
         guard let url = urlComponents.url else {
             completion(.failure(RequestError.invalidURL))
             return
@@ -69,6 +73,9 @@ class SessionService: NetworkSessionProcessable {
         
         if let body = requestModel.body {
             request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
+            request.setValue("\(body.count)", forHTTPHeaderField: "Content-Length")
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
         }
         
         self.processTask(request: request, requestModel: requestModel, completion: completion)

@@ -2,7 +2,7 @@
 //  LoginView.swift
 //  TheMovieDB-App
 //
-//  Created by Aleksandr Ermakov on 22.12.2022.
+//  Created by Aleksandr Ermakov on 26.12.2022.
 //  Copyright © 2022 IDAP. All rights reserved.
 	
 
@@ -68,7 +68,7 @@ class LoginView<Service: NetworkSessionProcessable>: BaseView<LoginViewModel<Ser
     override func prepareBindings(disposeBag: DisposeBag) {
         self.loginButton?.rx.tap
             .bind {
-                self.viewModel.login()
+                self.viewModel.getToken()
             }
             .disposed(by: disposeBag)
     }
@@ -92,3 +92,4 @@ struct Colors  {
     static let gradientBottom = UIColor(red: 181/256, green: 137/256, blue: 214/256, alpha: 1.0)
     static let placeholderColor = UIColor(red: 203/256, green: 153/256, blue: 240/256, alpha: 1.0)
 }
+

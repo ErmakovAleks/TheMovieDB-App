@@ -31,18 +31,13 @@ where ViewModelType: BaseViewModel<OutputEventsType>, OutputEventsType: Events
     
     public init(viewModel: ViewModelType, nibName: String? = nil, bundle: Bundle? = nil) {
         self.viewModel = viewModel
+        let nibName = nibName ?? String(describing: Self.self).components(separatedBy: "<").first
         
         super.init(nibName: nibName, bundle: bundle ?? Bundle(for: Self.self))
     }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    convenience init(viewModel: ViewModelType) {
-        let bundle = Bundle(for: Self.self)
-        
-        self.init(viewModel: viewModel, bundle: bundle)
     }
     
     // MARK: -

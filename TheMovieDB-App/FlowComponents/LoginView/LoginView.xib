@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginView" customModule="TheMovieDB_App" customModuleProvider="target">
+            <connections>
+                <outlet property="loginButton" destination="1IH-wb-1Dm" id="u4B-pp-aWH"/>
+                <outlet property="loginTextField" destination="AzV-jR-LSi" id="D6A-Mw-Scc"/>
+                <outlet property="passwordTextField" destination="CIj-pt-zdE" id="93j-Hc-t2Q"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qTI-rO-ABa" userLabel="Container">
+                    <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Glad to see you!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rgg-vp-PB8">
+                            <rect key="frame" x="62.666666666666657" y="240.66666666666666" width="265" height="49.333333333333343"/>
+                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="36"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome," textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4je-VP-sjR">
+                            <rect key="frame" x="111.66666666666667" y="191.33333333333334" width="166.66666666666663" height="49.333333333333343"/>
+                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="36"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Jbs-Q1-cyw">
+                            <rect key="frame" x="32" y="322" width="326" height="100"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AzV-jR-LSi" customClass="SecureTextField" customModule="TheMovieDB_App" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="326" height="44"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CIj-pt-zdE" customClass="SecureTextField" customModule="TheMovieDB_App" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="56" width="326" height="44"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="100" id="MfO-r5-hV4"/>
+                            </constraints>
+                        </stackView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1IH-wb-1Dm" userLabel="LoginButton">
+                            <rect key="frame" x="32" y="470" width="326" height="44"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Login">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="Jbs-Q1-cyw" firstAttribute="top" secondItem="Rgg-vp-PB8" secondAttribute="bottom" constant="32" id="ABN-rf-hq6"/>
+                        <constraint firstAttribute="centerY" secondItem="Jbs-Q1-cyw" secondAttribute="bottom" id="Abz-Mw-9uL"/>
+                        <constraint firstItem="1IH-wb-1Dm" firstAttribute="top" secondItem="Jbs-Q1-cyw" secondAttribute="bottom" constant="48" id="DTF-wh-XaG"/>
+                        <constraint firstItem="Jbs-Q1-cyw" firstAttribute="leading" secondItem="qTI-rO-ABa" secondAttribute="leading" constant="32" id="Ll7-EP-xCX"/>
+                        <constraint firstItem="1IH-wb-1Dm" firstAttribute="trailing" secondItem="Jbs-Q1-cyw" secondAttribute="trailing" id="POa-0F-9JF"/>
+                        <constraint firstItem="Rgg-vp-PB8" firstAttribute="centerX" secondItem="Jbs-Q1-cyw" secondAttribute="centerX" id="Pk8-1o-7dc"/>
+                        <constraint firstAttribute="trailing" secondItem="Jbs-Q1-cyw" secondAttribute="trailing" constant="32" id="bt2-lQ-DKE"/>
+                        <constraint firstItem="4je-VP-sjR" firstAttribute="centerX" secondItem="Rgg-vp-PB8" secondAttribute="centerX" id="cDa-Qh-5DX"/>
+                        <constraint firstItem="Rgg-vp-PB8" firstAttribute="top" secondItem="4je-VP-sjR" secondAttribute="bottom" id="gCC-xM-1EX"/>
+                        <constraint firstItem="1IH-wb-1Dm" firstAttribute="leading" secondItem="Jbs-Q1-cyw" secondAttribute="leading" id="hYb-V9-Cfe"/>
+                        <constraint firstItem="1IH-wb-1Dm" firstAttribute="height" secondItem="CIj-pt-zdE" secondAttribute="height" id="l9y-iS-vb4"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="qTI-rO-ABa" secondAttribute="bottom" id="92l-RD-4BM"/>
+                <constraint firstItem="qTI-rO-ABa" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Ubr-iW-eJ9"/>
+                <constraint firstItem="qTI-rO-ABa" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="a2X-ew-N82"/>
+                <constraint firstAttribute="trailing" secondItem="qTI-rO-ABa" secondAttribute="trailing" id="isW-F2-Kc5"/>
+            </constraints>
+            <point key="canvasLocation" x="-103" y="21"/>
+        </view>
+    </objects>
+</document>
