@@ -40,31 +40,22 @@ public final class SecureTextField: NibDesignable, UITextFieldDelegate {
         
         let attributedPlaceholdeer = NSAttributedString(string: placeholder, attributes: attributes as [NSAttributedString.Key : Any])
         
-        textField?.borderStyle = .roundedRect
-        textField?.backgroundColor = Colors.placeholderColor
-        textField?.layer.cornerRadius = 8
-        textField?.layer.borderWidth = 1
-        textField?.layer.borderColor = UIColor.white.cgColor
-        textField?.attributedPlaceholder = attributedPlaceholdeer
+        self.textField?.setLeftPaddingPoints(16.0)
+        self.textField?.setRightPaddingPoints(16.0)
         
-        textField?.layer.shadowColor = UIColor.black.cgColor
-        textField?.layer.shadowOpacity = 1
-        textField?.layer.shadowOffset = CGSize(width: 1, height: 1)
-        textField?.layer.shadowRadius = 1
+        self.textField?.borderStyle = .none
+        self.textField?.backgroundColor = Colors.placeholderColor
+        self.textField?.layer.cornerRadius = (self.textField?.frame.height ?? 0) / 2
+        self.textField?.layer.borderWidth = 1
+        self.textField?.layer.borderColor = UIColor.white.cgColor
+        self.textField?.attributedPlaceholder = attributedPlaceholdeer
     }
     
     private func configurePasswordTextField() {
         self.eyeButton?.isHidden = true
         self.textField?.textContentType = .password
         self.textField?.isSecureTextEntry = true
-        //self.textField?.addTarget(self, action: #selector(textFieldDidChange(_:)), for: [.editingChanged, .editingDidEnd])
     }
-    
-//    @objc private func textFieldDidChange(_ textField: UITextField) {
-//        if ((textField.text?.isEmpty) != nil) {
-//            self.eyeButton?.isHidden = false
-//        }
-//    }
     
     // MARK: -
     // MARK: Actions

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ValidatingAccountModel: URLContainable {
+struct ValidatingAccount: URLContainable {
     
     let success: Bool
     let expiresAt: String

@@ -37,9 +37,10 @@ class LoginView<Service: NetworkSessionProcessable>: BaseView<LoginViewModel<Ser
     
     private func setupUI() {
         self.loginTextField?.configure(placeholder: "Login", isSecure: false)
+        self.loginTextField?.textField?.layer.cornerRadius = (self.passwordTextField?.frame.height ?? 0) / 2
         self.passwordTextField?.configure(placeholder: "Password", isSecure: true)
-        self.loginButton?.layer.cornerRadius = 4
-        self.addShadow(to: loginButton ?? UIView())
+        self.passwordTextField?.layer.cornerRadius = (self.passwordTextField?.frame.height ?? 0) / 2
+        self.loginButton?.layer.cornerRadius = (self.loginButton?.frame.height ?? 0) / 2
     }
     
     private func gradientBackground() {
@@ -56,13 +57,6 @@ class LoginView<Service: NetworkSessionProcessable>: BaseView<LoginViewModel<Ser
         
         gradient.frame = view.bounds
         view.layer.insertSublayer(gradient, at: 0)
-    }
-    
-    private func addShadow(to view: UIView) {
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 1
-        view.layer.shadowOffset = CGSize(width: 1, height: 1)
-        view.layer.shadowRadius = 1
     }
     
     override func prepareBindings(disposeBag: DisposeBag) {
@@ -91,5 +85,6 @@ struct Colors  {
     static let gradientTop = UIColor(red: 85/256, green: 37/256, blue: 134/256, alpha: 1.0)
     static let gradientBottom = UIColor(red: 181/256, green: 137/256, blue: 214/256, alpha: 1.0)
     static let placeholderColor = UIColor(red: 203/256, green: 153/256, blue: 240/256, alpha: 1.0)
+    static let navigationBarColor = UIColor(red: 93/256, green: 55/256, blue: 140/256, alpha: 1.0)
 }
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Movie: URLContainable {
+struct Movie: Codable {
     
     let adult: Bool
     let backdropPath: String
@@ -50,11 +50,6 @@ struct Movie: URLContainable {
         case firstAirDate = "first_air_date"
         case originCountry = "origin_country"
     }
-    
-    static var path: String = "something-url-else"
-    static var method: HTTPMethod = .get
-    static var header: [String : String]?
-    static var body: [String : String]?
 }
 
 enum MediaType: String, Codable {

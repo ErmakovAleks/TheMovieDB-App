@@ -17,6 +17,7 @@ public class BaseCoordinator: UINavigationController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.setNavigationBarHidden(true, animated: false)
         self.start()
     }
     

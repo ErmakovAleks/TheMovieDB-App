@@ -10,6 +10,7 @@ import Foundation
 
 enum LoginViewModelOutputEvents: Events {
     
+    case authorized(String)
 }
 
 class LoginViewModel<Service: NetworkSessionProcessable>: BaseViewModel<LoginViewModelOutputEvents> {
@@ -18,7 +19,7 @@ class LoginViewModel<Service: NetworkSessionProcessable>: BaseViewModel<LoginVie
     // MARK: Functions
     
     func getToken() {
-        Service.sendRequest(requestModel: RequestedTokenModel.self) { result in
+        Service.sendRequest(requestModel: RequestedToken.self) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
@@ -31,9 +32,8 @@ class LoginViewModel<Service: NetworkSessionProcessable>: BaseViewModel<LoginVie
     }
     
     private func validateAccount(token: String) {
-        ValidatingAccountModel.token = token
-        print("<!> token - \(token)")
-        Service.sendRequest(requestModel: ValidatingAccountModel.self) { result in
+        ValidatingAccount.token = token
+        Service.sendRequest(requestModel: ValidatingAccount.self) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
@@ -46,12 +46,12 @@ class LoginViewModel<Service: NetworkSessionProcessable>: BaseViewModel<LoginVie
     }
     
     private func getSessionID(token: String) {
-        SessionIDModel.token = token
-        Service.sendRequest(requestModel: SessionIDModel.self) { result in
+        SessionID.token = token
+        Service.sendRequest(requestModel: SessionID.self) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
-                    print("<!> sessionID = \(model.sessionID)")
+                    self.outputEventsEmiter.accept(.authorized(model.sessionID))
                 case .failure(let error):
                     debugPrint(error.customMessage)
                 }

@@ -13,7 +13,7 @@ import Foundation
 // MARK: -
 // MARK: SessionIDModel
 
-struct SessionIDModel: URLContainable {
+struct SessionID: URLContainable {
     
     let success: Bool
     let sessionID: String

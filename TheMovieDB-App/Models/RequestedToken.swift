@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct RequestedTokenModel: URLContainable {
+struct RequestedToken: URLContainable {
     
     let success: Bool
     let expiresAt: String

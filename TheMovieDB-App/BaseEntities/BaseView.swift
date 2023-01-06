@@ -51,14 +51,6 @@ where ViewModelType: BaseViewModel<OutputEventsType>, OutputEventsType: Events
         self.viewModel.viewDidLoaded()
     }
     
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        ///  show bottom bar only for root vc in current navigation stack
-        let isRootController = self.navigationController?.viewControllers.first === self
-        self.tabBarController?.tabBar.isHidden = !isRootController
-    }
-    
     //MARK: -
     //MARK: Overrding methods
     
