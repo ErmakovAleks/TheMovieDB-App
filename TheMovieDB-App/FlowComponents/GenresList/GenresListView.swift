@@ -26,7 +26,8 @@ class GenresListView<Service: NetworkSessionProcessable>: BaseView<GenresListVie
     // MARK: Variables
     
     private var genres: [Genre] = []
-    private var trendMoviesImages: [UIImage] = []
+    private var trendMoviesImages: [UIImage?] = []
+    private var imagesHandler: (([UIImage]) -> ())?
     
     // MARK: -
     // MARK: ViewController Life Cycle
@@ -106,17 +107,11 @@ class GenresListView<Service: NetworkSessionProcessable>: BaseView<GenresListVie
             }
             .disposed(by: disposeBag)
         
-        self.viewModel.trendMovies
+        self.viewModel.posters
             .observe(on: MainScheduler.instance)
-            .bind { [weak self] trendMovie in
-                trendMovie.forEach { movie in
-                    self?.viewModel.fetchImage(for: movie.posterPath, completion: { image in
-                        self?.trendMoviesImages.append(image)
-                    })
-                }
-                
-                print("<!> data.count = \(self?.genres.count)")
-                print("<!> data.count = \(self?.trendMoviesImages.count)")
+            .bind { [weak self] in
+                print("<!> posters.count = \(self?.viewModel.posters.value.count)")
+                self?.trendMoviesImages = $0
                 self?.moviesTableView?.reloadData()
                 self?.tvshowsTableView?.reloadData()
             }
@@ -157,6 +152,7 @@ class GenresListView<Service: NetworkSessionProcessable>: BaseView<GenresListVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withCellClass: CollectionTableViewCell.self, for: indexPath)
+        
         cell.fill(with: self.viewModel.trendMovies.value, and: self.trendMoviesImages)
         
         return cell

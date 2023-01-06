@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,52 +20,37 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ng-xW-2GP" userLabel="Container">
                         <rect key="frame" x="0.0" y="0.0" width="92" height="172"/>
                         <subviews>
-                            <view alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nH6-8c-sed" userLabel="SemitransparentContainer">
-                                <rect key="frame" x="4" y="4" width="84" height="164"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lanyardcard.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Owk-Xx-MYj" userLabel="PosterImageView">
-                                        <rect key="frame" x="0.0" y="0.3333333333333357" width="84" height="119.66666666666666"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="84" id="7U9-ug-E2t"/>
-                                            <constraint firstAttribute="height" constant="120" id="ArH-Bl-fuP"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8vU-zZ-EZe" userLabel="TitleLabel">
-                                        <rect key="frame" x="4" y="124.00000000000001" width="76" height="15.666666666666671"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XWl-aR-OPr" userLabel="DirectorLabel">
-                                        <rect key="frame" x="4" y="147.66666666666666" width="24" height="11"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="16w-04-ZKf" userLabel="PosterImageView">
+                                <rect key="frame" x="8" y="8" width="76" height="112"/>
                                 <constraints>
-                                    <constraint firstItem="XWl-aR-OPr" firstAttribute="leading" secondItem="8vU-zZ-EZe" secondAttribute="leading" id="3on-IZ-bGc"/>
-                                    <constraint firstAttribute="trailing" secondItem="8vU-zZ-EZe" secondAttribute="trailing" constant="4" id="4JT-0l-FUy"/>
-                                    <constraint firstItem="8vU-zZ-EZe" firstAttribute="top" secondItem="Owk-Xx-MYj" secondAttribute="bottom" constant="4" id="8jY-z6-GG5"/>
-                                    <constraint firstAttribute="trailing" secondItem="Owk-Xx-MYj" secondAttribute="trailing" id="Ftt-Gx-YsF"/>
-                                    <constraint firstItem="Owk-Xx-MYj" firstAttribute="top" secondItem="nH6-8c-sed" secondAttribute="top" id="FvD-xa-dQe"/>
-                                    <constraint firstAttribute="bottom" secondItem="XWl-aR-OPr" secondAttribute="bottom" priority="250" constant="8" id="PaT-vc-DZ0"/>
-                                    <constraint firstItem="XWl-aR-OPr" firstAttribute="top" secondItem="8vU-zZ-EZe" secondAttribute="bottom" constant="8" symbolic="YES" id="Uvp-Es-vZB"/>
-                                    <constraint firstItem="Owk-Xx-MYj" firstAttribute="leading" secondItem="nH6-8c-sed" secondAttribute="leading" id="hcd-pa-yTs"/>
-                                    <constraint firstItem="8vU-zZ-EZe" firstAttribute="leading" secondItem="nH6-8c-sed" secondAttribute="leading" constant="4" id="j29-yn-8DI"/>
+                                    <constraint firstAttribute="height" constant="112" id="tJ2-m8-mT1"/>
                                 </constraints>
-                            </view>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZf-82-xWR" userLabel="TitleLabel">
+                                <rect key="frame" x="8" y="124.00000000000001" width="76" height="15.666666666666671"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EvV-gz-c2G" userLabel="DirectorLabel">
+                                <rect key="frame" x="8" y="139.66666666666666" width="24" height="11"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemYellowColor"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="172" id="1b2-ao-Oka"/>
-                            <constraint firstAttribute="bottom" secondItem="nH6-8c-sed" secondAttribute="bottom" constant="4" id="8c8-Vs-IHX"/>
-                            <constraint firstAttribute="trailing" secondItem="nH6-8c-sed" secondAttribute="trailing" constant="4" id="WGL-wA-oh7"/>
-                            <constraint firstItem="nH6-8c-sed" firstAttribute="top" secondItem="7ng-xW-2GP" secondAttribute="top" constant="4" id="hXm-do-N1y"/>
-                            <constraint firstItem="nH6-8c-sed" firstAttribute="leading" secondItem="7ng-xW-2GP" secondAttribute="leading" constant="4" id="rJt-Jf-2D8"/>
+                            <constraint firstItem="EvV-gz-c2G" firstAttribute="leading" secondItem="16w-04-ZKf" secondAttribute="leading" id="0L5-gc-Tlz"/>
+                            <constraint firstItem="mZf-82-xWR" firstAttribute="leading" secondItem="16w-04-ZKf" secondAttribute="leading" id="7Ec-mC-elh"/>
+                            <constraint firstItem="16w-04-ZKf" firstAttribute="leading" secondItem="7ng-xW-2GP" secondAttribute="leading" constant="8" id="Bf5-f5-FVn"/>
+                            <constraint firstAttribute="trailing" secondItem="16w-04-ZKf" secondAttribute="trailing" constant="8" id="EMB-6r-v4Y"/>
+                            <constraint firstItem="mZf-82-xWR" firstAttribute="top" secondItem="16w-04-ZKf" secondAttribute="bottom" constant="4" id="F7i-eq-WPL"/>
+                            <constraint firstAttribute="height" constant="172" id="N0L-8p-2pQ"/>
+                            <constraint firstItem="EvV-gz-c2G" firstAttribute="top" secondItem="mZf-82-xWR" secondAttribute="bottom" id="Wv7-GW-KN1"/>
+                            <constraint firstItem="mZf-82-xWR" firstAttribute="trailing" secondItem="16w-04-ZKf" secondAttribute="trailing" id="ZbC-jh-UUN"/>
+                            <constraint firstAttribute="bottom" secondItem="EvV-gz-c2G" secondAttribute="bottom" priority="250" constant="4" id="fXW-nB-o4S"/>
+                            <constraint firstItem="16w-04-ZKf" firstAttribute="top" secondItem="7ng-xW-2GP" secondAttribute="top" constant="8" id="w0F-B0-S21"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -79,15 +65,17 @@
             </constraints>
             <size key="customSize" width="92" height="180"/>
             <connections>
-                <outlet property="directorLabel" destination="XWl-aR-OPr" id="ELa-lk-WT3"/>
-                <outlet property="posterImageView" destination="Owk-Xx-MYj" id="38a-Du-L2b"/>
-                <outlet property="semitransparentContainerView" destination="nH6-8c-sed" id="hgz-Xw-rsd"/>
-                <outlet property="titleLabel" destination="8vU-zZ-EZe" id="vFM-nh-E4Y"/>
+                <outlet property="containerView" destination="7ng-xW-2GP" id="fkr-HA-RJr"/>
+                <outlet property="directorLabel" destination="EvV-gz-c2G" id="Icf-KA-XEH"/>
+                <outlet property="posterImageView" destination="16w-04-ZKf" id="7vn-R7-L5p"/>
+                <outlet property="titleLabel" destination="mZf-82-xWR" id="Z8h-Za-y81"/>
             </connections>
             <point key="canvasLocation" x="63.076923076923073" y="66.824644549763036"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="lanyardcard.fill" catalog="system" width="108" height="128"/>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

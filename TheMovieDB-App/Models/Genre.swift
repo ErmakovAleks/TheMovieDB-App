@@ -11,18 +11,9 @@ import Foundation
 // MARK: -
 // MARK: Genres List
 
-struct TMDBGenres: URLContainable {
+struct TMDBGenres: Codable {
 
     let genres: [Genre]
-    
-    static var path: String = "/3/genre/movie/list"
-    static var method: HTTPMethod = .get
-    static var header: [String : String]? =
-    [
-        "api_key": "bb31aee2b72f24d4d4ffbe947cd93787"
-    ]
-    
-    static var body: [String : String]?
 }
 
 // MARK: -
@@ -32,4 +23,14 @@ struct Genre: Codable {
     
     let id: Int
     let name: String
+}
+
+struct TMDBGenresParams: URLContainable {
+    
+    typealias DecodableType = TMDBGenres
+    
+    var path: String = "/3/genre/movie/list"
+    var method: HTTPMethod = .get
+    var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
+    var body: [String : String]?
 }

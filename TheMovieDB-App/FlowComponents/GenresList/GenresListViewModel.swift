@@ -22,6 +22,7 @@ class GenresListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<Gen
     
     public let genres = BehaviorRelay<[Genre]>(value: [])
     public let trendMovies = BehaviorRelay<[Movie]>(value: [])
+    public let posters = BehaviorRelay<[UIImage]>(value: [])
     
     // MARK: -
     // MARK: Functions
@@ -31,7 +32,8 @@ class GenresListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<Gen
     }
     
     private func fetchData() {
-        Service.sendRequest(requestModel: TMDBGenres.self) { result in
+        let params = TMDBGenresParams()
+        Service.sendRequest(requestModel: params) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
@@ -44,7 +46,8 @@ class GenresListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<Gen
     }
     
     func fetchTrendMovies() {
-        Service.sendRequest(requestModel: TrendingMovies.self) { result in
+        let params = TopRatedParams()
+        Service.sendRequest(requestModel: params) { result in
             switch result {
             case .success(let model):
                 self.trendMovies.accept(model.results)
@@ -55,21 +58,50 @@ class GenresListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<Gen
     }
     
     func fetchImage(for url: String, completion: @escaping (UIImage) -> ()) {
-        Poster.path += url
-        Service.sendRequest(requestModel: Poster.self) { result in
-            switch result {
-            case .success(let data):
-                if let image = UIImage(data: data) {
-                    completion(image)
+        let params = PosterParams(endPath: url)
+        Service.sendDataRequest(requestModel: params) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    if let image = UIImage(data: data) {
+                        print("<!> Image is loaded!")
+                        completion(image)
+                    }
+                case .failure(let error):
+                    debugPrint(error)
                 }
-            case .failure(let error):
-                debugPrint(error)
             }
+        }
+    }
+    
+    func fetchImages(movies: [Movie]) {
+        var images: [UIImage] = []
+        let dispatchGroup = DispatchGroup()
+        movies.forEach { movie in
+            dispatchGroup.enter()
+            
+            self.fetchImage(for: movie.posterPath) { image in
+                images.append(image)
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.notify(queue: DispatchQueue.main) {
+            print("<!> images.count = \(images.count)")
+            self.posters.accept(images)
         }
     }
     
     // MARK: -
     // MARK: Overrided
+    
+    override func prepareBindings(bag: DisposeBag) {
+        self.trendMovies
+            .bind { [weak self] movies in
+                self?.fetchImages(movies: movies)
+            }
+            .disposed(by: self.disposeBag)
+    }
     
     override func viewDidLoaded() {
         self.prepareInitialData()

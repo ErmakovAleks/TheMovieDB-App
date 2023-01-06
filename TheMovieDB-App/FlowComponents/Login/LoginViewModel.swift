@@ -19,7 +19,8 @@ class LoginViewModel<Service: NetworkSessionProcessable>: BaseViewModel<LoginVie
     // MARK: Functions
     
     func getToken() {
-        Service.sendRequest(requestModel: RequestedToken.self) { result in
+        let params = RequestedTokenParams()
+        Service.sendRequest(requestModel: params) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
@@ -32,8 +33,8 @@ class LoginViewModel<Service: NetworkSessionProcessable>: BaseViewModel<LoginVie
     }
     
     private func validateAccount(token: String) {
-        ValidatingAccount.token = token
-        Service.sendRequest(requestModel: ValidatingAccount.self) { result in
+        let params = ValidatingAccountParams(token: token)
+        Service.sendRequest(requestModel: params) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
@@ -46,8 +47,8 @@ class LoginViewModel<Service: NetworkSessionProcessable>: BaseViewModel<LoginVie
     }
     
     private func getSessionID(token: String) {
-        SessionID.token = token
-        Service.sendRequest(requestModel: SessionID.self) { result in
+        let params = SessionIDParams(token: token)
+        Service.sendRequest(requestModel: params) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):

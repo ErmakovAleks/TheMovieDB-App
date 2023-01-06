@@ -8,19 +8,17 @@
 
 import Foundation
 
-struct Poster: URLContainable {
+struct PosterParams: URLContainable {
     
-    static var host: String = "image.tmdb.org"
+    typealias DecodableType = Data
     
-    static var path: String = "/t/p/w500"
+    var host: String = "image.tmdb.org"
+    var path: String = "/t/p/w500"
+    var method: HTTPMethod = .get
+    var header: [String : String]?
+    var body: [String : String]?
     
-    static var method: HTTPMethod = .get
-    
-    static var header: [String : String]?
-    
-    static var body: [String : String]?
-    
-    init(url: String) {
-        
+    init(endPath: String) {
+        self.path += endPath
     }
 }

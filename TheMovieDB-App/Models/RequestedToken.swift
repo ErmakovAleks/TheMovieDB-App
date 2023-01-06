@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct RequestedToken: URLContainable {
+struct RequestedToken: Codable {
     
     let success: Bool
     let expiresAt: String
@@ -19,9 +19,14 @@ struct RequestedToken: URLContainable {
         case expiresAt = "expires_at"
         case requestToken = "request_token"
     }
+}
+
+struct RequestedTokenParams: URLContainable {
     
-    static var path: String = "/3/authentication/token/new"
-    static var method: HTTPMethod = .get
-    static var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
-    static var body: [String : String]? = nil
+    typealias DecodableType = RequestedToken
+    
+    var path: String = "/3/authentication/token/new"
+    var method: HTTPMethod = .get
+    var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
+    var body: [String : String]?
 }

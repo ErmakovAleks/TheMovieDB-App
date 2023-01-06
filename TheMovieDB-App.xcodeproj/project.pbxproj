@@ -25,7 +25,6 @@
 		D92613192964BD13007F9557 /* TestViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92613172964BD13007F9557 /* TestViewCell.swift */; };
 		D926131A2964BD13007F9557 /* TestViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D92613182964BD13007F9557 /* TestViewCell.xib */; };
 		D926131C2964C6E3007F9557 /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D926131B2964C6E3007F9557 /* UICollectionView+Extensions.swift */; };
-		D926131E2965A3E5007F9557 /* TrendingMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = D926131D2965A3E5007F9557 /* TrendingMovies.swift */; };
 		D92613202965D031007F9557 /* Poster.swift in Sources */ = {isa = PBXBuildFile; fileRef = D926131F2965D031007F9557 /* Poster.swift */; };
 		D932C6A72950A3B000552003 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D932C6A62950A3B000552003 /* AppDelegate.swift */; };
 		D932C6B12950A3B000552003 /* TheMovieDB_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D932C6AF2950A3B000552003 /* TheMovieDB_App.xcdatamodeld */; };
@@ -74,7 +73,6 @@
 		D92613172964BD13007F9557 /* TestViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewCell.swift; sourceTree = "<group>"; };
 		D92613182964BD13007F9557 /* TestViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestViewCell.xib; sourceTree = "<group>"; };
 		D926131B2964C6E3007F9557 /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
-		D926131D2965A3E5007F9557 /* TrendingMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingMovies.swift; sourceTree = "<group>"; };
 		D926131F2965D031007F9557 /* Poster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poster.swift; sourceTree = "<group>"; };
 		D932C6A32950A3B000552003 /* TheMovieDB-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TheMovieDB-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D932C6A62950A3B000552003 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -278,7 +276,6 @@
 				D9F0FEFD295A2A31006D8B10 /* ValidatingAccount.swift */,
 				D92612D0295C98BB007F9557 /* SessionID.swift */,
 				D92613052962E623007F9557 /* Genre.swift */,
-				D926131D2965A3E5007F9557 /* TrendingMovies.swift */,
 				D926131F2965D031007F9557 /* Poster.swift */,
 			);
 			path = Models;
@@ -457,7 +454,6 @@
 				D9F0FEF829599616006D8B10 /* LoginView.swift in Sources */,
 				D92613192964BD13007F9557 /* TestViewCell.swift in Sources */,
 				D98AFE3529578C27001665E7 /* TopRated.swift in Sources */,
-				D926131E2965A3E5007F9557 /* TrendingMovies.swift in Sources */,
 				D932C6B12950A3B000552003 /* TheMovieDB_App.xcdatamodeld in Sources */,
 				D98AFE3729578C90001665E7 /* Movie.swift in Sources */,
 				D92613202965D031007F9557 /* Poster.swift in Sources */,

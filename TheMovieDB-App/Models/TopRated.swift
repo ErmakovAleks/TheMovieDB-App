@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TopRated: URLContainable {
+struct TopRated: Codable {
     
     let page: Int
     let totalPages: Int
@@ -21,12 +21,14 @@ struct TopRated: URLContainable {
         case totalPages = "total_pages"
         case totalResults = "total_results"
     }
+}
+
+struct TopRatedParams: URLContainable {
     
-    static var path: String = "something-url"
+    typealias DecodableType = TopRated
     
-    static var method: HTTPMethod = .get
-    
-    static var header: [String : String]?
-    
-    static var body: [String : String]?
+    var path: String = "/3/trending/movie/day"
+    var method: HTTPMethod = .get
+    var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
+    var body: [String : String]?
 }

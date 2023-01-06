@@ -13,10 +13,10 @@ class CollectionViewCell: UICollectionViewCell {
     // MARK: -
     // MARK: Outlets
     
-    @IBOutlet var semitransparentContainerView: UIView?
     @IBOutlet var posterImageView: UIImageView?
     @IBOutlet var titleLabel: UILabel?
     @IBOutlet var directorLabel: UILabel?
+    @IBOutlet var containerView: UIView?
     
     // MARK: -
     // MARK: View Life Cycle
@@ -31,13 +31,13 @@ class CollectionViewCell: UICollectionViewCell {
     // MARK: Functions
     
     private func prepareContent() {
-        //self.semitransparentContainerView?.backgroundColor = Colors.gradientTop
-        self.semitransparentContainerView?.layer.cornerRadius = 12.0
         self.posterImageView?.layer.cornerRadius = 4.0
+        self.containerView?.layer.cornerRadius = 12.0
+        self.containerView?.backgroundColor = Colors.gradientTop
     }
     
-    public func fill(with model: Movie) {
-        //self.posterImageView?.image = image
+    public func fill(with model: Movie, and poster: UIImage?) {
+        self.posterImageView?.image = poster
         self.titleLabel?.text = model.title
         self.directorLabel?.text = model.releaseDate
     }

@@ -8,28 +8,25 @@
 
 import Foundation
 
-protocol URLContainable: Decodable, Encodable {
+protocol URLContainable {
     
-    static var scheme: String { get }
+    associatedtype DecodableType: Codable
     
-    static var host: String { get }
-    
-    static var path: String { get }
-    
-    static var method: HTTPMethod { get }
-    
-    static var header: [String: String]? { get set }
-    
-    static var body: [String: String]? { get }
+    var scheme: String { get }
+    var host: String { get }
+    var path: String { get }
+    var method: HTTPMethod { get set }
+    var header: [String: String]? { get set }
+    var body: [String: String]? { get set }
 }
 
 extension URLContainable {
     
-    static var scheme: String {
+    var scheme: String {
         "https"
     }
     
-    static var host: String {
+    var host: String {
         "api.themoviedb.org"
     }
 }

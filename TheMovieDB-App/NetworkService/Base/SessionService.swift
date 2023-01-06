@@ -13,12 +13,12 @@ typealias ResultCompletion<T> = (Result<T, RequestError>) -> ()
 protocol NetworkSessionProcessable {
 
     static func sendRequest<T: URLContainable>(
-        requestModel: T.Type,
-        completion: @escaping ResultCompletion<T>
+        requestModel: T,
+        completion: @escaping ResultCompletion<T.DecodableType>
     )
     
-    static func sendRequest<T: URLContainable>(
-        requestModel: T.Type,
+    static func sendDataRequest<T: URLContainable>(
+        requestModel: T,
         completion: @escaping ResultCompletion<Data>
     )
 }
@@ -26,15 +26,15 @@ protocol NetworkSessionProcessable {
 class SessionService: NetworkSessionProcessable {
     
     static func sendRequest<T: URLContainable>(
-        requestModel: T.Type,
-        completion: @escaping ResultCompletion<T>
+        requestModel: T,
+        completion: @escaping ResultCompletion<T.DecodableType>
     ) {
         guard let request = self.configureRequest(requestModel: requestModel) else { return }
         self.processTask(request: request, requestModel: requestModel, completion: completion)
     }
     
-    static func sendRequest<T: URLContainable>(
-        requestModel: T.Type,
+    static func sendDataRequest<T: URLContainable>(
+        requestModel: T,
         completion: @escaping ResultCompletion<Data>
     ) {
         guard let request = self.configureRequest(requestModel: requestModel) else { return }
@@ -42,7 +42,7 @@ class SessionService: NetworkSessionProcessable {
     }
     
     private static func configureRequest<T: URLContainable>(
-        requestModel: T.Type
+        requestModel: T
     ) -> URLRequest? {
         var urlComponents = URLComponents()
         urlComponents.scheme = requestModel.scheme
@@ -72,10 +72,10 @@ class SessionService: NetworkSessionProcessable {
         return request
     }
     
-    private static func processTask<T: Codable>(
+    private static func processTask<T: URLContainable>(
         request: URLRequest,
-        requestModel: T.Type,
-        completion: @escaping ResultCompletion<T>
+        requestModel: T,
+        completion: @escaping ResultCompletion<T.DecodableType>
     ) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let _ = error {
@@ -86,7 +86,7 @@ class SessionService: NetworkSessionProcessable {
                 switch response.statusCode {
                 case 200..<300:
                     if let data = data,
-                       let results = try? JSONDecoder().decode(T.self, from: data) {
+                       let results = try? JSONDecoder().decode(T.DecodableType.self , from: data) {
                         completion(.success(results))
                     }
                 case 401:
@@ -100,9 +100,9 @@ class SessionService: NetworkSessionProcessable {
         task.resume()
     }
     
-    private static func processTask<T: Codable>(
+    private static func processTask<T: URLContainable>(
         request: URLRequest,
-        requestModel: T.Type,
+        requestModel: T,
         completion: @escaping ResultCompletion<Data>
     ) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
