@@ -88,6 +88,8 @@ class SessionService: NetworkSessionProcessable {
                     if let data = data,
                        let results = try? JSONDecoder().decode(T.DecodableType.self , from: data) {
                         completion(.success(results))
+                    } else {
+                        completion(.failure(RequestError.decode))
                     }
                 case 401:
                     completion(.failure(RequestError.unauthorized))

@@ -49,6 +49,27 @@ where ViewModelType: BaseViewModel<OutputEventsType>, OutputEventsType: Events
         self.prepareBindings(disposeBag: self.disposeBag)
         self.prepare(with: self.viewModel)
         self.viewModel.viewDidLoaded()
+        self.gradientBackground()
+        self.navigationController?.navigationBar.tintColor = .white
+    }
+    
+    // MARK: -
+    // MARK: View Settings
+    
+    private func gradientBackground() {
+        lazy var gradient: CAGradientLayer = {
+            let gradient = CAGradientLayer()
+            gradient.type = .axial
+            gradient.colors = [
+                Colors.gradientTop.cgColor,
+                Colors.gradientBottom.cgColor
+            ]
+            gradient.locations = [0, 1]
+            return gradient
+        }()
+        
+        gradient.frame = view.bounds
+        view.layer.insertSublayer(gradient, at: 0)
     }
     
     //MARK: -

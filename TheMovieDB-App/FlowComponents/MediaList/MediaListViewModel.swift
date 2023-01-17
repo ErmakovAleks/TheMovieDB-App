@@ -12,7 +12,7 @@ import RxSwift
 import RxRelay
 
 enum MediaListViewModelOutputEvents: Events {
-    
+    case needShowDetail(Int?, MediaType)
 }
 
 class MediaListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<MediaListViewModelOutputEvents> {
@@ -22,16 +22,35 @@ class MediaListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<Medi
     
     public let genres = BehaviorRelay<[Genre]>(value: [])
     public let movies = BehaviorRelay<[Int:[Movie]]>(value: [:])
+    public let tvShows = BehaviorRelay<[Int:[TVShow]]>(value: [:])
+    public let trendMovies = BehaviorRelay<[Movie]>(value: [])
+    public let trendTVShows = BehaviorRelay<[TVShow]>(value: [])
+    public var type: MediaType
     
     // MARK: -
-    // MARK: Functions
+    // MARK: Initializators
     
-    private func prepareInitialData() {
-        self.fetchData()
+    init(type: MediaType) {
+        self.type = type
     }
     
-    private func fetchData() {
-        let params = TMDBGenresParams()
+    // MARK: -
+    // MARK: Public functions
+    
+    public func showDetail(by id: Int?) {
+        self.outputEventsEmiter.accept(.needShowDetail(id, type))
+    }
+    
+    // MARK: -
+    // MARK: Private functions
+    
+    private func prepareInitialData() {
+        self.fetchGenres()
+        self.fetchTrending()
+    }
+    
+    private func fetchGenres() {
+        let params = TMDBGenresParams(type: self.type)
         Service.sendRequest(requestModel: params) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -44,16 +63,60 @@ class MediaListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<Medi
         }
     }
     
-    func fetchMovies(page: Int, genreID: Int) {
-        let params = MovieParams(page: page, genreID: genreID)
-        Service.sendRequest(requestModel: params) { result in
-            switch result {
-            case .success(let model):
-                var films = self.movies.value
-                films[genreID] = model.results
-                self.movies.accept(films)
-            case .failure(let error):
-                debugPrint(error)
+    private func fetchTrending() {
+        switch self.type {
+        case .movie:
+            let params = TopRatedMoviesParams()
+            Service.sendRequest(requestModel: params) { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let model):
+                        self.trendMovies.accept(model.results)
+                    case .failure(let error):
+                        debugPrint(error)
+                    }
+                }
+            }
+        case .tv:
+            let params = TopRatedTVShowsParams()
+            Service.sendRequest(requestModel: params) { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let model):
+                        self.trendTVShows.accept(model.results)
+                    case .failure(let error):
+                        debugPrint(error)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func fetchMedia(page: Int, genreID: Int) {
+        switch self.type {
+        case .movie:
+            let params = MovieParams(page: page, genreID: genreID)
+            Service.sendRequest(requestModel: params) { result in
+                switch result {
+                case .success(let model):
+                    var shows = self.movies.value
+                    shows[genreID] = model.results
+                    self.movies.accept(shows)
+                case .failure(let error):
+                    debugPrint(error)
+                }
+            }
+        case .tv:
+            let params = TVShowsParams(page: page, genreID: genreID)
+            Service.sendRequest(requestModel: params) { result in
+                switch result {
+                case .success(let model):
+                    var shows = self.tvShows.value
+                    shows[genreID] = model.results
+                    self.tvShows.accept(shows)
+                case .failure(let error):
+                    debugPrint(error)
+                }
             }
         }
     }
@@ -65,7 +128,7 @@ class MediaListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<Medi
         self.genres
             .bind { [weak self] genres in
                 genres.forEach { genre in
-                    self?.fetchMovies(page: 1, genreID: genre.id)
+                    self?.fetchMedia(page: 1, genreID: genre.id)
                 }
             }
             .disposed(by: self.disposeBag)

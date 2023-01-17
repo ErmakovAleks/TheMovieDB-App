@@ -8,23 +8,65 @@
 
 import UIKit
 
-class SearchListView: UIViewController {
+class SearchListView<Service: NetworkSessionProcessable>: BaseView<SearchListViewModel<Service>, SearchListViewModelOutputEvents>, UITableViewDelegate, UITableViewDataSource {
+    
+    // MARK: -
+    // MARK: Outlets
+    
+    @IBOutlet var searchList: UITableView?
+    
+    // MARK: -
+    // MARK: Variables
+    
+    private var type: MediaType
+    
+    // MARK: -
+    // MARK: Initializators
+    
+    init(viewModel: SearchListViewModel<Service>, type: MediaType) {
+        self.type = type
+        super.init(viewModel: viewModel)
+        
+        switch self.type {
+        case .movie:
+            self.title = "Movies"
+        case .tv:
+            self.title = "TV Shows"
+        }
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: -
+    // MARK: View Controller Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        self.prepareTableView()
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    // MARK: -
+    // MARK: Functions
+    
+    private func prepareTableView() {
+        self.searchList?.delegate = self
+        self.searchList?.dataSource = self
+        self.searchList?.registerCell(cellClass: SearchTableViewCell.self)
     }
-    */
-
+    
+    // MARK: -
+    // MARK: UITableViewDelegate, UITableViewDataSource
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withCellClass: SearchTableViewCell.self, for: indexPath)
+        
+        return cell
+    }
 }

@@ -21,4 +21,13 @@ struct PosterParams: URLContainable {
     init(endPath: String) {
         self.path += endPath
     }
+    
+    func url() -> URL? {
+        var components = URLComponents()
+        components.scheme = self.scheme
+        components.host = self.host
+        components.path = self.path
+        
+        return components.url
+    }
 }

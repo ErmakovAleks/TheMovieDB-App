@@ -20,6 +20,11 @@ class CollectionViewCell: UICollectionViewCell {
     @IBOutlet var spinnerView: UIActivityIndicatorView?
     
     // MARK: -
+    // MARK: Variables
+    
+    private var task: URLSessionDataTask?
+    
+    // MARK: -
     // MARK: View Life Cycle
 
     override func awakeFromNib() {
@@ -30,6 +35,8 @@ class CollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        self.task?.cancel()
         
         self.posterImageView?.image = nil
         self.titleLabel?.text = nil
@@ -57,19 +64,46 @@ class CollectionViewCell: UICollectionViewCell {
         let params = PosterParams(endPath: model?.posterPath ?? "")
         let url = params.url()
         if let url = url {
+            self.task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let data = data, error == nil else { return }
+                
+                DispatchQueue.main.async {
+                    if PosterParams(endPath: "").path + (model?.posterPath ?? "") == url.path {
+                        self?.posterImageView?.image = UIImage(data: data)
+                        self?.spinnerView?.stopAnimating()
+                    }
+                }
+            }
+            
+            self.task?.resume()
+        }
+        
+        self.titleLabel?.text = model?.title
+        self.directorLabel?.text = model?.releaseDate
+    }
+    
+    public func fill(with model: TVShow?) {
+        self.spinnerView?.startAnimating()
+        let params = PosterParams(endPath: model?.posterPath ?? "")
+        let url = params.url()
+        if let url = url {
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let data = data, error == nil else { return }
                 
                 DispatchQueue.main.async {
-                    self.posterImageView?.image = UIImage(data: data)
-                    self.spinnerView?.stopAnimating()
+                    if PosterParams(endPath: "").path + (model?.posterPath ?? "") == url.path {
+                        self.posterImageView?.image = UIImage(data: data)
+                        self.spinnerView?.stopAnimating()
+                    } else {
+                        self.posterImageView?.image = nil
+                    }
                 }
             }
             
             task.resume()
         }
         
-        self.titleLabel?.text = model?.title
-        self.directorLabel?.text = model?.releaseDate
+        self.titleLabel?.text = model?.name
+        self.directorLabel?.text = model?.firstAirDate
     }
 }

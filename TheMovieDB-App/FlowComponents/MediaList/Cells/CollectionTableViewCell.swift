@@ -23,8 +23,10 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
         return layout
     }
     
+    public var onSelect: ((Int?) -> ())?
     public var onFirstSection: Bool = false
-    private var data = [Movie?]()
+    private var movies = [Movie?]()
+    private var tvShows = [TVShow?]()
     private let spacer = 8.0
     
     // MARK: -
@@ -53,7 +55,11 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     // MARK: Functions
     
     public func fill(with model: [Movie]) {
-        self.data = model
+        self.movies = model
+    }
+    
+    public func fill(with model: [TVShow]) {
+        self.tvShows = model
     }
     
     private func prepareContent() {
@@ -67,12 +73,19 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     // MARK: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.data.count
+        self.movies.count != 0 ? self.movies.count : self.tvShows.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CollectionViewCell.self), for: indexPath) as? CollectionViewCell
-        cell?.fill(with: self.data[indexPath.row])
+        
+        if !self.movies.isEmpty {
+            cell?.fill(with: self.movies[indexPath.row])
+        }
+        
+        if !self.tvShows.isEmpty {
+            cell?.fill(with: self.tvShows[indexPath.row])
+        }
 
         if onFirstSection {
             cell?.containerView?.backgroundColor = Colors.gradientBottom
@@ -82,6 +95,16 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
         
         
         return cell ?? UICollectionViewCell()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if !self.movies.isEmpty {
+            self.onSelect?(self.movies[indexPath.row]?.id)
+        }
+        
+        if !self.tvShows.isEmpty {
+            self.onSelect?(self.tvShows[indexPath.row]?.id)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

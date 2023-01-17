@@ -29,34 +29,12 @@ class LoginView<Service: NetworkSessionProcessable>: BaseView<LoginViewModel<Ser
         self.passwordTextField?.textField?.delegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.gradientBackground()
-    }
-    
     private func setupUI() {
         self.loginTextField?.configure(placeholder: "Login", isSecure: false)
         self.loginTextField?.textField?.layer.cornerRadius = (self.passwordTextField?.frame.height ?? 0) / 2
         self.passwordTextField?.configure(placeholder: "Password", isSecure: true)
         self.passwordTextField?.layer.cornerRadius = (self.passwordTextField?.frame.height ?? 0) / 2
         self.loginButton?.layer.cornerRadius = (self.loginButton?.frame.height ?? 0) / 2
-    }
-    
-    private func gradientBackground() {
-        lazy var gradient: CAGradientLayer = {
-            let gradient = CAGradientLayer()
-            gradient.type = .axial
-            gradient.colors = [
-                Colors.gradientTop.cgColor,
-                Colors.gradientBottom.cgColor
-            ]
-            gradient.locations = [0, 1]
-            return gradient
-        }()
-        
-        gradient.frame = view.bounds
-        view.layer.insertSublayer(gradient, at: 0)
     }
     
     override func prepareBindings(disposeBag: DisposeBag) {

@@ -23,11 +23,36 @@ struct Movies: Codable {
     }
 }
 
-struct TopRatedParams: URLContainable {
+struct TVShows: Codable {
+    
+    let page: Int
+    let totalPages: Int
+    let totalResults: Int
+    let results: [TVShow]
+
+    enum CodingKeys: String, CodingKey {
+        case page
+        case results
+        case totalPages = "total_pages"
+        case totalResults = "total_results"
+    }
+}
+
+struct TopRatedMoviesParams: URLContainable {
     
     typealias DecodableType = Movies
     
     var path: String = "/3/trending/movie/day"
+    var method: HTTPMethod = .get
+    var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
+    var body: [String : String]?
+}
+
+struct TopRatedTVShowsParams: URLContainable {
+    
+    typealias DecodableType = TVShows
+    
+    var path: String = "/3/trending/tv/day"
     var method: HTTPMethod = .get
     var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
     var body: [String : String]?

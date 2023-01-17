@@ -7,3 +7,11 @@
 	
 
 import Foundation
+
+enum SearchListViewModelOutputEvents: Events {
+    
+}
+
+class SearchListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<SearchListViewModelOutputEvents> {
+    
+}

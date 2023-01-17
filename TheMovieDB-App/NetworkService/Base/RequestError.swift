@@ -20,17 +20,17 @@ enum RequestError: Error {
     var customMessage: String {
         switch self {
         case .decode:
-            return "Decode error"
+            return "<!> Decode error"
         case .invalidURL:
-            return "URL is incorrect"
+            return "<!> URL is incorrect"
         case .noResponse:
-            return "There is no response from server"
+            return "<!> There is no response from server"
         case .unauthorized:
-            return "Session expired"
+            return "<!> Session expired"
         case .unexpectedStatusCode:
-            return "Unexpected status code"
+            return "<!> Unexpected status code"
         case .unknown:
-            return "Unknown error"
+            return "<!> Unknown error"
         }
     }
 }

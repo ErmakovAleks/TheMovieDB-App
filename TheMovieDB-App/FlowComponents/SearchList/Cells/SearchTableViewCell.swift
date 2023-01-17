@@ -9,10 +9,23 @@
 import UIKit
 
 class SearchTableViewCell: UITableViewCell {
+    
+    // MARK: -
+    // MARK: Outlets
+    
+    @IBOutlet var posterContainerView: UIView?
+    @IBOutlet var posterImageView: UIImageView?
+    @IBOutlet var titleLabel: UILabel?
+    @IBOutlet var descriptionLabel: UILabel?
+    
+    // MARK: -
+    // MARK: View Life Cycle
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        self.configure()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -21,4 +34,12 @@ class SearchTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    // MARK: -
+    // MARK: Functions
+    
+    private func configure() {
+        self.posterContainerView?.backgroundColor = Colors.gradientBottom
+        self.posterContainerView?.layer.cornerRadius = 12
+        self.posterImageView?.layer.cornerRadius = 4
+    }
 }

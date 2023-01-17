@@ -8,5 +8,6 @@ target 'TheMovieDB-App' do
     pod 'SnapKit', '~> 5.6.0'
     pod 'RxSwift', '6.5.0'
     pod 'RxCocoa', '6.5.0'
+    pod 'youtube-ios-player-helper'
 
 end

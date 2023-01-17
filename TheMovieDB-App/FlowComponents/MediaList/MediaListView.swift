@@ -16,13 +16,31 @@ class MediaListView<Service: NetworkSessionProcessable>: BaseView<MediaListViewM
     // MARK: -
     // MARK: Outlets
     
-    @IBOutlet var moviesList: UITableView?
-    @IBOutlet var segmentControl: CustomSegmentControl?
+    @IBOutlet var mediaList: UITableView?
     
     // MARK: -
     // MARK: Variables
     
-    private var posters: [UIImage?] = []
+    private var type: MediaType
+    
+    // MARK: -
+    // MARK: Initializators
+    
+    init(viewModel: MediaListViewModel<Service>, type: MediaType) {
+        self.type = type
+        super.init(viewModel: viewModel)
+        
+        switch self.type {
+        case .movie:
+            self.title = "Movies"
+        case .tv:
+            self.title = "TV Shows"
+        }
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: -
     // MARK: ViewController Life Cycle
@@ -30,52 +48,20 @@ class MediaListView<Service: NetworkSessionProcessable>: BaseView<MediaListViewM
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.prepareTitle()
         self.prepareTableView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.gradientBackground()
     }
     
     // MARK: -
     // MARK: Functions
     
-    private func prepareTitle() {
-        self.title = "Movies"
-        self.navigationController?.navigationBar.titleTextAttributes =
-        [
-            NSAttributedString.Key.font: UIFont(name: "Avenir Heavy", size: 34) as Any,
-            NSAttributedString.Key.foregroundColor: UIColor.white
-        ]
-    }
-    
-    private func gradientBackground() {
-        lazy var gradient: CAGradientLayer = {
-            let gradient = CAGradientLayer()
-            gradient.type = .axial
-            gradient.colors = [
-                Colors.gradientTop.cgColor,
-                Colors.gradientBottom.cgColor
-            ]
-            gradient.locations = [0, 1]
-            return gradient
-        }()
-        
-        gradient.frame = view.bounds
-        view.layer.insertSublayer(gradient, at: 0)
-    }
-    
     private func prepareTableView() {
-        self.moviesList?.delegate = self
-        self.moviesList?.dataSource = self
+        self.mediaList?.delegate = self
+        self.mediaList?.dataSource = self
         
-        self.moviesList?
+        self.mediaList?
             .register(CustomTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "sectionHeader")
         
-        self.moviesList?.registerCell(cellClass: CollectionTableViewCell.self)
+        self.mediaList?.registerCell(cellClass: CollectionTableViewCell.self)
     }
     
     // MARK: -
@@ -85,7 +71,14 @@ class MediaListView<Service: NetworkSessionProcessable>: BaseView<MediaListViewM
         self.viewModel.movies
             .observe(on: MainScheduler.instance)
             .bind { [weak self] _ in
-                self?.moviesList?.reloadData()
+                self?.mediaList?.reloadData()
+            }
+            .disposed(by: disposeBag)
+        
+        self.viewModel.tvShows
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.mediaList?.reloadData()
             }
             .disposed(by: disposeBag)
     }
@@ -94,13 +87,22 @@ class MediaListView<Service: NetworkSessionProcessable>: BaseView<MediaListViewM
     // MARK: UITableViewDelegate, UITableViewDataSource
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        self.viewModel.genres.value.count
+        self.viewModel.genres.value.count + 1
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
                        "sectionHeader") as? CustomTableViewHeader
-        view?.title.text = self.viewModel.genres.value[section].name
+        if section == 0 {
+            switch self.type {
+            case .movie:
+                view?.title.text = "Trending Movies"
+            case .tv:
+                view?.title.text = "Trending TV Shows"
+            }
+        } else {
+            view?.title.text = self.viewModel.genres.value[section - 1].name
+        }
 
            return view
     }
@@ -118,11 +120,31 @@ class MediaListView<Service: NetworkSessionProcessable>: BaseView<MediaListViewM
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withCellClass: CollectionTableViewCell.self, for: indexPath)
-        let id = self.viewModel.genres.value[indexPath.section].id
-        cell.fill(with: self.viewModel.movies.value[id] ?? [])
+        
+        if indexPath.section == 0 {
+            switch self.type {
+            case .movie:
+                cell.fill(with: self.viewModel.trendMovies.value)
+            case .tv:
+                cell.fill(with: self.viewModel.trendTVShows.value)
+            }
+        } else {
+            let id = self.viewModel.genres.value[indexPath.section - 1].id
+            
+            switch self.type {
+            case .movie:
+                cell.fill(with: self.viewModel.movies.value[id] ?? [])
+            case .tv:
+                cell.fill(with: self.viewModel.tvShows.value[id] ?? [])
+            }
+        }
         
         if indexPath.section == 0 {
             cell.onFirstSection = true
+        }
+        
+        cell.onSelect = { id in
+            self.viewModel.showDetail(by: id)
         }
         
         return cell
