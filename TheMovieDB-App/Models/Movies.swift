@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TopRated: Codable {
+struct Movies: Codable {
     
     let page: Int
     let totalPages: Int
@@ -25,7 +25,7 @@ struct TopRated: Codable {
 
 struct TopRatedParams: URLContainable {
     
-    typealias DecodableType = TopRated
+    typealias DecodableType = Movies
     
     var path: String = "/3/trending/movie/day"
     var method: HTTPMethod = .get

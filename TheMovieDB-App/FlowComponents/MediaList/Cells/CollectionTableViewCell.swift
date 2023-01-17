@@ -17,14 +17,14 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     
     var layout: UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 100.0, height: 180.0)
-        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 100.0, height: 200.0)
+        layout.scrollDirection = .vertical
 
         return layout
     }
     
-    private var data = [Movie]()
-    private var posters = [UIImage?]()
+    public var onFirstSection: Bool = false
+    private var data = [Movie?]()
     private let spacer = 8.0
     
     // MARK: -
@@ -44,16 +44,16 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     
     override func prepareForReuse() {
         super.prepareForReuse()
-
+        
+        self.onFirstSection = false
         self.collectionView?.reloadData()
     }
     
     // MARK: -
     // MARK: Functions
     
-    public func fill(with model: [Movie], and images: [UIImage?]) {
+    public func fill(with model: [Movie]) {
         self.data = model
-        self.posters = images
     }
     
     private func prepareContent() {
@@ -72,14 +72,14 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CollectionViewCell.self), for: indexPath) as? CollectionViewCell
-        var poster: UIImage?
-        if self.posters.count > indexPath.row {
-            poster = self.posters[indexPath.row]
+        cell?.fill(with: self.data[indexPath.row])
+
+        if onFirstSection {
+            cell?.containerView?.backgroundColor = Colors.gradientBottom
         } else {
-            poster = nil
+            cell?.containerView?.backgroundColor = Colors.gradientTop
         }
         
-        cell?.fill(with: self.data[indexPath.row], and: poster)
         
         return cell ?? UICollectionViewCell()
     }
@@ -89,6 +89,6 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (self.contentView.frame.width - 4.0 * self.spacer) / 3.0, height: 188.0)
+        return CGSize(width: (self.contentView.frame.width - 4.0 * self.spacer) / 3.0, height: 200.0)
     }
 }
