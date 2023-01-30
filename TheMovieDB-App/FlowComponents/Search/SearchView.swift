@@ -51,8 +51,7 @@ class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
     }
     
     private func prepareNavigationBar() {
-        self.navigationController?.isNavigationBarHidden = false
-        
+        self.title = "Search"
         let searchController = UISearchController()
         searchController.searchBar.searchTextField.backgroundColor = Colors.gradientBottom
         self.navigationItem.searchController = searchController

@@ -51,10 +51,7 @@ class SearchTableViewCell: UITableViewCell {
             if let data {
                 self?.posterImageView?.image = UIImage(data: data)
                 self?.spinnerView?.stopAnimating()
-            } else {
-                self?.posterImageView?.image = nil
             }
         })
-        
     }
 }

@@ -49,8 +49,13 @@ where ViewModelType: BaseViewModel<OutputEventsType>, OutputEventsType: Events
         self.prepareBindings(disposeBag: self.disposeBag)
         self.prepare(with: self.viewModel)
         self.viewModel.viewDidLoaded()
-        self.gradientBackground()
         self.navigationController?.navigationBar.tintColor = .white
+        let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Heavy", size: 34.0) ?? UIFont.systemFont(ofSize: 34.0), NSAttributedString.Key.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().titleTextAttributes = attributes
+    }
+    
+    public override func viewDidLayoutSubviews() {
+        self.gradientBackground()
     }
     
     // MARK: -

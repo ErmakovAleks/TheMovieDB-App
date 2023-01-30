@@ -38,12 +38,6 @@ class MediaView: BaseView<MediaViewModel, MediaViewModelOutputEvents> {
         self.prepareIndicator()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.prepareNavigationBar()
-    }
-    
     // MARK: -
     // MARK: Private fuctions
     
@@ -53,7 +47,8 @@ class MediaView: BaseView<MediaViewModel, MediaViewModelOutputEvents> {
     }
     
     private func prepareNavigationBar() {
-        self.navigationController?.isNavigationBarHidden = true
+        self.navigationItem.title = "Media"
+        //self.navigationController?.isNavigationBarHidden = true
     }
     
     private func prepareIndicator() {
@@ -80,22 +75,6 @@ class MediaView: BaseView<MediaViewModel, MediaViewModelOutputEvents> {
         if let controller = self.controllers?.first {
             self.addChildController(controller)
         }
-    }
-    
-    private func gradientBackground() {
-        lazy var gradient: CAGradientLayer = {
-            let gradient = CAGradientLayer()
-            gradient.type = .axial
-            gradient.colors = [
-                Colors.gradientTop.cgColor,
-                Colors.gradientBottom.cgColor
-            ]
-            gradient.locations = [0, 1]
-            return gradient
-        }()
-        
-        gradient.frame = view.bounds
-        view.layer.insertSublayer(gradient, at: 0)
     }
     
     private func addChildController(_ controller: UIViewController) {
