@@ -22,7 +22,7 @@ class CollectionViewCell: UICollectionViewCell {
     // MARK: -
     // MARK: Variables
     
-    private var task: URLSessionDataTask?
+    public var viewModel: MediaListViewModel?
     
     // MARK: -
     // MARK: View Life Cycle
@@ -35,8 +35,6 @@ class CollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
-        self.task?.cancel()
         
         self.posterImageView?.image = nil
         self.titleLabel?.text = nil
@@ -59,51 +57,19 @@ class CollectionViewCell: UICollectionViewCell {
         self.spinnerView?.startAnimating()
     }
     
-    public func fill(with model: Movie?) {
+    public func fill(with model: Media?) {
         self.spinnerView?.startAnimating()
-        let params = PosterParams(endPath: model?.posterPath ?? "")
-        let url = params.url()
-        if let url = url {
-            self.task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-                guard let data = data, error == nil else { return }
-                
-                DispatchQueue.main.async {
-                    if PosterParams(endPath: "").path + (model?.posterPath ?? "") == url.path {
-                        self?.posterImageView?.image = UIImage(data: data)
-                        self?.spinnerView?.stopAnimating()
-                    }
-                }
+        
+        self.viewModel?.fetchPoster(endPath: model?.mediaPoster ?? "") { [weak self] data in
+            if let data {
+                self?.posterImageView?.image = UIImage(data: data)
+                self?.spinnerView?.stopAnimating()
+            } else {
+                self?.posterImageView?.image = nil
             }
-            
-            self.task?.resume()
         }
         
-        self.titleLabel?.text = model?.title
-        self.directorLabel?.text = model?.releaseDate
-    }
-    
-    public func fill(with model: TVShow?) {
-        self.spinnerView?.startAnimating()
-        let params = PosterParams(endPath: model?.posterPath ?? "")
-        let url = params.url()
-        if let url = url {
-            let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let data = data, error == nil else { return }
-                
-                DispatchQueue.main.async {
-                    if PosterParams(endPath: "").path + (model?.posterPath ?? "") == url.path {
-                        self.posterImageView?.image = UIImage(data: data)
-                        self.spinnerView?.stopAnimating()
-                    } else {
-                        self.posterImageView?.image = nil
-                    }
-                }
-            }
-            
-            task.resume()
-        }
-        
-        self.titleLabel?.text = model?.name
-        self.directorLabel?.text = model?.firstAirDate
+        self.titleLabel?.text = model?.mediaTitle
+        self.directorLabel?.text = model?.mediaDescription
     }
 }

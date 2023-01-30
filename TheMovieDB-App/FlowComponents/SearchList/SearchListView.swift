@@ -8,7 +8,10 @@
 
 import UIKit
 
-class SearchListView<Service: NetworkSessionProcessable>: BaseView<SearchListViewModel<Service>, SearchListViewModelOutputEvents>, UITableViewDelegate, UITableViewDataSource {
+import RxSwift
+import RxRelay
+
+class SearchListView: BaseView<SearchListViewModel, SearchListViewModelOutputEvents>, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: -
     // MARK: Outlets
@@ -16,23 +19,12 @@ class SearchListView<Service: NetworkSessionProcessable>: BaseView<SearchListVie
     @IBOutlet var searchList: UITableView?
     
     // MARK: -
-    // MARK: Variables
-    
-    private var type: MediaType
-    
-    // MARK: -
     // MARK: Initializators
     
-    init(viewModel: SearchListViewModel<Service>, type: MediaType) {
-        self.type = type
+    init(viewModel: SearchListViewModel) {
         super.init(viewModel: viewModel)
         
-        switch self.type {
-        case .movie:
-            self.title = "Movies"
-        case .tv:
-            self.title = "TV Shows"
-        }
+        self.title = self.viewModel.tabTitle
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -61,12 +53,27 @@ class SearchListView<Service: NetworkSessionProcessable>: BaseView<SearchListVie
     // MARK: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        self.viewModel.mediaResults.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withCellClass: SearchTableViewCell.self, for: indexPath)
+        cell.viewModel = self.viewModel
+        cell.fill(with: self.viewModel.mediaResults.value[indexPath.row])
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.viewModel.showDetail(by: indexPath.row)
+    }
+    
+    // MARK: -
+    // MARK: Overrided
+    
+    override func prepareBindings(disposeBag: DisposeBag) {
+        self.viewModel.mediaResults.bind { [weak self] _ in
+            self?.searchList?.reloadData()
+        }
     }
 }

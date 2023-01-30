@@ -1,5 +1,5 @@
 //
-//  ContainerView.swift
+//  MediaView.swift
 //  TheMovieDB-App
 //
 //  Created by Aleksandr Ermakov on 10.01.2023.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContainerView: UIViewController {
+class MediaView: BaseView<MediaViewModel, MediaViewModelOutputEvents> {
     
     // MARK: -
     // MARK: Outlets
@@ -32,34 +32,28 @@ class ContainerView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.prepareTitle()
+        
+        self.prepareControllers()
+        self.prepareNavigationBar()
         self.prepareIndicator()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        self.gradientBackground()
-    }
-    
-    // MARK: -
-    // MARK: Public functions
-    
-    func addSections(_ controllers:[UIViewController]) {
-        self.controllers = controllers
-        self.prepareStack()
+        self.prepareNavigationBar()
     }
     
     // MARK: -
     // MARK: Private fuctions
     
-    private func prepareTitle() {
-        self.navigationController?.navigationBar.titleTextAttributes =
-        [
-            NSAttributedString.Key.font: UIFont(name: "Avenir Heavy", size: 34) as Any,
-            NSAttributedString.Key.foregroundColor: UIColor.white
-        ]
+    private func prepareControllers() {
+        self.controllers = self.viewModel.childViewControllers
+        self.prepareStack()
+    }
+    
+    private func prepareNavigationBar() {
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     private func prepareIndicator() {

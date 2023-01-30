@@ -8,7 +8,22 @@
 
 import Foundation
 
-struct Movie: Codable {
+protocol Media {
+    
+    var mediaTitle: String { get }
+    var mediaDescription: String { get }
+    var mediaID: Int { get }
+    var mediaPoster: String { get }
+    var mediaOverview: String { get }
+}
+
+struct Movie: Codable, Media {
+    
+    var mediaTitle: String { self.title ?? "No data" }
+    var mediaDescription: String { self.releaseDate ?? "No data" }
+    var mediaID: Int { self.id }
+    var mediaPoster: String { self.posterPath ?? "No data"}
+    var mediaOverview: String { self.overview }
     
     let adult: Bool
     let backdropPath: String?
@@ -17,7 +32,7 @@ struct Movie: Codable {
     let originalLanguage: OriginalLanguage
     let originalTitle: String?
     let overview: String
-    let posterPath: String
+    let posterPath: String?
     let genreIDS: [Int]
     let popularity: Double
     let releaseDate: String?
@@ -42,10 +57,16 @@ struct Movie: Codable {
     }
 }
 
-struct TVShow: Codable {
+struct TVShow: Codable, Media {
+    
+    var mediaTitle: String { self.name }
+    var mediaDescription: String { self.firstAirDate ?? "No data" }
+    var mediaID: Int { self.id }
+    var mediaPoster: String { self.posterPath ?? "No data" }
+    var mediaOverview: String { self.overview }
     
     let backdropPath: String?
-    let firstAirDate: String
+    let firstAirDate: String?
     let genreIDS: [Int]
     let id: Int
     let name: String
@@ -77,11 +98,22 @@ struct TVShow: Codable {
 enum MediaType: String, Codable {
     case movie = "movie"
     case tv = "tv"
+    
+    public static func type(by index: Int) -> Self {
+        if index == 0 {
+            return .movie
+        } else {
+            return .tv
+        }
+    }
 }
 
 enum OriginalLanguage: String, Codable {
+    case ar = "ar"
+    case bn = "bn"
     case en = "en"
     case es = "es"
+    case fi = "fi"
     case fr = "fr"
     case he = "he"
     case hi = "hi"
@@ -98,7 +130,9 @@ enum OriginalLanguage: String, Codable {
     case zh = "zh"
     case ru = "ru"
     case th = "th"
+    case pa = "pa"
     case pt = "pt"
+    case sv = "sv"
     case mk = "mk"
     case cn = "cn"
     case tr = "tr"

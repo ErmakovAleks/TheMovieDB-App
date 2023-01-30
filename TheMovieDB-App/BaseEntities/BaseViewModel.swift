@@ -11,9 +11,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-public class BaseViewModel<OutputEventsType: Events> {
-    
-    //typealias OutputEvents = OutputEventsType
+public class BaseViewModel<OutputEventsType: Events>: NetworkServiceContainable {
     
     //MARK: -
     //MARK: Variables

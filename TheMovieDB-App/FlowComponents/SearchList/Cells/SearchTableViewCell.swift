@@ -17,21 +17,20 @@ class SearchTableViewCell: UITableViewCell {
     @IBOutlet var posterImageView: UIImageView?
     @IBOutlet var titleLabel: UILabel?
     @IBOutlet var descriptionLabel: UILabel?
+    @IBOutlet var spinnerView: UIActivityIndicatorView?
+    
+    // MARK: -
+    // MARK: Variables
+    
+    public var viewModel: SearchListViewModel?
     
     // MARK: -
     // MARK: View Life Cycle
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         
         self.configure()
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     // MARK: -
@@ -41,5 +40,21 @@ class SearchTableViewCell: UITableViewCell {
         self.posterContainerView?.backgroundColor = Colors.gradientBottom
         self.posterContainerView?.layer.cornerRadius = 12
         self.posterImageView?.layer.cornerRadius = 4
+    }
+    
+    public func fill(with model: Media) {
+        self.spinnerView?.startAnimating()
+        
+        self.titleLabel?.text = model.mediaTitle
+        self.descriptionLabel?.text = model.mediaOverview
+        self.viewModel?.fetchPoster(endPath: model.mediaPoster, completion: { [weak self] data in
+            if let data {
+                self?.posterImageView?.image = UIImage(data: data)
+                self?.spinnerView?.stopAnimating()
+            } else {
+                self?.posterImageView?.image = nil
+            }
+        })
+        
     }
 }

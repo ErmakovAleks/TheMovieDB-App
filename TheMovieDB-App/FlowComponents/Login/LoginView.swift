@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class LoginView<Service: NetworkSessionProcessable>: BaseView<LoginViewModel<Service>, LoginViewModelOutputEvents>, UITextFieldDelegate {
+class LoginView: BaseView<LoginViewModel, LoginViewModelOutputEvents>, UITextFieldDelegate {
     
     // MARK: -
     // MARK: Outlets
@@ -37,9 +37,21 @@ class LoginView<Service: NetworkSessionProcessable>: BaseView<LoginViewModel<Ser
         self.loginButton?.layer.cornerRadius = (self.loginButton?.frame.height ?? 0) / 2
     }
     
+    private func startSpinner() {
+        let bg = UIView(frame: self.view.frame)
+        bg.backgroundColor = .clear
+        let indicatorView = UIActivityIndicatorView(style: .large)
+        indicatorView.center = bg.center
+        
+        indicatorView.startAnimating()
+        bg.addSubview(indicatorView)
+        self.view.addSubview(bg)
+    }
+    
     override func prepareBindings(disposeBag: DisposeBag) {
         self.loginButton?.rx.tap
             .bind {
+                self.startSpinner()
                 self.viewModel.getToken()
             }
             .disposed(by: disposeBag)

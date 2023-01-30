@@ -6,7 +6,6 @@
 //  Copyright © 2022 IDAP. All rights reserved.
 	
 
-import Foundation
 import UIKit
 
 public class BaseCoordinator: UINavigationController {

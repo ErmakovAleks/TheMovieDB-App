@@ -15,19 +15,15 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     // MARK: -
     // MARK: Variables
     
-    var layout: UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 100.0, height: 200.0)
-        layout.scrollDirection = .vertical
-
-        return layout
-    }
-    
     public var onSelect: ((Int?) -> ())?
     public var onFirstSection: Bool = false
-    private var movies = [Movie?]()
-    private var tvShows = [TVShow?]()
+    public var viewModel: MediaListViewModel?
+    
     private let spacer = 8.0
+    private let countOfCardsInVisibleRow = 3.0
+    private let cardHeight = 200.0
+    
+    private var id: Int?
     
     // MARK: -
     // MARK: View Life Cycle
@@ -37,31 +33,24 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
         
         self.prepareContent()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
         self.onFirstSection = false
-        self.collectionView?.reloadData()
+        self.id = nil
+        /// Уточнить по поводу скрытия collectionView
+        /// self.collectionView?.isHidden = true
     }
     
     // MARK: -
     // MARK: Functions
     
-    public func fill(with model: [Movie]) {
-        self.movies = model
+    public func fill(by id: Int) {
+        self.id = id
+        self.collectionView?.reloadData()
     }
-    
-    public func fill(with model: [TVShow]) {
-        self.tvShows = model
-    }
-    
+
     private func prepareContent() {
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
@@ -73,37 +62,36 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     // MARK: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.movies.count != 0 ? self.movies.count : self.tvShows.count
+        return self.viewModel?.media.value.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CollectionViewCell.self), for: indexPath) as? CollectionViewCell
+        let baseCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CollectionViewCell.self), for: indexPath)
         
-        if !self.movies.isEmpty {
-            cell?.fill(with: self.movies[indexPath.row])
+        if let cell = baseCell as? CollectionViewCell {
+            cell.containerView?.backgroundColor = self.onFirstSection
+                ? Colors.gradientBottom
+                : Colors.gradientTop
+            
+            cell.viewModel = self.viewModel
+            
+            if let id = self.id, let media = self.viewModel?.media.value[id] {
+                cell.fill(with: media[indexPath.row])
+            } else if self.onFirstSection {
+                cell.fill(with: self.viewModel?.trendMedia.value[indexPath.row])
+            }
         }
         
-        if !self.tvShows.isEmpty {
-            cell?.fill(with: self.tvShows[indexPath.row])
-        }
-
-        if onFirstSection {
-            cell?.containerView?.backgroundColor = Colors.gradientBottom
-        } else {
-            cell?.containerView?.backgroundColor = Colors.gradientTop
-        }
-        
-        
-        return cell ?? UICollectionViewCell()
+        return baseCell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if !self.movies.isEmpty {
-            self.onSelect?(self.movies[indexPath.row]?.id)
-        }
-        
-        if !self.tvShows.isEmpty {
-            self.onSelect?(self.tvShows[indexPath.row]?.id)
+        if let id = self.id, let media = self.viewModel?.media.value, !media.isEmpty {
+            let mediaItem = self.viewModel?.media.value[id]
+            self.onSelect?(mediaItem?[indexPath.row].mediaID)
+        } else {
+            let mediaItem = self.viewModel?.trendMedia.value
+            self.onSelect?(mediaItem?[indexPath.row].mediaID)
         }
     }
     
@@ -112,6 +100,8 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (self.contentView.frame.width - 4.0 * self.spacer) / 3.0, height: 200.0)
+        return CGSize(
+            width: (self.contentView.frame.width - (self.countOfCardsInVisibleRow + 1) * self.spacer) / self.countOfCardsInVisibleRow,
+            height: self.cardHeight)
     }
 }

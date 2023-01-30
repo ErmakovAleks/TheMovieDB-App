@@ -13,7 +13,7 @@ enum LoginViewModelOutputEvents: Events {
     case authorized(String)
 }
 
-class LoginViewModel<Service: NetworkSessionProcessable>: BaseViewModel<LoginViewModelOutputEvents> {
+class LoginViewModel: BaseViewModel<LoginViewModelOutputEvents> {
     
     // MARK: -
     // MARK: Functions

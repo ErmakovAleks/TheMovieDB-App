@@ -15,23 +15,33 @@ enum MediaListViewModelOutputEvents: Events {
     case needShowDetail(Int?, MediaType)
 }
 
-class MediaListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<MediaListViewModelOutputEvents> {
+class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
     
     // MARK: -
     // MARK: Variables
     
     public let genres = BehaviorRelay<[Genre]>(value: [])
-    public let movies = BehaviorRelay<[Int:[Movie]]>(value: [:])
-    public let tvShows = BehaviorRelay<[Int:[TVShow]]>(value: [:])
-    public let trendMovies = BehaviorRelay<[Movie]>(value: [])
-    public let trendTVShows = BehaviorRelay<[TVShow]>(value: [])
+    public let media = BehaviorRelay<[Int:[Media]]>(value: [:])
+    public let trendMedia = BehaviorRelay<[Media]>(value: [])
     public var type: MediaType
+    public var tabTitle: String
+    public var trendTitle: String
+    public var dataHandler: ((Data) -> ())?
     
     // MARK: -
     // MARK: Initializators
     
     init(type: MediaType) {
         self.type = type
+        
+        switch self.type {
+        case .movie:
+            self.tabTitle = "Movies"
+            self.trendTitle = "Trending Movies"
+        case .tv:
+            self.tabTitle = "TV Shows"
+            self.trendTitle = "Trending TV Shows"
+        }
     }
     
     // MARK: -
@@ -39,6 +49,26 @@ class MediaListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<Medi
     
     public func showDetail(by id: Int?) {
         self.outputEventsEmiter.accept(.needShowDetail(id, type))
+    }
+    
+    public func fetchPoster(endPath: String, completion: @escaping (Data?) -> ()) {
+        let params = PosterParams(endPath: endPath)
+        
+        if let url = params.url() {
+            let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let data = data else { return }
+
+                DispatchQueue.main.async {
+                    if url.path == response?.url?.path {
+                        completion(data)
+                    } else {
+                        completion(nil)
+                    }
+                }
+            }
+
+            task.resume()
+        }
     }
     
     // MARK: -
@@ -71,7 +101,7 @@ class MediaListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<Medi
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let model):
-                        self.trendMovies.accept(model.results)
+                        self.trendMedia.accept(model.results)
                     case .failure(let error):
                         debugPrint(error)
                     }
@@ -83,7 +113,7 @@ class MediaListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<Medi
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let model):
-                        self.trendTVShows.accept(model.results)
+                        self.trendMedia.accept(model.results)
                     case .failure(let error):
                         debugPrint(error)
                     }
@@ -99,9 +129,9 @@ class MediaListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<Medi
             Service.sendRequest(requestModel: params) { result in
                 switch result {
                 case .success(let model):
-                    var shows = self.movies.value
+                    var shows = self.media.value
                     shows[genreID] = model.results
-                    self.movies.accept(shows)
+                    self.media.accept(shows)
                 case .failure(let error):
                     debugPrint(error)
                 }
@@ -111,9 +141,9 @@ class MediaListViewModel<Service: NetworkSessionProcessable>: BaseViewModel<Medi
             Service.sendRequest(requestModel: params) { result in
                 switch result {
                 case .success(let model):
-                    var shows = self.tvShows.value
+                    var shows = self.media.value
                     shows[genreID] = model.results
-                    self.tvShows.accept(shows)
+                    self.media.accept(shows)
                 case .failure(let error):
                     debugPrint(error)
                 }

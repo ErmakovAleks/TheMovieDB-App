@@ -50,7 +50,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="collectionView" destination="cSN-0Z-77S" id="tuf-0h-loA"/>
+                <outlet property="collectionView" destination="cSN-0Z-77S" id="ZU6-9y-XMl"/>
             </connections>
             <point key="canvasLocation" x="31" y="21"/>
         </tableViewCell>

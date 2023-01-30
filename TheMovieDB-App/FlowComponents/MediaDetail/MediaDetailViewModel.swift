@@ -14,7 +14,7 @@ enum MediaDetailViewModelOutputEvents: Events {
     
 }
 
-class MediaDetailViewModel<Service: NetworkSessionProcessable>: BaseViewModel<MediaDetailViewModelOutputEvents> {
+class MediaDetailViewModel: BaseViewModel<MediaDetailViewModelOutputEvents> {
     
     // MARK: -
     // MARK: Variables

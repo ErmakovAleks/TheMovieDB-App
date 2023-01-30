@@ -11,7 +11,7 @@ import UIKit
 import RxSwift
 import RxRelay
 
-class MediaListView<Service: NetworkSessionProcessable>: BaseView<MediaListViewModel<Service>, MediaListViewModelOutputEvents>, UITableViewDelegate, UITableViewDataSource {
+class MediaListView: BaseView<MediaListViewModel, MediaListViewModelOutputEvents>, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: -
     // MARK: Outlets
@@ -19,23 +19,12 @@ class MediaListView<Service: NetworkSessionProcessable>: BaseView<MediaListViewM
     @IBOutlet var mediaList: UITableView?
     
     // MARK: -
-    // MARK: Variables
-    
-    private var type: MediaType
-    
-    // MARK: -
     // MARK: Initializators
     
-    init(viewModel: MediaListViewModel<Service>, type: MediaType) {
-        self.type = type
+    init(viewModel: MediaListViewModel) {
         super.init(viewModel: viewModel)
         
-        switch self.type {
-        case .movie:
-            self.title = "Movies"
-        case .tv:
-            self.title = "TV Shows"
-        }
+        self.title = self.viewModel.tabTitle
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -60,7 +49,7 @@ class MediaListView<Service: NetworkSessionProcessable>: BaseView<MediaListViewM
         
         self.mediaList?
             .register(CustomTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "sectionHeader")
-        
+//        self.mediaList?.registerHeaderFooter(headerFooterClass: CustomTableViewHeader.self)
         self.mediaList?.registerCell(cellClass: CollectionTableViewCell.self)
     }
     
@@ -68,14 +57,7 @@ class MediaListView<Service: NetworkSessionProcessable>: BaseView<MediaListViewM
     // MARK: Overrided
     
     override func prepareBindings(disposeBag: DisposeBag) {
-        self.viewModel.movies
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] _ in
-                self?.mediaList?.reloadData()
-            }
-            .disposed(by: disposeBag)
-        
-        self.viewModel.tvShows
+        self.viewModel.media
             .observe(on: MainScheduler.instance)
             .bind { [weak self] _ in
                 self?.mediaList?.reloadData()
@@ -93,16 +75,10 @@ class MediaListView<Service: NetworkSessionProcessable>: BaseView<MediaListViewM
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
                        "sectionHeader") as? CustomTableViewHeader
-        if section == 0 {
-            switch self.type {
-            case .movie:
-                view?.title.text = "Trending Movies"
-            case .tv:
-                view?.title.text = "Trending TV Shows"
-            }
-        } else {
-            view?.title.text = self.viewModel.genres.value[section - 1].name
-        }
+        //let view = tableView.dequeueReusableHeaderFooterView(withHeaderFooterClass: CustomTableViewHeader.self)
+        view?.title.text = section != 0
+            ? self.viewModel.genres.value[section - 1].name
+            : self.viewModel.trendTitle
 
            return view
     }
@@ -120,27 +96,14 @@ class MediaListView<Service: NetworkSessionProcessable>: BaseView<MediaListViewM
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withCellClass: CollectionTableViewCell.self, for: indexPath)
-        
-        if indexPath.section == 0 {
-            switch self.type {
-            case .movie:
-                cell.fill(with: self.viewModel.trendMovies.value)
-            case .tv:
-                cell.fill(with: self.viewModel.trendTVShows.value)
-            }
-        } else {
-            let id = self.viewModel.genres.value[indexPath.section - 1].id
-            
-            switch self.type {
-            case .movie:
-                cell.fill(with: self.viewModel.movies.value[id] ?? [])
-            case .tv:
-                cell.fill(with: self.viewModel.tvShows.value[id] ?? [])
-            }
-        }
+        cell.viewModel = self.viewModel
         
         if indexPath.section == 0 {
             cell.onFirstSection = true
+            cell.collectionView?.reloadData()
+        } else {
+            let id = self.viewModel.genres.value[indexPath.section - 1].id
+            cell.fill(by: id)
         }
         
         cell.onSelect = { id in

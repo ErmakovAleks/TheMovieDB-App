@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import youtube_ios_player_helper
 
-class MediaDetailView<Service: NetworkSessionProcessable>: BaseView<MediaDetailViewModel<Service>, MediaDetailViewModelOutputEvents> {
+class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutputEvents> {
     
     // MARK: -
     // MARK: Outlets
@@ -31,11 +31,16 @@ class MediaDetailView<Service: NetworkSessionProcessable>: BaseView<MediaDetailV
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.prepareNavigationBar()
         self.prepareViews()
     }
     
     // MARK: -
     // MARK: Functions
+    
+    private func prepareNavigationBar() {
+        self.navigationController?.isNavigationBarHidden = false
+    }
     
     private func prepareViews() {
         self.rateButton?.backgroundColor = Colors.gradientBottom

@@ -10,6 +10,16 @@ import Foundation
 
 typealias ResultCompletion<T> = (Result<T, RequestError>) -> ()
 
+protocol NetworkServiceContainable {
+    
+    associatedtype Service: NetworkSessionProcessable
+}
+
+extension NetworkServiceContainable {
+    
+    typealias Service = SessionService
+}
+
 protocol NetworkSessionProcessable {
 
     static func sendRequest<T: URLContainable>(
