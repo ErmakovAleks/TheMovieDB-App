@@ -16,18 +16,13 @@ class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
     // MARK: -
     // MARK: Outlets
     
-    @IBOutlet var controlStack: UIStackView? {
-        didSet {
-            self.prepareStack()
-        }
-    }
+    @IBOutlet var controlStack: UIStackView?
     @IBOutlet var indicatorContainerView: UIView?
     @IBOutlet var containerView: UIView?
     
     // MARK: -
     // MARK: Variables
     
-    private var controllers: [UIViewController]?
     private var indicatorView = UIView()
     private var activeTabIndex = 0
     
@@ -46,7 +41,6 @@ class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
     // MARK: Private fuctions
     
     private func prepareControllers() {
-        self.controllers = self.viewModel.childViewControllers
         self.prepareStack()
     }
     
@@ -73,7 +67,7 @@ class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
     }
     
     private func prepareStack() {
-        self.controllers?.forEach { controller in
+        self.viewModel.childViewControllers.forEach { controller in
             let button = UIButton()
             button.backgroundColor = UIColor.clear//UIColor.random
             button.setTitle(controller.title, for: .normal)
@@ -81,7 +75,7 @@ class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
             self.controlStack?.addArrangedSubview(button)
         }
         
-        if let controller = self.controllers?.first {
+        if let controller = self.viewModel.childViewControllers.first {
             self.addChildController(controller)
         }
     }
@@ -136,7 +130,7 @@ class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
             child.removeFromParent()
         }
         
-        self.controllers?.enumerated().forEach { index, controller in
+        self.viewModel.childViewControllers.enumerated().forEach { index, controller in
             if controller.title == sender.currentTitle {
                 self.activeTabIndex = index
                 self.addChildController(controller)

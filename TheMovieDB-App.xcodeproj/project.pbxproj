@@ -32,6 +32,7 @@
 		D929E4DB297EFD1D004AF9FB /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929E4DA297EFD1D004AF9FB /* SearchViewModel.swift */; };
 		D929E4E62982826D004AF9FB /* SearchMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929E4E52982826D004AF9FB /* SearchMedia.swift */; };
 		D929E4E82986ACCA004AF9FB /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929E4E72986ACCA004AF9FB /* UIColor+Extensions.swift */; };
+		D929E4EA29885AF2004AF9FB /* AccountDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929E4E929885AF2004AF9FB /* AccountDetails.swift */; };
 		D932C6A72950A3B000552003 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D932C6A62950A3B000552003 /* AppDelegate.swift */; };
 		D932C6B12950A3B000552003 /* TheMovieDB_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D932C6AF2950A3B000552003 /* TheMovieDB_App.xcdatamodeld */; };
 		D932C6B32950A3B200552003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D932C6B22950A3B200552003 /* Assets.xcassets */; };
@@ -102,6 +103,7 @@
 		D929E4DA297EFD1D004AF9FB /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		D929E4E52982826D004AF9FB /* SearchMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMedia.swift; sourceTree = "<group>"; };
 		D929E4E72986ACCA004AF9FB /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		D929E4E929885AF2004AF9FB /* AccountDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetails.swift; sourceTree = "<group>"; };
 		D932C6A32950A3B000552003 /* TheMovieDB-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TheMovieDB-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D932C6A62950A3B000552003 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D932C6B02950A3B000552003 /* TheMovieDB_App.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TheMovieDB_App.xcdatamodel; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 				D9DC02EC2973DFAE00A951A2 /* Detail.swift */,
 				D9DC02EE2975540B00A951A2 /* Video.swift */,
 				D929E4E52982826D004AF9FB /* SearchMedia.swift */,
+				D929E4E929885AF2004AF9FB /* AccountDetails.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				D929E4E82986ACCA004AF9FB /* UIColor+Extensions.swift in Sources */,
 				D9DC02EF2975540B00A951A2 /* Video.swift in Sources */,
 				D9DC02ED2973DFAE00A951A2 /* Detail.swift in Sources */,
+				D929E4EA29885AF2004AF9FB /* AccountDetails.swift in Sources */,
 				D9F0FEFB29599655006D8B10 /* LoginViewModel.swift in Sources */,
 				D9261310296469AD007F9557 /* CollectionTableViewCell.swift in Sources */,
 				D98AFE182955D528001665E7 /* NibDesignable.swift in Sources */,

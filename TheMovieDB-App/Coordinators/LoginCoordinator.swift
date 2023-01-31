@@ -12,7 +12,7 @@ import RxRelay
 
 enum LoginCoordinatorOutputEvents: Events {
     
-    case needShowSections(String)
+    case needShowSections(Int)
 }
 
 class LoginCoordinator: ChildCoordinator {
@@ -38,8 +38,8 @@ class LoginCoordinator: ChildCoordinator {
     
     private func handle(events: LoginViewModelOutputEvents) {
         switch events {
-        case .authorized(let sessionID):
-            self.events.accept(.needShowSections(sessionID))
+        case .authorized(let accountID):
+            self.events.accept(.needShowSections(accountID))
         }
     }
 }

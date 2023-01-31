@@ -13,18 +13,13 @@ class MediaView: BaseView<MediaViewModel, MediaViewModelOutputEvents> {
     // MARK: -
     // MARK: Outlets
     
-    @IBOutlet var controlStack: UIStackView? {
-        didSet {
-            self.prepareStack()
-        }
-    }
+    @IBOutlet var controlStack: UIStackView?
     @IBOutlet var indicatorContainerView: UIView?
     @IBOutlet var containerView: UIView?
     
     // MARK: -
     // MARK: Variables
     
-    private var controllers: [UIViewController]?
     private var indicatorView = UIView()
     
     // MARK: -
@@ -42,13 +37,11 @@ class MediaView: BaseView<MediaViewModel, MediaViewModelOutputEvents> {
     // MARK: Private fuctions
     
     private func prepareControllers() {
-        self.controllers = self.viewModel.childViewControllers
         self.prepareStack()
     }
     
     private func prepareNavigationBar() {
         self.navigationItem.title = "Media"
-        //self.navigationController?.isNavigationBarHidden = true
     }
     
     private func prepareIndicator() {
@@ -64,15 +57,15 @@ class MediaView: BaseView<MediaViewModel, MediaViewModelOutputEvents> {
     }
     
     private func prepareStack() {
-        self.controllers?.forEach { controller in
+        self.viewModel.childViewControllers.forEach { controller in
             let button = UIButton()
-            button.backgroundColor = UIColor.clear//UIColor.random
+            button.backgroundColor = UIColor.clear
             button.setTitle(controller.title, for: .normal)
             button.addTarget(self, action: #selector(self.showController), for: .touchUpInside)
             self.controlStack?.addArrangedSubview(button)
         }
         
-        if let controller = self.controllers?.first {
+        if let controller = self.viewModel.childViewControllers.first {
             self.addChildController(controller)
         }
     }
@@ -111,7 +104,7 @@ class MediaView: BaseView<MediaViewModel, MediaViewModelOutputEvents> {
             child.removeFromParent()
         }
         
-        self.controllers?.enumerated().forEach { index, controller in
+        self.viewModel.childViewControllers.enumerated().forEach { index, controller in
             if controller.title == sender.currentTitle {
                 self.addChildController(controller)
                 self.select(numberOfButton: index)
