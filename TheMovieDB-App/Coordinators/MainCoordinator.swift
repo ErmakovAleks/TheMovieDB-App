@@ -16,6 +16,7 @@ class MainCoordinator: BaseCoordinator {
     // MARK: Variables
     
     private let disposeBag = DisposeBag()
+    private let userDefaults = UserDefaults.standard
     private var tabBar: UITabBarController?
     
     // MARK: -
@@ -35,7 +36,9 @@ class MainCoordinator: BaseCoordinator {
     
     private func handle(events: LoginCoordinatorOutputEvents) {
         switch events {
-        case .needShowSections(let sessionID):
+        case .needShowSections(let accountID, let sessionID):
+            self.userDefaults.set(accountID, forKey: "AccountID")
+            self.userDefaults.set(sessionID, forKey: "SessionID")
             self.showTabBar()
         }
     }
@@ -49,7 +52,7 @@ class MainCoordinator: BaseCoordinator {
         tabBar.setViewControllers([
                 self.mediaCoordinator(),
                 self.searchCoordinator(),
-                self.viewController(),
+                self.favoritesCoordinator(),
                 self.viewController()
             ],
             animated: true
@@ -98,6 +101,20 @@ class MainCoordinator: BaseCoordinator {
     }
     
     private func handle(events: SearchCoordinatorOutputEvents) {
+        
+    }
+    
+    private func favoritesCoordinator() -> FavoritesCoordinator {
+        let favoritesCoordinator = FavoritesCoordinator()
+        favoritesCoordinator.events.bind { [weak self] in
+            self?.handle(events: $0)
+        }
+        .disposed(by: self.disposeBag)
+        
+        return favoritesCoordinator
+    }
+    
+    private func handle(events: FavoritesCoordinatorOutputEvents) {
         
     }
     

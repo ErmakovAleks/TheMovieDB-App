@@ -46,18 +46,25 @@ class MediaListView: BaseView<MediaListViewModel, MediaListViewModelOutputEvents
     private func prepareTableView() {
         self.mediaList?.delegate = self
         self.mediaList?.dataSource = self
-        
-        self.mediaList?
-            .register(CustomTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "sectionHeader")
-//        self.mediaList?.registerHeaderFooter(headerFooterClass: CustomTableViewHeader.self)
-        self.mediaList?.registerCell(cellClass: CollectionTableViewCell.self)
+        self.mediaList?.registerHeaderFooter(headerFooterClass: CustomTableViewHeader.self)
+        self.mediaList?.registerCell(cellClass: MediaCollectionTableViewCell.self)
+    }
+    
+    private func handler(events: MediaCollectionTableViewCellOutputEvents) {
+        switch events {
+        case .needFillWithMedia(let cell, let index, let id):
+            let currentGenreMedia = self.viewModel.media[id]
+            cell.fill(with: currentGenreMedia?[index])
+        }
     }
     
     // MARK: -
     // MARK: Overrided
     
     override func prepareBindings(disposeBag: DisposeBag) {
-        self.viewModel.media
+        super.prepareBindings(disposeBag: disposeBag)
+        
+        self.viewModel.needUpdateTable
             .observe(on: MainScheduler.instance)
             .bind { [weak self] _ in
                 self?.mediaList?.reloadData()
@@ -69,16 +76,12 @@ class MediaListView: BaseView<MediaListViewModel, MediaListViewModelOutputEvents
     // MARK: UITableViewDelegate, UITableViewDataSource
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        self.viewModel.genres.value.count + 1
+        self.viewModel.genres.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
-                       "sectionHeader") as? CustomTableViewHeader
-        //let view = tableView.dequeueReusableHeaderFooterView(withHeaderFooterClass: CustomTableViewHeader.self)
-        view?.title.text = section != 0
-            ? self.viewModel.genres.value[section - 1].name
-            : self.viewModel.trendTitle
+        let view = tableView.dequeueReusableHeaderFooterView(withHeaderFooterClass: CustomTableViewHeader.self)
+        view.title.text  = self.viewModel.genres[section].name
 
            return view
     }
@@ -95,20 +98,24 @@ class MediaListView: BaseView<MediaListViewModel, MediaListViewModelOutputEvents
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withCellClass: CollectionTableViewCell.self, for: indexPath)
-        cell.viewModel = self.viewModel
+        let cell = tableView.dequeueReusableCell(withCellClass: MediaCollectionTableViewCell.self, for: indexPath)
         
-        if indexPath.section == 0 {
-            cell.onFirstSection = true
-            cell.collectionView?.reloadData()
-        } else {
-            let id = self.viewModel.genres.value[indexPath.section - 1].id
-            cell.fill(by: id)
-        }
+        let id = self.viewModel.genres[indexPath.section].id
+        let onFirstSection = indexPath.section == 0
         
-        cell.onSelect = { id in
-            self.viewModel.showDetail(by: id)
-        }
+        let model = MediaTableViewCellModel(
+            id: self.viewModel.genres[indexPath.section].id,
+            numberOfItems: self.viewModel.media[id]?.count ?? 1,
+            onFirstSection: onFirstSection) { [weak self] events in
+                self?.handler(events: events)
+            } onSelect: { [weak self] index, genreID in
+                let genreMedia = self?.viewModel.media[genreID]
+                if let id = genreMedia?[index].mediaID {
+                    self?.viewModel.showDetail(by: id)
+                }
+            }
+        
+        cell.fill(with: model)
         
         return cell
     }

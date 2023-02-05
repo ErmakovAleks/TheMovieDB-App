@@ -69,7 +69,7 @@ class MediaCoordinator: UINavigationController {
         }
     }
     
-    private func showDetail(by id: Int?, and type: MediaType) {
+    private func showDetail(by id: Int, and type: MediaType) {
         let viewModel = MediaDetailViewModel(mediaID: id, mediaType: type)
         let view = MediaDetailView(viewModel: viewModel)
         

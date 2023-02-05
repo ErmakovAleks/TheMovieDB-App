@@ -6,7 +6,7 @@
 //  Copyright © 2022 IDAP. All rights reserved.
 	
 
-import Foundation
+import UIKit
 
 protocol Media {
     
@@ -15,6 +15,117 @@ protocol Media {
     var mediaID: Int { get }
     var mediaPoster: String { get }
     var mediaOverview: String { get }
+}
+
+enum MediaCollectionViewCellModelOutputEvents: Events {
+    
+    case needLoadPoster(String, UIImageView?)
+}
+
+struct MediaCollectionViewCellModel: Media {
+    
+    var mediaTitle: String
+    var mediaDescription: String
+    var mediaID: Int
+    var mediaPoster: String
+    var mediaOverview: String
+    
+    var eventHandler: (MediaCollectionViewCellModelOutputEvents) -> ()
+    
+    init(mediaModel: Media, handler: @escaping (MediaCollectionViewCellModelOutputEvents) -> ()) {
+        self.mediaTitle = mediaModel.mediaTitle
+        self.mediaDescription = mediaModel.mediaDescription
+        self.mediaID = mediaModel.mediaID
+        self.mediaPoster = mediaModel.mediaPoster
+        self.mediaOverview = mediaModel.mediaOverview
+        self.eventHandler = handler
+    }
+}
+
+struct MediaTableViewCellModel {
+    
+    var id: Int
+    var numberOfItems: Int
+    var onFirstSection: Bool
+    var eventHandler: (MediaCollectionTableViewCellOutputEvents) -> ()
+    var onSelect: (Int, Int) -> ()
+    
+    init(
+        id: Int,
+        numberOfItems: Int,
+        onFirstSection: Bool,
+        eventHandler: @escaping (MediaCollectionTableViewCellOutputEvents) -> Void,
+        onSelect: @escaping (Int, Int) -> ()
+    ) {
+        self.id = id
+        self.numberOfItems = numberOfItems
+        self.onFirstSection = onFirstSection
+        self.eventHandler = eventHandler
+        self.onSelect = onSelect
+    }
+}
+
+enum SearchTableViewCellModelOutputEvents: Events {
+    
+    case needLoadPoster(String, UIImageView?)
+}
+
+struct SearchTableViewCellModel {
+    
+    var mediaTitle: String
+    var mediaPoster: String
+    var mediaOverview: String
+    
+    var eventHandler: (SearchTableViewCellModelOutputEvents) -> ()
+    
+    init(
+        mediaTitle: String,
+        mediaPoster: String,
+        mediaOverview: String,
+        eventHandler: @escaping (SearchTableViewCellModelOutputEvents) -> Void
+    ) {
+        self.mediaTitle = mediaTitle
+        self.mediaPoster = mediaPoster
+        self.mediaOverview = mediaOverview
+        self.eventHandler = eventHandler
+    }
+}
+
+enum FavoritesTableViewCellModelOutputEvents: Events {
+    
+    case needLoadPoster(String, UIImageView?)
+}
+
+struct FavoritesTableViewCellModel {
+    
+    var mediaTitle: String
+    var mediaPoster: String
+    var mediaOverview: String
+    var mediaID: Int
+    
+    var eventHandler: (FavoritesTableViewCellModelOutputEvents) -> ()
+    
+    init(
+        mediaTitle: String,
+        mediaPoster: String,
+        mediaOverview: String,
+        mediaID: Int,
+        eventHandler: @escaping (FavoritesTableViewCellModelOutputEvents) -> Void
+    ) {
+        self.mediaTitle = mediaTitle
+        self.mediaPoster = mediaPoster
+        self.mediaOverview = mediaOverview
+        self.mediaID = mediaID
+        self.eventHandler = eventHandler
+    }
+    
+    init(model: Media, eventHandler: @escaping (FavoritesTableViewCellModelOutputEvents) -> Void) {
+        self.mediaTitle = model.mediaTitle
+        self.mediaPoster = model.mediaPoster
+        self.mediaOverview = model.mediaOverview
+        self.mediaID = model.mediaID
+        self.eventHandler = eventHandler
+    }
 }
 
 struct Movie: Codable, Media {
@@ -106,6 +217,33 @@ enum MediaType: String, Codable {
             return .tv
         }
     }
+    
+    public var tabName: String {
+        switch self {
+        case .movie:
+            return "Movies"
+        case .tv:
+            return "TV Shows"
+        }
+    }
+    
+    public var name: String {
+        switch self {
+        case .movie:
+            return "Movie"
+        case .tv:
+            return "TV Show"
+        }
+    }
+    
+    public var trendName: String {
+        switch self {
+        case .movie:
+            return "Trending Movies"
+        case .tv:
+            return "Trending TV Shows"
+        }
+    }
 }
 
 enum OriginalLanguage: String, Codable {
@@ -148,7 +286,7 @@ struct MovieParams: URLContainable {
     var path: String { "/3/discover/movie" }
     var method: HTTPMethod = .get
     var header: [String : String]?
-    var body: [String : String]?
+    var body: [String : Any]?
     
     init(page: Int, genreID: Int) {
         self.header =
@@ -172,7 +310,7 @@ struct TVShowsParams: URLContainable {
     var path: String { "/3/discover/tv" }
     var method: HTTPMethod = .get
     var header: [String : String]?
-    var body: [String : String]?
+    var body: [String : Any]?
     
     init(page: Int, genreID: Int) {
         self.header =

@@ -1,17 +1,17 @@
 //
-//  SearchView.swift
+//  FavoritesView.swift
 //  TheMovieDB-App
 //
-//  Created by Aleksandr Ermakov on 23.01.2023.
+//  Created by Aleksandr Ermakov on 01.02.2023.
 //  Copyright © 2023 IDAP. All rights reserved.
 	
 
 import UIKit
 
 import RxSwift
-import RxCocoa
+import RxRelay
 
-class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
+class FavoritesView: BaseView<FavoritesViewModel, FavoritesViewModelOutputEvents> {
     
     // MARK: -
     // MARK: Outlets
@@ -45,13 +45,7 @@ class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
     }
     
     private func prepareNavigationBar() {
-        self.title = "Search"
-        let searchController = UISearchController()
-        searchController.searchBar.searchTextField.backgroundColor = Colors.gradientBottom
-        self.navigationItem.searchController = searchController
-        let textField =
-        self.navigationItem.searchController?.searchBar.value(forKey: "searchField") as? UITextField
-        textField?.textColor = .white
+        self.navigationItem.title = "Watch List"
     }
     
     private func prepareIndicator() {
@@ -69,7 +63,7 @@ class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
     private func prepareStack() {
         self.viewModel.childViewControllers.forEach { controller in
             let button = UIButton()
-            button.backgroundColor = UIColor.clear//UIColor.random
+            button.backgroundColor = UIColor.clear
             button.setTitle(controller.title, for: .normal)
             button.addTarget(self, action: #selector(self.showController), for: .touchUpInside)
             self.controlStack?.addArrangedSubview(button)
@@ -78,22 +72,6 @@ class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
         if let controller = self.viewModel.childViewControllers.first {
             self.addChildController(controller)
         }
-    }
-    
-    private func gradientBackground() {
-        lazy var gradient: CAGradientLayer = {
-            let gradient = CAGradientLayer()
-            gradient.type = .axial
-            gradient.colors = [
-                Colors.gradientTop.cgColor,
-                Colors.gradientBottom.cgColor
-            ]
-            gradient.locations = [0, 1]
-            return gradient
-        }()
-        
-        gradient.frame = view.bounds
-        view.layer.insertSublayer(gradient, at: 0)
     }
     
     private func addChildController(_ controller: UIViewController) {
@@ -135,39 +113,7 @@ class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
                 self.activeTabIndex = index
                 self.addChildController(controller)
                 self.select(numberOfButton: index)
-                
-                if let text = self.navigationItem.searchController?.searchBar.text, !text.isEmpty {
-                    self.viewModel.searchOf(text: text, of: MediaType.type(by: index))
-                } else {
-                    self.viewModel.mediaResults.accept([])
-                }
             }
         }
-    }
-    
-    // MARK: -
-    // MARK: Overrided
-    
-    override func prepareBindings(disposeBag: DisposeBag) {
-        self.navigationItem.searchController?.searchBar.rx
-            .text
-            .debounce(.seconds(1), scheduler: MainScheduler.asyncInstance)
-            .bind { [weak self] text in
-                guard let text, let tabIndex = self?.activeTabIndex else { return }
-                if !text.isEmpty {
-                    self?.viewModel.searchOf(text: text, of: MediaType.type(by: tabIndex))
-                } else {
-                    self?.viewModel.mediaResults.accept([])
-                }
-            }
-            .disposed(by: disposeBag)
-        
-        self.viewModel.mediaResults.bind { [weak self] results in
-            if let child = self?.children.first as? SearchListView {
-                child.viewModel.mediaResults.accept(results)
-                child.searchList?.reloadData()
-            }
-        }
-        .disposed(by: disposeBag)
     }
 }

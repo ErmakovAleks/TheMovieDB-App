@@ -27,8 +27,7 @@ extension UITableView {
     }
     
     func registerHeaderFooter(headerFooterClass: AnyClass) {
-        let nib = UINib(nibName: String(describing: headerFooterClass), bundle: nil)
-        self.register(nib, forHeaderFooterViewReuseIdentifier: String(describing: headerFooterClass))
+        self.register(headerFooterClass, forHeaderFooterViewReuseIdentifier: String(describing: headerFooterClass))
     }
     
     func dequeueReusableHeaderFooterView<Result>(withHeaderFooterClass headerFooterClass: Result.Type) -> Result where Result: UITableViewHeaderFooterView

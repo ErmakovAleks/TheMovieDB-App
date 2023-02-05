@@ -28,7 +28,7 @@ struct ValidatingAccountParams: URLContainable {
     var path: String = "/3/authentication/token/validate_with_login"
     var method: HTTPMethod = .post
     var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
-    var body: [String : String]?
+    var body: [String : Any]?
     
     init(token: String) {
         self.body =

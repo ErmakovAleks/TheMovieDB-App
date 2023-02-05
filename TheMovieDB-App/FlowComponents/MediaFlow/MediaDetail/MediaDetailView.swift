@@ -49,29 +49,14 @@ class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutput
         self.watchListButton?.layer.cornerRadius = 4
     }
     
-    private func fill(with model: MovieDetail) {
-        self.titleLabel?.text = model.title
-        self.releaseDateLabel?.text = model.releaseDate
-        self.ratioLabel?.text = model.voteAverage.description
-        self.descriptionLabel?.text = model.overview
+    private func fill(with model: MediaDetail) {
+        self.titleLabel?.text = model.mediaTitle
+        self.releaseDateLabel?.text = model.mediaReleaseDate
+        self.ratioLabel?.text = model.mediaRatio.description
+        self.descriptionLabel?.text = model.mediaDescription
         self.genresStackView?.removeArrangedSubview(self.genresStackView?.subviews.first ?? UIView())
         
-        model.genres.forEach { genre in
-            let label = UILabel()
-            label.text = genre.name
-            label.textColor = .white
-            self.genresStackView?.addArrangedSubview(label)
-        }
-    }
-    
-    private func fill(with model: TVShowDetail) {
-        self.titleLabel?.text = model.name
-        self.releaseDateLabel?.text = model.firstAirDate
-        self.ratioLabel?.text = model.voteAverage.description
-        self.descriptionLabel?.text = model.overview
-        self.genresStackView?.removeArrangedSubview(self.genresStackView?.subviews.first ?? UIView())
-        
-        model.genres.forEach { genre in
+        model.mediaGenres.forEach { genre in
             let label = UILabel()
             label.text = genre.name
             label.textColor = .white
@@ -87,13 +72,12 @@ class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutput
         self.posterView?.image = UIImage(data: data)
     }
     
+    @IBAction private func addToWatchList() {
+        self.viewModel.addToFavorites()
+    }
+    
     override func prepareBindings(disposeBag: DisposeBag) {
-        self.viewModel.movieDetail.bind { [weak self] detail in
-            self?.fill(with: detail)
-        }
-        .disposed(by: disposeBag)
-        
-        self.viewModel.tvShowDetail.bind { [weak self] detail in
+        self.viewModel.mediaDetail.bind { [weak self] detail in
             self?.fill(with: detail)
         }
         .disposed(by: disposeBag)

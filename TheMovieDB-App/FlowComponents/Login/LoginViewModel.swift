@@ -10,7 +10,7 @@ import Foundation
 
 enum LoginViewModelOutputEvents: Events {
     
-    case authorized(Int)
+    case authorized(Int, String)
 }
 
 class LoginViewModel: BaseViewModel<LoginViewModelOutputEvents> {
@@ -66,7 +66,7 @@ class LoginViewModel: BaseViewModel<LoginViewModelOutputEvents> {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
-                    self.outputEventsEmiter.accept(.authorized(model.id))
+                    self.outputEventsEmiter.accept(.authorized(model.id, sessionID))
                 case .failure(let error):
                     debugPrint(error.customMessage)
                 }

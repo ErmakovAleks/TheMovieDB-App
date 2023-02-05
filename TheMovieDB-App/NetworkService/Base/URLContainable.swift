@@ -17,7 +17,7 @@ protocol URLContainable {
     var path: String { get }
     var method: HTTPMethod { get set }
     var header: [String: String]? { get set }
-    var body: [String: String]? { get set }
+    var body: [String: Any]? { get set }
 }
 
 extension URLContainable {

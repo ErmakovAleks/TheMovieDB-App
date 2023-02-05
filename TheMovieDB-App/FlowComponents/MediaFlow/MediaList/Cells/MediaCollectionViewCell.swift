@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {
+class MediaCollectionViewCell: UICollectionViewCell {
     
     // MARK: -
     // MARK: Outlets
@@ -22,7 +22,7 @@ class CollectionViewCell: UICollectionViewCell {
     // MARK: -
     // MARK: Variables
     
-    public var viewModel: MediaListViewModel?
+    public var needLoadPoster: ((String, UIImageView?) -> ())?
     
     // MARK: -
     // MARK: View Life Cycle
@@ -57,18 +57,9 @@ class CollectionViewCell: UICollectionViewCell {
         self.spinnerView?.startAnimating()
     }
     
-    public func fill(with model: Media?) {
-        self.spinnerView?.startAnimating()
-        
-        self.viewModel?.fetchPoster(endPath: model?.mediaPoster ?? "") { [weak self] data in
-            if let data {
-                self?.posterImageView?.image = UIImage(data: data)
-                self?.spinnerView?.stopAnimating()
-            } else {
-                self?.posterImageView?.image = nil
-            }
-        }
-        
+    public func fill(with model: MediaCollectionViewCellModel?) {
+        model?.eventHandler(.needLoadPoster(model?.mediaPoster ?? "", self.posterImageView))
+        self.spinnerView?.stopAnimating()
         self.titleLabel?.text = model?.mediaTitle
         self.directorLabel?.text = model?.mediaDescription
     }

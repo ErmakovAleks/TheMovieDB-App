@@ -12,7 +12,7 @@ import RxSwift
 import RxRelay
 
 enum MediaListViewModelOutputEvents: Events {
-    case needShowDetail(Int?, MediaType)
+    case needShowDetail(Int, MediaType)
 }
 
 class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
@@ -20,34 +20,28 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
     // MARK: -
     // MARK: Variables
     
-    public let genres = BehaviorRelay<[Genre]>(value: [])
-    public let media = BehaviorRelay<[Int:[Media]]>(value: [:])
-    public let trendMedia = BehaviorRelay<[Media]>(value: [])
     public var type: MediaType
     public var tabTitle: String
     public var trendTitle: String
-    public var dataHandler: ((Data) -> ())?
+    public var needUpdateTable = PublishSubject<Void>()
+    public var genres = [Genre]()
+    public var media = [Int:[MediaCollectionViewCellModel]]()
+    
+    private var group = DispatchGroup()
     
     // MARK: -
     // MARK: Initializators
     
     init(type: MediaType) {
         self.type = type
-        
-        switch self.type {
-        case .movie:
-            self.tabTitle = "Movies"
-            self.trendTitle = "Trending Movies"
-        case .tv:
-            self.tabTitle = "TV Shows"
-            self.trendTitle = "Trending TV Shows"
-        }
+        self.tabTitle = type.tabName
+        self.trendTitle = type.trendName
     }
     
     // MARK: -
     // MARK: Public functions
     
-    public func showDetail(by id: Int?) {
+    public func showDetail(by id: Int) {
         self.outputEventsEmiter.accept(.needShowDetail(id, type))
     }
     
@@ -55,15 +49,10 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
         let params = PosterParams(endPath: endPath)
         
         if let url = params.url() {
-            let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let data = data else { return }
-
                 DispatchQueue.main.async {
-                    if url.path == response?.url?.path {
-                        completion(data)
-                    } else {
-                        completion(nil)
-                    }
+                    completion(data)
                 }
             }
 
@@ -76,7 +65,6 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
     
     private func prepareInitialData() {
         self.fetchGenres()
-        self.fetchTrending()
     }
     
     private func fetchGenres() {
@@ -85,7 +73,9 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
-                    self.genres.accept(model.genres)
+                    self.genres.append(Genre(id: -1, name: self.type.trendName))
+                    self.genres.append(contentsOf: model.genres)
+                    self.fillMedia()
                 case .failure(let error):
                     debugPrint(error)
                 }
@@ -93,7 +83,7 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
         }
     }
     
-    private func fetchTrending() {
+    private func fetchTrending(completion: @escaping ([Media]) -> Void) {
         switch self.type {
         case .movie:
             let params = TopRatedMoviesParams()
@@ -101,7 +91,7 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let model):
-                        self.trendMedia.accept(model.results)
+                        completion(model.results)
                     case .failure(let error):
                         debugPrint(error)
                     }
@@ -113,7 +103,7 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let model):
-                        self.trendMedia.accept(model.results)
+                        completion(model.results)
                     case .failure(let error):
                         debugPrint(error)
                     }
@@ -122,31 +112,74 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
         }
     }
     
-    private func fetchMedia(page: Int, genreID: Int) {
+    private func fillMedia() {
+        
+        self.fetchTrending { [weak self] media in
+            let cellModels = media.map {
+                MediaCollectionViewCellModel(mediaModel: $0) { events in
+                    self?.handler(events: events)
+                }
+            }
+            
+            self?.media[-1] = cellModels
+            
+            self?.genres.forEach { [weak self] genre in
+                if !genre.isSystemGenre {
+                    self?.fetchMedia(page: 1, genreID: genre.id) { [weak self] media, genreID in
+                        let cellModels = media.map {
+                            MediaCollectionViewCellModel(mediaModel: $0) { events in
+                                self?.handler(events: events)
+                            }
+                        }
+                        
+                        self?.media[genreID] = cellModels
+                    }
+                }
+            }
+
+            self?.group.notify(queue: .main) {
+                self?.needUpdateTable.onNext(())
+            }
+        }
+    }
+    
+    private func handler(events: MediaCollectionViewCellModelOutputEvents) {
+        switch events {
+        case .needLoadPoster(let url, let posterView):
+            self.fetchPoster(endPath: url) { data in
+                guard let data else { return }
+                posterView?.image = UIImage(data: data)
+            }
+        }
+    }
+    
+    private func fetchMedia(page: Int, genreID: Int, completion: @escaping ([Media], Int) -> Void) {
         switch self.type {
         case .movie:
+            self.group.enter()
             let params = MovieParams(page: page, genreID: genreID)
             Service.sendRequest(requestModel: params) { result in
                 switch result {
                 case .success(let model):
-                    var shows = self.media.value
-                    shows[genreID] = model.results
-                    self.media.accept(shows)
+                    completion(model.results, genreID)
                 case .failure(let error):
                     debugPrint(error)
                 }
+                
+                self.group.leave()
             }
         case .tv:
+            self.group.enter()
             let params = TVShowsParams(page: page, genreID: genreID)
             Service.sendRequest(requestModel: params) { result in
                 switch result {
                 case .success(let model):
-                    var shows = self.media.value
-                    shows[genreID] = model.results
-                    self.media.accept(shows)
+                    completion(model.results, genreID)
                 case .failure(let error):
                     debugPrint(error)
                 }
+                
+                self.group.leave()
             }
         }
     }
@@ -154,17 +187,9 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
     // MARK: -
     // MARK: Overrided
     
-    override func prepareBindings(bag: DisposeBag) {
-        self.genres
-            .bind { [weak self] genres in
-                genres.forEach { genre in
-                    self?.fetchMedia(page: 1, genreID: genre.id)
-                }
-            }
-            .disposed(by: self.disposeBag)
-    }
-    
     override func viewDidLoaded() {
+        super.viewDidLoaded()
+        
         self.prepareInitialData()
     }
 }

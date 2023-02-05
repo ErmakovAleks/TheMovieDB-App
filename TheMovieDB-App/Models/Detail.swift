@@ -8,7 +8,25 @@
 
 import Foundation
 
-struct MovieDetail: Codable {
+protocol MediaDetail {
+    
+    var mediaTitle: String { get }
+    var mediaDescription: String { get }
+    var mediaRatio: Double { get }
+    var mediaReleaseDate: String { get }
+    var mediaGenres: [Genre] { get }
+    var mediaPosterPath: String { get }
+}
+
+struct MovieDetail: Codable, MediaDetail {
+    
+    var mediaTitle: String { self.title }
+    var mediaDescription: String { self.overview }
+    var mediaRatio: Double { self.voteAverage }
+    var mediaReleaseDate: String { self.releaseDate }
+    var mediaGenres: [Genre] { self.genres }
+    var mediaPosterPath: String { self.posterPath ?? "" }
+    
     let adult: Bool
     let backdropPath: String
     let budget: Int
@@ -63,14 +81,22 @@ struct MovieDetailParams: URLContainable {
     var path: String
     var method: HTTPMethod = .get
     var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
-    var body: [String : String]?
+    var body: [String : Any]?
     
     init(id: Int) {
         self.path = "/3/movie/\(id)"
     }
 }
 
-struct TVShowDetail: Codable {
+struct TVShowDetail: Codable, MediaDetail {
+    
+    var mediaTitle: String { self.name }
+    var mediaDescription: String { self.overview }
+    var mediaRatio: Double { self.voteAverage }
+    var mediaReleaseDate: String { self.firstAirDate }
+    var mediaGenres: [Genre] { self.genres }
+    var mediaPosterPath: String { self.posterPath ?? "No data" }
+    
     let adult: Bool
     let backdropPath: String?
     let episodeRunTime: [Int]
@@ -119,7 +145,7 @@ struct TVShowDetailParams: URLContainable {
     var path: String
     var method: HTTPMethod = .get
     var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
-    var body: [String : String]?
+    var body: [String : Any]?
     
     init(id: Int) {
         self.path = "/3/tv/\(id)"

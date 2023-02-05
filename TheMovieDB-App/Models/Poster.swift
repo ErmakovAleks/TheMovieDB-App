@@ -16,7 +16,7 @@ struct PosterParams: URLContainable {
     var path: String = "/t/p/w500"
     var method: HTTPMethod = .get
     var header: [String : String]?
-    var body: [String : String]?
+    var body: [String : Any]?
     
     init(endPath: String) {
         self.path += endPath

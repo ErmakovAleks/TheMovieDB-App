@@ -13,7 +13,7 @@ import RxRelay
 
 enum SearchListViewModelOutputEvents: Events {
     
-    case needShowDetail(Int?, MediaType)
+    case needShowDetail(Int, MediaType)
 }
 
 class SearchListViewModel: BaseViewModel<SearchListViewModelOutputEvents> {
@@ -31,13 +31,7 @@ class SearchListViewModel: BaseViewModel<SearchListViewModelOutputEvents> {
     
     init(type: MediaType) {
         self.type = type
-        
-        switch self.type {
-        case .movie:
-            self.tabTitle = "Movies"
-        case .tv:
-            self.tabTitle = "TV Shows"
-        }
+        self.tabTitle = type.tabName
     }
     
     // MARK: -
@@ -63,8 +57,7 @@ class SearchListViewModel: BaseViewModel<SearchListViewModelOutputEvents> {
         }
     }
     
-    public func showDetail(by id: Int?) {
-        guard let id else { return }
+    public func showDetail(by id: Int) {
         let mediaID = self.mediaResults.value[id].mediaID
         self.outputEventsEmiter.accept(.needShowDetail(mediaID, type))
     }

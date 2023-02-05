@@ -28,5 +28,5 @@ struct RequestedTokenParams: URLContainable {
     var path: String = "/3/authentication/token/new"
     var method: HTTPMethod = .get
     var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
-    var body: [String : String]?
+    var body: [String : Any]?
 }

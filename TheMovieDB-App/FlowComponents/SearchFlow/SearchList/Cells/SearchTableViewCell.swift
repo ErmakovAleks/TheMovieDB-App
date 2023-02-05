@@ -26,11 +26,20 @@ class SearchTableViewCell: UITableViewCell {
     
     // MARK: -
     // MARK: View Life Cycle
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         self.configure()
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.posterImageView?.image = nil
+        self.titleLabel?.text = nil
+        self.descriptionLabel?.text = nil
+        self.spinnerView?.startAnimating()
     }
     
     // MARK: -
@@ -42,16 +51,10 @@ class SearchTableViewCell: UITableViewCell {
         self.posterImageView?.layer.cornerRadius = 4
     }
     
-    public func fill(with model: Media) {
-        self.spinnerView?.startAnimating()
-        
+    public func fill(with model: SearchTableViewCellModel) {
+        model.eventHandler(.needLoadPoster(model.mediaPoster, self.posterImageView))
+        self.spinnerView?.stopAnimating()
         self.titleLabel?.text = model.mediaTitle
         self.descriptionLabel?.text = model.mediaOverview
-        self.viewModel?.fetchPoster(endPath: model.mediaPoster, completion: { [weak self] data in
-            if let data {
-                self?.posterImageView?.image = UIImage(data: data)
-                self?.spinnerView?.stopAnimating()
-            }
-        })
     }
 }

@@ -49,6 +49,16 @@ class SearchListView: BaseView<SearchListViewModel, SearchListViewModelOutputEve
         self.searchList?.registerCell(cellClass: SearchTableViewCell.self)
     }
     
+    private func handler(events: SearchTableViewCellModelOutputEvents) {
+        switch events {
+        case .needLoadPoster(let url, let posterView):
+            self.viewModel.fetchPoster(endPath: url) { data in
+                guard let data else { return }
+                posterView?.image = UIImage(data: data)
+            }
+        }
+    }
+    
     // MARK: -
     // MARK: UITableViewDelegate, UITableViewDataSource
     
@@ -58,8 +68,15 @@ class SearchListView: BaseView<SearchListViewModel, SearchListViewModelOutputEve
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withCellClass: SearchTableViewCell.self, for: indexPath)
-        cell.viewModel = self.viewModel
-        cell.fill(with: self.viewModel.mediaResults.value[indexPath.row])
+        let item = self.viewModel.mediaResults.value[indexPath.row]
+        let model = SearchTableViewCellModel(
+            mediaTitle: item.mediaTitle,
+            mediaPoster: item.mediaPoster,
+            mediaOverview: item.mediaOverview) { events in
+                self.handler(events: events)
+            }
+        
+        cell.fill(with: model)
         
         return cell
     }
