@@ -12,6 +12,7 @@ import RxRelay
 
 enum SearchCoordinatorOutputEvents: Events {
     
+    case needUpdateFavorites(MediaType)
 }
 
 class SearchCoordinator: UINavigationController {
@@ -69,6 +70,9 @@ class SearchCoordinator: UINavigationController {
     private func showDetail(by id: Int, and type: MediaType) {
         let viewModel = MediaDetailViewModel(mediaID: id, mediaType: type)
         let view = MediaDetailView(viewModel: viewModel)
+        view.needReloadFavorites = { [weak self] type in
+            self?.events.accept(.needUpdateFavorites(type))
+        }
         
         self.pushViewController(view, animated: true)
     }

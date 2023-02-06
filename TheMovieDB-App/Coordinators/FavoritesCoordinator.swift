@@ -20,6 +20,9 @@ class FavoritesCoordinator: UINavigationController {
     // MARK: Variables
 
     public let events = PublishRelay<FavoritesCoordinatorOutputEvents>()
+    
+    private var favoriteMoviesList: FavoritesListView?
+    private var favoriteTVShowsList: FavoritesListView?
 
     // MARK: -
     // MARK: ViewController Life Cycle
@@ -32,9 +35,26 @@ class FavoritesCoordinator: UINavigationController {
 
     // MARK: -
     // MARK: Functions
+    
+    public func reloadFavorites(type: MediaType) {
+        switch type {
+        case .movie:
+            self.favoriteMoviesList?.viewModel.fetchFavorites()
+        case .tv:
+            self.favoriteTVShowsList?.viewModel.fetchFavorites()
+        }
+    }
 
     private func prepareContent() {
-        let viewModel = FavoritesViewModel(childViewControllers: [self.favoritesListView(type: .movie), self.favoritesListView(type: .tv)])
+        self.favoriteMoviesList = self.favoritesListView(type: .movie)
+        self.favoriteTVShowsList = self.favoritesListView(type: .tv)
+        
+        guard
+            let favoriteMoviesList,
+            let favoriteTVShowsList
+        else { return }
+        
+        let viewModel = FavoritesViewModel(childViewControllers: [favoriteMoviesList, favoriteTVShowsList])
         let view = FavoritesView(viewModel: viewModel)
 
         viewModel.events
@@ -69,7 +89,10 @@ class FavoritesCoordinator: UINavigationController {
     private func showDetail(by id: Int, and type: MediaType) {
         let viewModel = MediaDetailViewModel(mediaID: id, mediaType: type)
         let view = MediaDetailView(viewModel: viewModel)
-
+        view.needReloadFavorites = { [weak self] type in
+            self?.reloadFavorites(type: type)
+        }
+        
         self.pushViewController(view, animated: true)
     }
 }

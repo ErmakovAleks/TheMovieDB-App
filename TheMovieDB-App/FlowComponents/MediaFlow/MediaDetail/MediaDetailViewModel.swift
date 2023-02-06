@@ -24,9 +24,9 @@ class MediaDetailViewModel: BaseViewModel<MediaDetailViewModelOutputEvents> {
     public let mediaDetail = PublishRelay<MediaDetail>()
     public let videos = PublishRelay<[Video]>()
     public let posterData = PublishRelay<Data>()
+    public let mediaType: MediaType
     
     private let mediaID: Int
-    private let mediaType: MediaType
     
     // MARK: -
     // MARK: Initializators

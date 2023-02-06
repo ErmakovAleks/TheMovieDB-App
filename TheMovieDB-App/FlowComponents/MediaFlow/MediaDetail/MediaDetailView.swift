@@ -17,6 +17,7 @@ class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutput
     
     @IBOutlet var titleLabel: UILabel?
     @IBOutlet var posterView: UIImageView?
+    @IBOutlet var posterContainer: UIView?
     @IBOutlet var releaseDateLabel: UILabel?
     @IBOutlet var genresStackView: UIStackView?
     @IBOutlet var ratioLabel: UILabel?
@@ -24,6 +25,11 @@ class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutput
     @IBOutlet var rateButton: UIButton?
     @IBOutlet var watchListButton: UIButton?
     @IBOutlet var playerView: YTPlayerView?
+    
+    // MARK: -
+    // MARK: Variables
+    
+    public var needReloadFavorites: ((MediaType) -> ())?
     
     // MARK: -
     // MARK: View Controller Life Cycle
@@ -43,6 +49,9 @@ class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutput
     }
     
     private func prepareViews() {
+        self.posterContainer?.backgroundColor = Colors.gradientBottom
+        self.posterContainer?.layer.cornerRadius = 12
+        self.posterView?.layer.cornerRadius = 4
         self.rateButton?.backgroundColor = Colors.gradientBottom
         self.rateButton?.layer.cornerRadius = 4
         self.watchListButton?.backgroundColor = Colors.gradientBottom
@@ -123,6 +132,7 @@ class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutput
         }
         
         self.viewModel.addToFavorites()
+        self.needReloadFavorites?(self.viewModel.mediaType)
     }
     
     override func prepareBindings(disposeBag: DisposeBag) {

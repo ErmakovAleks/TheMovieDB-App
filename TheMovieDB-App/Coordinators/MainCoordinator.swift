@@ -15,9 +15,14 @@ class MainCoordinator: BaseCoordinator {
     // MARK: -
     // MARK: Variables
     
+    private var tabBar: UITabBarController?
+    private var loginCoordinator: LoginCoordinator?
+    private var mediaCoordinator: MediaCoordinator?
+    private var searchCoordinator: SearchCoordinator?
+    private var favoritesCoordinator: FavoritesCoordinator?
+    
     private let disposeBag = DisposeBag()
     private let userDefaults = UserDefaults.standard
-    private var tabBar: UITabBarController?
     
     // MARK: -
     // MARK: Login
@@ -32,6 +37,8 @@ class MainCoordinator: BaseCoordinator {
         .disposed(by: self.disposeBag)
         
         self.pushViewController(loginCoordinator, animated: true)
+        
+        self.loginCoordinator = loginCoordinator
     }
     
     private func handle(events: LoginCoordinatorOutputEvents) {
@@ -48,15 +55,22 @@ class MainCoordinator: BaseCoordinator {
     
     private func showTabBar() {
         let tabBar = UITabBarController()
+        let mediaCoordinator = self.mediaFlow()
+        let searchCoordinator = self.searchFlow()
+        let favoritesCoordinator = self.favoritesFlow()
         
         tabBar.setViewControllers([
-                self.mediaCoordinator(),
-                self.searchCoordinator(),
-                self.favoritesCoordinator(),
+                mediaCoordinator,
+                searchCoordinator,
+                favoritesCoordinator,
                 self.viewController()
             ],
             animated: true
         )
+        
+        self.mediaCoordinator = mediaCoordinator
+        self.searchCoordinator = searchCoordinator
+        self.favoritesCoordinator = favoritesCoordinator
 
         tabBar.tabBar.tintColor = .white
         tabBar.tabBar.unselectedItemTintColor = Colors.gradientTop
@@ -76,7 +90,7 @@ class MainCoordinator: BaseCoordinator {
         self.setViewControllers([tabBar], animated: true)
     }
     
-    private func mediaCoordinator() -> MediaCoordinator {
+    private func mediaFlow() -> MediaCoordinator {
         let mediaCoordinator = MediaCoordinator()
         mediaCoordinator.events.bind { [weak self] in
             self?.handle(events: $0)
@@ -87,10 +101,13 @@ class MainCoordinator: BaseCoordinator {
     }
     
     private func handle(events: MediaCoordinatorOutputEvents) {
-        
+        switch events {
+        case .needUpdateFavorites(let type):
+            self.favoritesCoordinator?.reloadFavorites(type: type)
+        }
     }
     
-    private func searchCoordinator() -> SearchCoordinator {
+    private func searchFlow() -> SearchCoordinator {
         let searchCoordinator = SearchCoordinator()
         searchCoordinator.events.bind { [weak self] in
             self?.handle(events: $0)
@@ -101,10 +118,13 @@ class MainCoordinator: BaseCoordinator {
     }
     
     private func handle(events: SearchCoordinatorOutputEvents) {
-        
+        switch events {
+        case .needUpdateFavorites(let type):
+            self.favoritesCoordinator?.reloadFavorites(type: type)
+        }
     }
     
-    private func favoritesCoordinator() -> FavoritesCoordinator {
+    private func favoritesFlow() -> FavoritesCoordinator {
         let favoritesCoordinator = FavoritesCoordinator()
         favoritesCoordinator.events.bind { [weak self] in
             self?.handle(events: $0)
