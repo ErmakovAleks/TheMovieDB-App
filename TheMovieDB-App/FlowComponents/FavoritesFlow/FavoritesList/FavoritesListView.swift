@@ -65,18 +65,16 @@ class FavoritesListView: BaseView<FavoritesListViewModel, FavoritesListViewModel
     override func prepareBindings(disposeBag: DisposeBag) {
         super.prepareBindings(disposeBag: disposeBag)
         
-        self.viewModel.needReloadTable.bind { [weak self] _ in
+        self.viewModel.needReloadTable.bind { [weak self] in
             self?.favoritesList?.reloadData()
         }
-        
-        self.viewModel.needReload = { self.favoritesList?.reloadData() }
+        .disposed(by: disposeBag)
     }
     
     // MARK: -
     // MARK: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("<!> favorites.count = \(self.viewModel.favorites.count)")
         return self.viewModel.favorites.count
     }
     

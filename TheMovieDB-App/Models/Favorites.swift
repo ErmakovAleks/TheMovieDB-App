@@ -28,14 +28,14 @@ struct FavoritesParams: URLContainable {
     var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
     var body: [String : Any]?
     
-    init(mediaID: Int, type: MediaType) {
+    init(mediaID: Int, type: MediaType, isFavorite: Bool) {
         let accountID = UserDefaults.standard.integer(forKey: "AccountID")
         self.path += "/\(accountID)/favorite"
         self.header?["session_id"] = UserDefaults.standard.string(forKey: "SessionID")
         self.body = [
             "media_type" : type.rawValue,
             "media_id" : mediaID,
-            "favorite" : true
+            "favorite" : isFavorite
         ]
     }
 }

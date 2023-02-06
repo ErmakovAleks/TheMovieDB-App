@@ -22,7 +22,6 @@ class FavoritesListViewModel: BaseViewModel<FavoritesListViewModelOutputEvents> 
     // MARK: Variables
     
     public var favorites = [FavoritesTableViewCellModel]()
-    public var needReload: (() -> Void)?
     public var needReloadTable = PublishSubject<Void>()
     public var type: MediaType
     public var tabTitle: String
@@ -52,7 +51,6 @@ class FavoritesListViewModel: BaseViewModel<FavoritesListViewModelOutputEvents> 
                             }
                         }
                         self.needReloadTable.onNext(())
-                        self.needReload?()
                     case .failure(let error):
                         debugPrint(error)
                     }
@@ -70,7 +68,6 @@ class FavoritesListViewModel: BaseViewModel<FavoritesListViewModelOutputEvents> 
                             }
                         }
                         self.needReloadTable.onNext(())
-                        self.needReload?()
                     case .failure(let error):
                         debugPrint(error)
                     }

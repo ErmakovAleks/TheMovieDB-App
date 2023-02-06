@@ -72,7 +72,56 @@ class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutput
         self.posterView?.image = UIImage(data: data)
     }
     
+    private func showPopUp(text: String, desiredView: UIView) {
+        let popUpView = UIView(
+            frame: CGRect(
+                x: Int(desiredView.frame.width * 0.1),
+                y: Int(desiredView.frame.height * 0.75),
+                width: Int(desiredView.frame.width * 0.8),
+                height: Int(desiredView.frame.height * 0.075)
+            )
+        )
+        
+        popUpView.backgroundColor = Colors.gradientTop
+        popUpView.layer.cornerRadius = 12
+        popUpView.alpha = 0
+        
+        let label = UILabel()
+        label.text = text
+        label.textColor = .white
+        label.sizeToFit()
+        label.frame.origin = CGPoint(
+            x: (popUpView.frame.width - label.frame.width) / 2,
+            y: (popUpView.frame.height - label.frame.height) / 2
+        )
+        
+        popUpView.addSubview(label)
+        desiredView.addSubview(popUpView)
+        
+        UIView.animate(withDuration: 1.0) {
+            popUpView.alpha = 1
+        } completion: { _ in
+            UIView.animate(withDuration: 0.3, delay: 1.0) {
+                popUpView.alpha = 0
+            } completion: { _ in
+                popUpView.removeFromSuperview()
+            }
+        }
+    }
+    
     @IBAction private func addToWatchList() {
+        self.viewModel.isFavorite.toggle()
+        
+        if self.viewModel.isFavorite {
+            self.watchListButton?.setTitle("Remove from Watch List", for: .normal)
+            self.watchListButton?.backgroundColor = .systemRed
+            self.showPopUp(text: "Media was added to Watch List", desiredView: self.view)
+        } else {
+            self.watchListButton?.setTitle("Add to Watch List", for: .normal)
+            self.watchListButton?.backgroundColor = Colors.gradientBottom
+            self.showPopUp(text: "Media was removed from Watch List", desiredView: self.view)
+        }
+        
         self.viewModel.addToFavorites()
     }
     

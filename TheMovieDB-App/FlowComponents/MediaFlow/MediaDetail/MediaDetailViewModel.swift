@@ -19,11 +19,14 @@ class MediaDetailViewModel: BaseViewModel<MediaDetailViewModelOutputEvents> {
     // MARK: -
     // MARK: Variables
     
-    private let mediaID: Int
-    private let mediaType: MediaType
+    public var isFavorite: Bool = false
+    
     public let mediaDetail = PublishRelay<MediaDetail>()
     public let videos = PublishRelay<[Video]>()
     public let posterData = PublishRelay<Data>()
+    
+    private let mediaID: Int
+    private let mediaType: MediaType
     
     // MARK: -
     // MARK: Initializators
@@ -99,7 +102,11 @@ class MediaDetailViewModel: BaseViewModel<MediaDetailViewModelOutputEvents> {
     }
     
     public func addToFavorites() {
-        let params = FavoritesParams(mediaID: self.mediaID, type: self.mediaType)
+        let params = FavoritesParams(
+            mediaID: self.mediaID,
+            type: self.mediaType,
+            isFavorite: self.isFavorite
+        )
         
         Service.sendRequest(requestModel: params) { result in
             DispatchQueue.main.async {
