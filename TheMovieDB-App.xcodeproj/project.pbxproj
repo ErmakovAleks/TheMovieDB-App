@@ -39,6 +39,8 @@
 		D929E4FC298D5CAD004AF9FB /* FavoritesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929E4FA298D5CAD004AF9FB /* FavoritesListView.swift */; };
 		D929E4FD298D5CAD004AF9FB /* FavoritesListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D929E4FB298D5CAD004AF9FB /* FavoritesListView.xib */; };
 		D929E4FF298D5CE8004AF9FB /* FavoritesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929E4FE298D5CE8004AF9FB /* FavoritesListViewModel.swift */; };
+		D929E50429924AB8004AF9FB /* FavoritesListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D929E50229924AB8004AF9FB /* FavoritesListTableViewCell.swift */; };
+		D929E50529924AB8004AF9FB /* FavoritesListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D929E50329924AB8004AF9FB /* FavoritesListTableViewCell.xib */; };
 		D932C6A72950A3B000552003 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D932C6A62950A3B000552003 /* AppDelegate.swift */; };
 		D932C6B12950A3B000552003 /* TheMovieDB_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D932C6AF2950A3B000552003 /* TheMovieDB_App.xcdatamodeld */; };
 		D932C6B32950A3B200552003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D932C6B22950A3B200552003 /* Assets.xcassets */; };
@@ -116,6 +118,8 @@
 		D929E4FA298D5CAD004AF9FB /* FavoritesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesListView.swift; sourceTree = "<group>"; };
 		D929E4FB298D5CAD004AF9FB /* FavoritesListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoritesListView.xib; sourceTree = "<group>"; };
 		D929E4FE298D5CE8004AF9FB /* FavoritesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesListViewModel.swift; sourceTree = "<group>"; };
+		D929E50229924AB8004AF9FB /* FavoritesListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesListTableViewCell.swift; sourceTree = "<group>"; };
+		D929E50329924AB8004AF9FB /* FavoritesListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoritesListTableViewCell.xib; sourceTree = "<group>"; };
 		D932C6A32950A3B000552003 /* TheMovieDB-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TheMovieDB-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D932C6A62950A3B000552003 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D932C6B02950A3B000552003 /* TheMovieDB_App.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TheMovieDB_App.xcdatamodel; sourceTree = "<group>"; };
@@ -287,8 +291,18 @@
 				D929E4FA298D5CAD004AF9FB /* FavoritesListView.swift */,
 				D929E4FB298D5CAD004AF9FB /* FavoritesListView.xib */,
 				D929E4FE298D5CE8004AF9FB /* FavoritesListViewModel.swift */,
+				D929E50129924A52004AF9FB /* Cells */,
 			);
 			path = FavoritesList;
+			sourceTree = "<group>";
+		};
+		D929E50129924A52004AF9FB /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				D929E50229924AB8004AF9FB /* FavoritesListTableViewCell.swift */,
+				D929E50329924AB8004AF9FB /* FavoritesListTableViewCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		D932C69A2950A3B000552003 = {
@@ -534,6 +548,7 @@
 				D929E4F3298A642E004AF9FB /* FavoritesView.xib in Resources */,
 				D98AFE162955D31D001665E7 /* SecureTextField.xib in Resources */,
 				D97038EB295357D3003ABAF9 /* temp.xib in Resources */,
+				D929E50529924AB8004AF9FB /* FavoritesListTableViewCell.xib in Resources */,
 				D9F0FEF929599616006D8B10 /* LoginView.xib in Resources */,
 				D9261311296469AD007F9557 /* MediaCollectionTableViewCell.xib in Resources */,
 				D9DC02F62975E1DC00A951A2 /* SearchListView.xib in Resources */,
@@ -640,6 +655,7 @@
 				D9DC0309297823DC00A951A2 /* LoginCoordinator.swift in Sources */,
 				D98AFE1B29564885001665E7 /* BaseView.swift in Sources */,
 				D92613062962E623007F9557 /* Genre.swift in Sources */,
+				D929E50429924AB8004AF9FB /* FavoritesListTableViewCell.swift in Sources */,
 				D9DC030B29782FA500A951A2 /* ChildCoordinator.swift in Sources */,
 				D929E4EE298A6143004AF9FB /* FavoritesCoordinator.swift in Sources */,
 				D929E4D8297EFD00004AF9FB /* SearchView.swift in Sources */,

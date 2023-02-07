@@ -39,17 +39,17 @@ class FavoritesListView: BaseView<FavoritesListViewModel, FavoritesListViewModel
 
         self.prepareTableView()
     }
-
+    
     // MARK: -
     // MARK: Functions
 
     private func prepareTableView() {
         self.favoritesList?.delegate = self
         self.favoritesList?.dataSource = self
-        self.favoritesList?.registerCell(cellClass: SearchTableViewCell.self)
+        self.favoritesList?.registerCell(cellClass: FavoritesListTableViewCell.self)
     }
     
-    private func handler(events: SearchTableViewCellModelOutputEvents) {
+    private func handler(events: FavoritesTableViewCellModelOutputEvents) {
         switch events {
         case .needLoadPoster(let url, let posterView):
             self.viewModel.fetchPoster(endPath: url) { data in
@@ -79,13 +79,22 @@ class FavoritesListView: BaseView<FavoritesListViewModel, FavoritesListViewModel
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withCellClass: SearchTableViewCell.self, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withCellClass: FavoritesListTableViewCell.self, for: indexPath)
         let item = self.viewModel.favorites[indexPath.row]
-        let model = SearchTableViewCellModel(
+        let model = FavoritesTableViewCellModel(
             mediaTitle: item.mediaTitle,
             mediaPoster: item.mediaPoster,
-            mediaOverview: item.mediaOverview) { events in
+            mediaOverview: item.mediaOverview,
+            mediaID: item.mediaID) { events in
                 self.handler(events: events)
+            } removeHandler: {
+                self.viewModel.removeFromFavorites(
+                    mediaID: item.mediaID,
+                    type: self.viewModel.type
+                )
+                
+                self.viewModel.favorites.removeAll { $0.mediaID == item.mediaID }
+                tableView.deleteRows(at: [indexPath], with: .fade)
             }
         
         cell.fill(with: model)

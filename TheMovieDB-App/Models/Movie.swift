@@ -104,27 +104,34 @@ struct FavoritesTableViewCellModel {
     var mediaID: Int
     
     var eventHandler: (FavoritesTableViewCellModelOutputEvents) -> ()
+    var removeHandler: (() -> ())?
     
     init(
         mediaTitle: String,
         mediaPoster: String,
         mediaOverview: String,
         mediaID: Int,
-        eventHandler: @escaping (FavoritesTableViewCellModelOutputEvents) -> Void
+        eventHandler: @escaping (FavoritesTableViewCellModelOutputEvents) -> Void,
+        removeHandler: @escaping () -> Void
     ) {
         self.mediaTitle = mediaTitle
         self.mediaPoster = mediaPoster
         self.mediaOverview = mediaOverview
         self.mediaID = mediaID
         self.eventHandler = eventHandler
+        self.removeHandler = removeHandler
     }
     
-    init(model: Media, eventHandler: @escaping (FavoritesTableViewCellModelOutputEvents) -> Void) {
+    init(model: Media,
+         eventHandler: @escaping (FavoritesTableViewCellModelOutputEvents) -> Void,
+         removeHandler: (() -> Void)? = nil
+    ) {
         self.mediaTitle = model.mediaTitle
         self.mediaPoster = model.mediaPoster
         self.mediaOverview = model.mediaOverview
         self.mediaID = model.mediaID
         self.eventHandler = eventHandler
+        self.removeHandler = removeHandler
     }
 }
 

@@ -1,14 +1,14 @@
 //
-//  SearchTableViewCell.swift
+//  FavoritesListTableViewCell.swift
 //  TheMovieDB-App
 //
-//  Created by Aleksandr Ermakov on 16.01.2023.
+//  Created by Aleksandr Ermakov on 07.02.2023.
 //  Copyright © 2023 IDAP. All rights reserved.
 	
 
 import UIKit
 
-class SearchTableViewCell: UITableViewCell {
+class FavoritesListTableViewCell: UITableViewCell {
     
     // MARK: -
     // MARK: Outlets
@@ -18,6 +18,12 @@ class SearchTableViewCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel?
     @IBOutlet var descriptionLabel: UILabel?
     @IBOutlet var spinnerView: UIActivityIndicatorView?
+    @IBOutlet var trashButton: UIButton?
+    
+    // MARK: -
+    // MARK: Variables
+    
+    private var model: FavoritesTableViewCellModel?
     
     // MARK: -
     // MARK: View Life Cycle
@@ -46,10 +52,18 @@ class SearchTableViewCell: UITableViewCell {
         self.posterImageView?.layer.cornerRadius = 4
     }
     
-    public func fill(with model: SearchTableViewCellModel) {
+    public func fill(with model: FavoritesTableViewCellModel) {
+        self.model = model
         model.eventHandler(.needLoadPoster(model.mediaPoster, self.posterImageView))
         self.spinnerView?.stopAnimating()
         self.titleLabel?.text = model.mediaTitle
         self.descriptionLabel?.text = model.mediaOverview
+    }
+    
+    // MARK: -
+    // MARK: Actions
+    
+    @IBAction func deleteFromFavorites(_ sender: UIButton) {
+        self.model?.removeHandler?()
     }
 }

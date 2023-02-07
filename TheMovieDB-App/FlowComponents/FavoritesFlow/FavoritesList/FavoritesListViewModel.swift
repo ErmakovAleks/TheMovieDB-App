@@ -67,6 +67,7 @@ class FavoritesListViewModel: BaseViewModel<FavoritesListViewModelOutputEvents> 
                                 self.handler(events: events)
                             }
                         }
+                        print("<!> model.results.count = \(model.results.count)")
                         self.needReloadTable.onNext(())
                     case .failure(let error):
                         debugPrint(error)
@@ -110,6 +111,25 @@ class FavoritesListViewModel: BaseViewModel<FavoritesListViewModelOutputEvents> 
         guard let id else { return }
         let mediaID = self.favorites[id].mediaID
         self.outputEventsEmiter.accept(.needShowDetail(mediaID, type))
+    }
+    
+    public func removeFromFavorites(mediaID: Int, type: MediaType) {
+        let params = FavoritesParams(
+            mediaID: mediaID,
+            type: type,
+            isFavorite: false
+        )
+        
+        Service.sendRequest(requestModel: params) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let model):
+                    debugPrint(model.statusMessage)
+                case .failure(let error):
+                    debugPrint(error)
+                }
+            }
+        }
     }
     
     // MARK: -
