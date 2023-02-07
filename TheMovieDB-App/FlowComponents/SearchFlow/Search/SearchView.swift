@@ -19,6 +19,8 @@ class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
     @IBOutlet var controlStack: UIStackView?
     @IBOutlet var indicatorContainerView: UIView?
     @IBOutlet var containerView: UIView?
+    @IBOutlet var startPlaceholder: UIView?
+    @IBOutlet var noResultsPlaceholder: UIView?
     
     // MARK: -
     // MARK: Variables
@@ -146,9 +148,20 @@ class SearchView: BaseView<SearchViewModel, SearchViewModelOutputEvents> {
             .disposed(by: disposeBag)
         
         self.viewModel.mediaResults.bind { [weak self] results in
-            if let child = self?.children.first as? SearchListView {
+            guard let child = self?.children.first as? SearchListView else { return }
+            if !results.isEmpty {
+                child.view.isHidden = false
                 child.viewModel.mediaResults.accept(results)
                 child.searchList?.reloadData()
+            } else {
+                child.view.isHidden = true
+                if let text = self?.navigationItem.searchController?.searchBar.text, text.isEmpty {
+                    self?.noResultsPlaceholder?.isHidden = true
+                    self?.startPlaceholder?.isHidden = false
+                } else {
+                    self?.startPlaceholder?.isHidden = true
+                    self?.noResultsPlaceholder?.isHidden = false
+                }
             }
         }
         .disposed(by: disposeBag)
