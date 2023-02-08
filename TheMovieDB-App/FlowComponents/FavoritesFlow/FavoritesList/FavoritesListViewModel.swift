@@ -122,8 +122,8 @@ class FavoritesListViewModel: BaseViewModel<FavoritesListViewModelOutputEvents> 
         Service.sendRequest(requestModel: params) { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let model):
-                    debugPrint(model.statusMessage)
+                case .success(_):
+                    self.needReloadTable.onNext(())
                 case .failure(let error):
                     debugPrint(error)
                 }
