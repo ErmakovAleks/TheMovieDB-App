@@ -120,19 +120,17 @@ class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutput
     
     @IBAction private func addToWatchList() {
         self.viewModel.isFavorite.toggle()
-        
+        print("<!> isFavorite = \(self.viewModel.isFavorite)")
         if self.viewModel.isFavorite {
-            self.watchListButton?.setTitle("Remove from Watch List", for: .normal)
-            self.watchListButton?.backgroundColor = .systemRed
+            self.viewModel.addToFavorites()
+            self.needReloadFavorites?(self.viewModel.mediaType)
+            self.watchListButton?.setTitle("Added to Watch List", for: .normal)
+            self.watchListButton?.backgroundColor = .systemGray3
             self.showPopUp(text: "Media was added to Watch List", desiredView: self.view)
         } else {
             self.watchListButton?.setTitle("Add to Watch List", for: .normal)
             self.watchListButton?.backgroundColor = Colors.gradientBottom
-            self.showPopUp(text: "Media was removed from Watch List", desiredView: self.view)
         }
-        
-        self.viewModel.addToFavorites()
-        self.needReloadFavorites?(self.viewModel.mediaType)
     }
     
     override func prepareBindings(disposeBag: DisposeBag) {

@@ -39,9 +39,9 @@ class FavoritesCoordinator: UINavigationController {
     public func reloadFavorites(type: MediaType) {
         switch type {
         case .movie:
-            self.favoriteMoviesList?.viewModel.fetchFavorites()
+            self.favoriteMoviesList?.isNeedReload = true
         case .tv:
-            self.favoriteTVShowsList?.viewModel.fetchFavorites()
+            self.favoriteTVShowsList?.isNeedReload = true
         }
     }
 

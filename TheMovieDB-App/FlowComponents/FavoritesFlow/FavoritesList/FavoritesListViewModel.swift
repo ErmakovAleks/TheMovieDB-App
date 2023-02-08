@@ -67,7 +67,6 @@ class FavoritesListViewModel: BaseViewModel<FavoritesListViewModelOutputEvents> 
                                 self.handler(events: events)
                             }
                         }
-                        print("<!> model.results.count = \(model.results.count)")
                         self.needReloadTable.onNext(())
                     case .failure(let error):
                         debugPrint(error)

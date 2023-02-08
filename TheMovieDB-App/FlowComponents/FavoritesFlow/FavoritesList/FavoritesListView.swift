@@ -19,6 +19,11 @@ class FavoritesListView: BaseView<FavoritesListViewModel, FavoritesListViewModel
     @IBOutlet var favoritesList: UITableView?
     
     // MARK: -
+    // MARK: Variables
+    
+    public var isNeedReload: Bool = false
+    
+    // MARK: -
     // MARK: Initializators
     
     init(viewModel: FavoritesListViewModel) {
@@ -38,6 +43,16 @@ class FavoritesListView: BaseView<FavoritesListViewModel, FavoritesListViewModel
         super.viewDidLoad()
 
         self.prepareTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if self.isNeedReload {
+            self.viewModel.fetchFavorites()
+            self.favoritesList?.reloadData()
+            self.isNeedReload = false
+        }
     }
     
     // MARK: -
@@ -95,6 +110,7 @@ class FavoritesListView: BaseView<FavoritesListViewModel, FavoritesListViewModel
                 
                 self.viewModel.favorites.removeAll { $0.mediaID == item.mediaID }
                 tableView.deleteRows(at: [indexPath], with: .fade)
+                tableView.reloadData()
             }
         
         cell.fill(with: model)
