@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FavoritesListView" customModule="TheMovieDB_App" customModuleProvider="target">
             <connections>
                 <outlet property="favoritesList" destination="uBS-ak-9rs" id="kAH-aZ-RMm"/>
+                <outlet property="placeholderView" destination="D0H-c1-7Kc" id="hro-oB-tza"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,6 +23,22 @@
                     <rect key="frame" x="0.0" y="47" width="390" height="763"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D0H-c1-7Kc" userLabel="PlaceholderView">
+                    <rect key="frame" x="0.0" y="47" width="390" height="763"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search List is empty" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="klr-mP-wPV">
+                            <rect key="frame" x="118" y="371" width="154" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="klr-mP-wPV" firstAttribute="centerX" secondItem="D0H-c1-7Kc" secondAttribute="centerX" id="6Xy-Fp-Wf6"/>
+                        <constraint firstItem="klr-mP-wPV" firstAttribute="centerY" secondItem="D0H-c1-7Kc" secondAttribute="centerY" id="fN4-Sz-Jm6"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -29,7 +46,11 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="uBS-ak-9rs" secondAttribute="bottom" id="0Lt-r6-1BF"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="uBS-ak-9rs" secondAttribute="trailing" id="8CN-QE-tki"/>
                 <constraint firstItem="uBS-ak-9rs" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="KbQ-pq-XGD"/>
+                <constraint firstItem="D0H-c1-7Kc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="MOL-pX-ve7"/>
+                <constraint firstItem="D0H-c1-7Kc" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="T7U-RN-4ih"/>
                 <constraint firstItem="uBS-ak-9rs" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="gB5-4h-pCG"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="D0H-c1-7Kc" secondAttribute="bottom" id="k6M-zr-pBf"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="D0H-c1-7Kc" secondAttribute="trailing" id="otk-CX-Ics"/>
             </constraints>
             <point key="canvasLocation" x="25" y="21"/>
         </view>

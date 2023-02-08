@@ -17,6 +17,7 @@ class FavoritesListView: BaseView<FavoritesListViewModel, FavoritesListViewModel
     // MARK: Outlets
     
     @IBOutlet var favoritesList: UITableView?
+    @IBOutlet var placeholderView: UIView?
     
     // MARK: -
     // MARK: Variables
@@ -81,7 +82,15 @@ class FavoritesListView: BaseView<FavoritesListViewModel, FavoritesListViewModel
         super.prepareBindings(disposeBag: disposeBag)
         
         self.viewModel.needReloadTable.bind { [weak self] in
-            self?.favoritesList?.reloadData()
+            if !(self?.viewModel.favorites.isEmpty ?? true) {
+                self?.favoritesList?.isHidden = false
+                self?.favoritesList?.reloadData()
+                self?.placeholderView?.isHidden = true
+            } else {
+                self?.favoritesList?.isHidden = true
+                self?.placeholderView?.isHidden = false
+            }
+            
         }
         .disposed(by: disposeBag)
     }
