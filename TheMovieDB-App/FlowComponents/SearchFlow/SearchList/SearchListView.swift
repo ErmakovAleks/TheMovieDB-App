@@ -52,9 +52,8 @@ class SearchListView: BaseView<SearchListViewModel, SearchListViewModelOutputEve
     private func handler(events: SearchTableViewCellModelOutputEvents) {
         switch events {
         case .needLoadPoster(let url, let posterView):
-            self.viewModel.fetchPoster(endPath: url) { data in
-                guard let data else { return }
-                posterView?.image = UIImage(data: data)
+            self.viewModel.fetchPoster(endPath: url) { image in
+                posterView?.image = image
             }
         }
     }

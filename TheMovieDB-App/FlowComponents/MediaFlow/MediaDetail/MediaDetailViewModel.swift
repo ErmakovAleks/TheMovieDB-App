@@ -23,7 +23,7 @@ class MediaDetailViewModel: BaseViewModel<MediaDetailViewModelOutputEvents> {
     
     public let mediaDetail = PublishRelay<MediaDetail>()
     public let videos = PublishRelay<[Video]>()
-    public let posterData = PublishRelay<Data>()
+    public let posterData = PublishRelay<UIImage>()
     public let mediaType: MediaType
     
     private let mediaID: Int
@@ -89,11 +89,11 @@ class MediaDetailViewModel: BaseViewModel<MediaDetailViewModelOutputEvents> {
         guard let path = path else { return }
         let params = PosterParams(endPath: path)
         
-        Service.sendDataRequest(requestModel: params) { result in
+        Service.sendImageRequest(requestModel: params) { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let data):
-                    self.posterData.accept(data)
+                case .success(let image):
+                    self.posterData.accept(image)
                 case .failure(let error):
                     debugPrint(error)
                 }

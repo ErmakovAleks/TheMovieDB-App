@@ -45,18 +45,19 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
         self.outputEventsEmiter.accept(.needShowDetail(id, type))
     }
     
-    public func fetchPoster(endPath: String, completion: @escaping (Data?) -> ()) {
+    public func fetchPoster(endPath: String, completion: @escaping (UIImage?) -> ()) {
         let params = PosterParams(endPath: endPath)
         
-        if let url = params.url() {
-            let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let data = data else { return }
-                DispatchQueue.main.async {
-                    completion(data)
+        Service.sendImageRequest(requestModel: params) { results in
+            DispatchQueue.main.async {
+                switch results {
+                case .success(let image):
+                    completion(image)
+                case .failure(let error):
+                    debugPrint(error.customMessage)
+                    completion(nil)
                 }
             }
-
-            task.resume()
         }
     }
     
@@ -146,9 +147,8 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
     private func handler(events: MediaCollectionViewCellModelOutputEvents) {
         switch events {
         case .needLoadPoster(let url, let posterView):
-            self.fetchPoster(endPath: url) { data in
-                guard let data else { return }
-                posterView?.image = UIImage(data: data)
+            self.fetchPoster(endPath: url) { image in
+                posterView?.image = image
             }
         }
     }

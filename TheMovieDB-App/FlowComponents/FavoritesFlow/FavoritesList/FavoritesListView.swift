@@ -65,16 +65,6 @@ class FavoritesListView: BaseView<FavoritesListViewModel, FavoritesListViewModel
         self.favoritesList?.registerCell(cellClass: FavoritesListTableViewCell.self)
     }
     
-    private func handler(events: FavoritesTableViewCellModelOutputEvents) {
-        switch events {
-        case .needLoadPoster(let url, let posterView):
-            self.viewModel.fetchPoster(endPath: url) { data in
-                guard let data else { return }
-                posterView?.image = UIImage(data: data)
-            }
-        }
-    }
-    
     // MARK: -
     // MARK: Overrided
     
@@ -110,7 +100,7 @@ class FavoritesListView: BaseView<FavoritesListViewModel, FavoritesListViewModel
             mediaPoster: item.mediaPoster,
             mediaOverview: item.mediaOverview,
             mediaID: item.mediaID) { events in
-                self.handler(events: events)
+                self.viewModel.handler(events: events)
             } removeHandler: {
                 self.viewModel.removeFromFavorites(
                     mediaID: item.mediaID,

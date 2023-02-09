@@ -6,34 +6,9 @@
 //  Copyright © 2022 IDAP. All rights reserved.
 	
 
-import Foundation
+import UIKit
 
-typealias ResultCompletion<T> = (Result<T, RequestError>) -> ()
-
-protocol NetworkServiceContainable {
-    
-    associatedtype Service: NetworkSessionProcessable
-}
-
-extension NetworkServiceContainable {
-    
-    typealias Service = SessionService
-}
-
-protocol NetworkSessionProcessable {
-
-    static func sendRequest<T: URLContainable>(
-        requestModel: T,
-        completion: @escaping ResultCompletion<T.DecodableType>
-    )
-    
-    static func sendDataRequest<T: URLContainable>(
-        requestModel: T,
-        completion: @escaping ResultCompletion<Data>
-    )
-}
-
-class SessionService: NetworkSessionProcessable {
+class NetworkService: NetworkSessionProcessable {
     
     static func sendRequest<T: URLContainable>(
         requestModel: T,
@@ -49,6 +24,21 @@ class SessionService: NetworkSessionProcessable {
     ) {
         guard let request = self.configureRequest(requestModel: requestModel) else { return }
         self.processTask(request: request, requestModel: requestModel, completion: completion)
+    }
+    
+    static func sendImageRequest<T>(requestModel: T, completion: @escaping ResultCompletion<UIImage>) where T : URLContainable {
+        sendDataRequest(requestModel: requestModel) { result in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else {
+                    completion(.failure(.decode))
+                    return
+                }
+                completion(.success(image))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
     
     private static func configureRequest<T: URLContainable>(

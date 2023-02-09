@@ -37,23 +37,19 @@ class SearchListViewModel: BaseViewModel<SearchListViewModelOutputEvents> {
     // MARK: -
     // MARK: Functions
     
-    public func fetchPoster(endPath: String, completion: @escaping (Data?) -> ()) {
+    public func fetchPoster(endPath: String, completion: @escaping (UIImage?) -> ()) {
         let params = PosterParams(endPath: endPath)
         
-        if let url = params.url() {
-            let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let data = data else { return }
-
-                DispatchQueue.main.async {
-                    if url.path == response?.url?.path {
-                        completion(data)
-                    } else {
-                        completion(nil)
-                    }
+        Service.sendImageRequest(requestModel: params) { results in
+            DispatchQueue.main.async {
+                switch results {
+                case .success(let image):
+                    completion(image)
+                case .failure(let error):
+                    debugPrint(error.customMessage)
+                    completion(nil)
                 }
             }
-
-            task.resume()
         }
     }
     

@@ -77,10 +77,6 @@ class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutput
         self.playerView?.load(withVideoId: videoID)
     }
     
-    private func addPoster(with data: Data) {
-        self.posterView?.image = UIImage(data: data)
-    }
-    
     private func showPopUp(text: String, desiredView: UIView) {
         let popUpView = UIView(
             frame: CGRect(
@@ -144,8 +140,8 @@ class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutput
         }
         .disposed(by: disposeBag)
         
-        self.viewModel.posterData.bind { [weak self] data in
-            self?.addPoster(with: data)
+        self.viewModel.posterData.bind { [weak self] image in
+            self?.posterView?.image = image
         }
         .disposed(by: disposeBag)
     }
