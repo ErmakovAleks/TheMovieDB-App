@@ -10,7 +10,7 @@ import Foundation
 
 protocol NetworkServiceContainable {
     
-    associatedtype Service: NetworkSessionProcessable
+    associatedtype Service: PersistentCacheble
 }
 
 extension NetworkServiceContainable {

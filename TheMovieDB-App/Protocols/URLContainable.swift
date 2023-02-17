@@ -10,7 +10,7 @@ import Foundation
 
 protocol URLContainable {
     
-    associatedtype DecodableType: Codable
+    associatedtype DecodableType: Decodable
     
     var scheme: String { get }
     var host: String { get }

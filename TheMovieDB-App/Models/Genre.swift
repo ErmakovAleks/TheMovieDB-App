@@ -19,7 +19,7 @@ struct TMDBGenres: Codable {
 // MARK: -
 // MARK: Genre
 
-struct Genre: Codable {
+struct Genre: Codable, Hashable {
     
     var isSystemGenre: Bool {
         return self.id == -1 // -1 it is system trend genre
@@ -27,6 +27,10 @@ struct Genre: Codable {
     
     let id: Int
     let name: String
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
 }
 
 struct TMDBGenresParams: URLContainable {

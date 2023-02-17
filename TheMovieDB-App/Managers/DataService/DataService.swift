@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DataService: NetworkSessionProcessable {
+class DataService: PersistentCacheble {
     
     // MARK: -
     // MARK: Variables
@@ -17,6 +17,25 @@ class DataService: NetworkSessionProcessable {
     
     // MARK: -
     // MARK: NetworkSessionProcessable
+    
+    static func sendCachedRequest<T>(requestModel: T, completion: @escaping ResultCompletion<MediaDetail>) where T : URLContainable {
+        
+        if let media = PersistentService.media(path: requestModel.path) {
+            completion(.success(media))
+        } else {
+            NetworkService.sendRequest(requestModel: requestModel) { result in
+                switch result {
+                case .success(let model):
+                    if let model = model as? MediaDetail {
+                        completion(.success(model))
+                        PersistentService.save(media: model, path: requestModel.path)
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
     
     static func sendRequest<T>(requestModel: T, completion: @escaping ResultCompletion<T.DecodableType>) where T : URLContainable {
         NetworkService.sendRequest(requestModel: requestModel, completion: completion)

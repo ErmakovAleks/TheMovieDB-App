@@ -50,7 +50,7 @@ where ViewModelType: BaseViewModel<OutputEventsType>, OutputEventsType: Events
         self.prepare(with: self.viewModel)
         self.viewModel.viewDidLoaded()
         self.navigationController?.navigationBar.tintColor = .white
-        let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Heavy", size: 34.0) ?? UIFont.systemFont(ofSize: 34.0), NSAttributedString.Key.foregroundColor: UIColor.white]
+        let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Heavy", size: 28.0) ?? UIFont.systemFont(ofSize: 28.0), NSAttributedString.Key.foregroundColor: UIColor.white]
         UINavigationBar.appearance().titleTextAttributes = attributes
     }
     

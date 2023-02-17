@@ -10,6 +10,7 @@ import Foundation
 
 protocol MediaDetail {
     
+    var mediaID: String { get }
     var mediaTitle: String { get }
     var mediaDescription: String { get }
     var mediaRatio: Double { get }
@@ -20,6 +21,7 @@ protocol MediaDetail {
 
 struct MovieDetail: Codable, MediaDetail {
     
+    var mediaID: String { self.id.description }
     var mediaTitle: String { self.title }
     var mediaDescription: String { self.overview }
     var mediaRatio: Double { self.voteAverage }
@@ -75,7 +77,7 @@ struct MovieDetail: Codable, MediaDetail {
 }
 
 struct MovieDetailParams: URLContainable {
-    
+  
     typealias DecodableType = MovieDetail
     
     var path: String
@@ -90,6 +92,7 @@ struct MovieDetailParams: URLContainable {
 
 struct TVShowDetail: Codable, MediaDetail {
     
+    var mediaID: String { self.id.description }
     var mediaTitle: String { self.name }
     var mediaDescription: String { self.overview }
     var mediaRatio: Double { self.voteAverage }

@@ -44,7 +44,7 @@ class MediaDetailViewModel: BaseViewModel<MediaDetailViewModelOutputEvents> {
         case .movie:
             let params = MovieDetailParams(id: self.mediaID)
             
-            Service.sendRequest(requestModel: params) { result in
+            Service.sendCachedRequest(requestModel: params) { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let model):
@@ -57,7 +57,7 @@ class MediaDetailViewModel: BaseViewModel<MediaDetailViewModelOutputEvents> {
         case .tv:
             let params = TVShowDetailParams(id: self.mediaID)
             
-            Service.sendRequest(requestModel: params) { result in
+            Service.sendCachedRequest(requestModel: params) { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let model):
