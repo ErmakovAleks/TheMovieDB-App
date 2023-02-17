@@ -117,6 +117,10 @@ class FavoritesListView: BaseView<FavoritesListViewModel, FavoritesListViewModel
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 240
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.viewModel.showDetail(by: indexPath.row)
     }

@@ -13,21 +13,21 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="241" id="KGk-i7-Jjw" customClass="FavoritesListTableViewCell" customModule="TheMovieDB_App" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="350" height="241"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="350" height="241"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J1d-v9-bMr" userLabel="Container">
-                        <rect key="frame" x="0.0" y="0.0" width="350" height="240"/>
+                        <rect key="frame" x="0.0" y="0.0" width="350" height="241"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FUR-tF-YXz" userLabel="PosterContainer">
-                                <rect key="frame" x="8" y="8" width="168" height="224"/>
+                                <rect key="frame" x="8" y="8" width="168" height="225"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CJq-YD-bod" userLabel="PosterImageView">
-                                        <rect key="frame" x="8" y="8" width="152" height="208"/>
+                                        <rect key="frame" x="8" y="8" width="152" height="209"/>
                                     </imageView>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Gij-Xs-bVY">
-                                        <rect key="frame" x="0.0" y="0.0" width="168" height="224"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="168" height="225"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -44,7 +44,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ODU-Z4-9yx">
-                                <rect key="frame" x="184" y="8" width="158" height="224"/>
+                                <rect key="frame" x="184" y="8" width="158" height="225"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E1x-HS-VR0" userLabel="TitleLabel">
                                         <rect key="frame" x="8" y="7.9999999999999982" width="122" height="27.333333333333329"/>
@@ -54,7 +54,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MWE-TV-B38">
-                                        <rect key="frame" x="0.0" y="39.333333333333329" width="158" height="184.66666666666669"/>
+                                        <rect key="frame" x="0.0" y="39.333333333333329" width="158" height="185.66666666666669"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qra-2u-WRY" userLabel="DescriptionLabel">
                                                 <rect key="frame" x="0.0" y="0.0" width="158" height="17"/>
@@ -108,7 +108,6 @@
                             <constraint firstAttribute="bottom" secondItem="ODU-Z4-9yx" secondAttribute="bottom" constant="8" id="Ap8-tC-Rs4"/>
                             <constraint firstItem="FUR-tF-YXz" firstAttribute="top" secondItem="J1d-v9-bMr" secondAttribute="top" constant="8" id="NIb-k3-1Kn"/>
                             <constraint firstAttribute="bottom" secondItem="FUR-tF-YXz" secondAttribute="bottom" constant="8" id="Qm9-ns-CYS"/>
-                            <constraint firstAttribute="height" constant="240" id="Szv-Ph-3d5"/>
                             <constraint firstAttribute="trailing" secondItem="ODU-Z4-9yx" secondAttribute="trailing" constant="8" id="Wpn-qB-cdI"/>
                             <constraint firstItem="ODU-Z4-9yx" firstAttribute="top" secondItem="J1d-v9-bMr" secondAttribute="top" constant="8" id="svU-mT-dHP"/>
                         </constraints>

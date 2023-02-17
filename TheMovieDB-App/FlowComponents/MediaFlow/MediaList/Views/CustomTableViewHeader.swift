@@ -39,7 +39,6 @@ class CustomTableViewHeader: UITableViewHeaderFooterView {
         contentView.addSubview(self.title)
 
         NSLayoutConstraint.activate([
-            self.title.heightAnchor.constraint(equalToConstant: 28),
             self.title.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             self.title.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
             self.title.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
