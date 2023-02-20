@@ -82,6 +82,9 @@ class MediaListView: BaseView<MediaListViewModel, MediaListViewModelOutputEvents
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = tableView.dequeueReusableHeaderFooterView(withHeaderFooterClass: CustomTableViewHeader.self)
         view.title.text  = self.viewModel.genres[section].name
+        view.buttonHandler = {
+            self.viewModel.showMoreBy(genre: self.viewModel.genres[section])
+        }
 
            return view
     }

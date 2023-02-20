@@ -68,6 +68,9 @@
 		D9AEA7D72996760000263741 /* PersistentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AEA7D62996760000263741 /* PersistentService.swift */; };
 		D9AEA7D9299677A900263741 /* CellModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AEA7D8299677A900263741 /* CellModels.swift */; };
 		D9D64DBD299E4B65008C1E7E /* PersistentCacheble.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D64DBC299E4B65008C1E7E /* PersistentCacheble.swift */; };
+		D9D64DC029A22960008C1E7E /* GenreMediaListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D64DBF29A22960008C1E7E /* GenreMediaListViewModel.swift */; };
+		D9D64DC329A22A42008C1E7E /* GenreMediaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D64DC129A22A42008C1E7E /* GenreMediaListView.swift */; };
+		D9D64DC429A22A42008C1E7E /* GenreMediaListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9D64DC229A22A42008C1E7E /* GenreMediaListView.xib */; };
 		D9DC02E3296D880100A951A2 /* MediaVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DC02E1296D880100A951A2 /* MediaVIew.swift */; };
 		D9DC02E4296D880100A951A2 /* MediaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9DC02E2296D880100A951A2 /* MediaView.xib */; };
 		D9DC02E829720A8100A951A2 /* MediaDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DC02E629720A8100A951A2 /* MediaDetailView.swift */; };
@@ -156,6 +159,9 @@
 		D9AEA7D62996760000263741 /* PersistentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentService.swift; sourceTree = "<group>"; };
 		D9AEA7D8299677A900263741 /* CellModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellModels.swift; sourceTree = "<group>"; };
 		D9D64DBC299E4B65008C1E7E /* PersistentCacheble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentCacheble.swift; sourceTree = "<group>"; };
+		D9D64DBF29A22960008C1E7E /* GenreMediaListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreMediaListViewModel.swift; sourceTree = "<group>"; };
+		D9D64DC129A22A42008C1E7E /* GenreMediaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreMediaListView.swift; sourceTree = "<group>"; };
+		D9D64DC229A22A42008C1E7E /* GenreMediaListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenreMediaListView.xib; sourceTree = "<group>"; };
 		D9DC02E1296D880100A951A2 /* MediaVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaVIew.swift; sourceTree = "<group>"; };
 		D9DC02E2296D880100A951A2 /* MediaView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MediaView.xib; sourceTree = "<group>"; };
 		D9DC02E629720A8100A951A2 /* MediaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailView.swift; sourceTree = "<group>"; };
@@ -274,6 +280,7 @@
 		D929E4F6298D499F004AF9FB /* MediaFlow */ = {
 			isa = PBXGroup;
 			children = (
+				D9D64DBE29A2293A008C1E7E /* GenreMediaList */,
 				D9DC02DC296D876400A951A2 /* Media */,
 				D92612D2295D5D3C007F9557 /* MediaList */,
 				D9DC02E529720A1800A951A2 /* MediaDetail */,
@@ -478,6 +485,16 @@
 			path = PersistentService;
 			sourceTree = "<group>";
 		};
+		D9D64DBE29A2293A008C1E7E /* GenreMediaList */ = {
+			isa = PBXGroup;
+			children = (
+				D9D64DBF29A22960008C1E7E /* GenreMediaListViewModel.swift */,
+				D9D64DC129A22A42008C1E7E /* GenreMediaListView.swift */,
+				D9D64DC229A22A42008C1E7E /* GenreMediaListView.xib */,
+			);
+			path = GenreMediaList;
+			sourceTree = "<group>";
+		};
 		D9DC02DC296D876400A951A2 /* Media */ = {
 			isa = PBXGroup;
 			children = (
@@ -600,6 +617,7 @@
 				D9261301295DA5F4007F9557 /* CustomSegmentControl.xib in Resources */,
 				D932C6B62950A3B200552003 /* LaunchScreen.storyboard in Resources */,
 				D92612D6295D5D75007F9557 /* MediaListView.xib in Resources */,
+				D9D64DC429A22A42008C1E7E /* GenreMediaListView.xib in Resources */,
 				D932C6B32950A3B200552003 /* Assets.xcassets in Resources */,
 				D926131629646A48007F9557 /* MediaCollectionViewCell.xib in Resources */,
 				D929E4D9297EFD00004AF9FB /* SearchView.xib in Resources */,
@@ -707,6 +725,8 @@
 				D929E4EE298A6143004AF9FB /* FavoritesCoordinator.swift in Sources */,
 				D929E4D8297EFD00004AF9FB /* SearchView.swift in Sources */,
 				D9AEA7D72996760000263741 /* PersistentService.swift in Sources */,
+				D9D64DC029A22960008C1E7E /* GenreMediaListViewModel.swift in Sources */,
+				D9D64DC329A22A42008C1E7E /* GenreMediaListView.swift in Sources */,
 				D9AEA7D9299677A900263741 /* CellModels.swift in Sources */,
 				D98AFE3329578928001665E7 /* RequestError.swift in Sources */,
 				D92613082963174D007F9557 /* UITableView+Extensions.swift in Sources */,

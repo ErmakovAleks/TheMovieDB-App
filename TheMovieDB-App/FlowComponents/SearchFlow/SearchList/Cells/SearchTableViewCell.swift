@@ -17,6 +17,7 @@ class SearchTableViewCell: UITableViewCell {
     @IBOutlet var posterImageView: UIImageView?
     @IBOutlet var titleLabel: UILabel?
     @IBOutlet var descriptionLabel: UILabel?
+    @IBOutlet var releaseDateLabel: UILabel?
     @IBOutlet var spinnerView: UIActivityIndicatorView?
     
     // MARK: -
@@ -50,6 +51,7 @@ class SearchTableViewCell: UITableViewCell {
         model.eventHandler(.needLoadPoster(model.mediaPoster, self.posterImageView))
         self.spinnerView?.stopAnimating()
         self.titleLabel?.text = model.mediaTitle
+        self.releaseDateLabel?.text = model.mediaReleaseDate
         self.descriptionLabel?.text = model.mediaOverview
     }
 }

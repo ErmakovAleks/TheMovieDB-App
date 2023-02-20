@@ -1,8 +1,8 @@
 //
-//  SearchListView.swift
+//  GenreMediaListView.swift
 //  TheMovieDB-App
 //
-//  Created by Aleksandr Ermakov on 16.01.2023.
+//  Created by Aleksandr Ermakov on 19.02.2023.
 //  Copyright © 2023 IDAP. All rights reserved.
 	
 
@@ -11,25 +11,17 @@ import UIKit
 import RxSwift
 import RxRelay
 
-class SearchListView: BaseView<SearchListViewModel, SearchListViewModelOutputEvents>, UITableViewDelegate, UITableViewDataSource {
+class GenreMediaListView:
+    BaseView<GenreMediaListViewModel, GenreMediaListViewModelOutputEvents>,
+    UITableViewDataSource,
+    UITableViewDelegate,
+    UIScrollViewDelegate
+{
     
     // MARK: -
     // MARK: Outlets
     
-    @IBOutlet var searchList: UITableView?
-    
-    // MARK: -
-    // MARK: Initializators
-    
-    init(viewModel: SearchListViewModel) {
-        super.init(viewModel: viewModel)
-        
-        self.title = self.viewModel.tabTitle
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    @IBOutlet var mediaList: UITableView?
     
     // MARK: -
     // MARK: View Controller Life Cycle
@@ -44,9 +36,9 @@ class SearchListView: BaseView<SearchListViewModel, SearchListViewModelOutputEve
     // MARK: Functions
     
     private func prepareTableView() {
-        self.searchList?.delegate = self
-        self.searchList?.dataSource = self
-        self.searchList?.registerCell(cellClass: SearchTableViewCell.self)
+        self.mediaList?.delegate = self
+        self.mediaList?.dataSource = self
+        self.mediaList?.registerCell(cellClass: SearchTableViewCell.self)
     }
     
     private func handler(events: SearchTableViewCellModelOutputEvents) {
@@ -62,12 +54,12 @@ class SearchListView: BaseView<SearchListViewModel, SearchListViewModelOutputEve
     // MARK: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.viewModel.mediaResults.value.count
+        self.viewModel.mediaResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withCellClass: SearchTableViewCell.self, for: indexPath)
-        let item = self.viewModel.mediaResults.value[indexPath.row]
+        let item = self.viewModel.mediaResults[indexPath.row]
         let model = SearchTableViewCellModel(
             mediaTitle: item.mediaTitle,
             mediaPoster: item.mediaPoster,
@@ -85,12 +77,22 @@ class SearchListView: BaseView<SearchListViewModel, SearchListViewModelOutputEve
         self.viewModel.showDetail(by: indexPath.row)
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !self.viewModel.isLoadingList){
+            self.viewModel.isLoadingList = true
+            self.viewModel.loadMoreItemsForList()
+        }
+    }
+    
     // MARK: -
     // MARK: Overrided
     
     override func prepareBindings(disposeBag: DisposeBag) {
-        self.viewModel.mediaResults.bind { [weak self] _ in
-            self?.searchList?.reloadData()
+        self.viewModel.needReloadTable = {
+            DispatchQueue.main.async {
+                self.mediaList?.reloadData()
+                self.viewModel.isLoadingList = false
+            }
         }
     }
 }

@@ -46,6 +46,10 @@ struct TopRatedMoviesParams: URLContainable {
     var method: HTTPMethod = .get
     var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
     var body: [String : Any]?
+    
+    init(page: Int = 1) {
+        self.header?["page"] = page.description
+    }
 }
 
 struct TopRatedTVShowsParams: URLContainable {
@@ -56,4 +60,8 @@ struct TopRatedTVShowsParams: URLContainable {
     var method: HTTPMethod = .get
     var header: [String : String]? = ["api_key": "bb31aee2b72f24d4d4ffbe947cd93787"]
     var body: [String : Any]?
+    
+    init(page: Int = 1) {
+        self.header?["page"] = page.description
+    }
 }

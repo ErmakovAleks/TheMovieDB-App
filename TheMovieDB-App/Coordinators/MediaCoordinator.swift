@@ -22,6 +22,8 @@ class MediaCoordinator: UINavigationController {
     
     public let events = PublishRelay<MediaCoordinatorOutputEvents>()
     
+    private let disposeBag = DisposeBag()
+    
     // MARK: -
     // MARK: ViewController Life Cycle
     
@@ -57,7 +59,7 @@ class MediaCoordinator: UINavigationController {
         
         viewModel.events
             .bind { [weak self] in self?.handle(events: $0) }
-            .disposed(by: viewModel.disposeBag)
+            .disposed(by: self.disposeBag)
         
         return view
     }
@@ -66,6 +68,8 @@ class MediaCoordinator: UINavigationController {
         switch events {
         case .needShowDetail(let id, let type):
             self.showDetail(by: id, and: type)
+        case .needShowMore(let genre, let type):
+            self.showMore(by: genre, and: type)
         }
     }
     
@@ -77,5 +81,24 @@ class MediaCoordinator: UINavigationController {
         }
         
         self.pushViewController(view, animated: true)
+    }
+    
+    private func showMore(by genre: Genre, and type: MediaType) {
+        let viewModel = GenreMediaListViewModel(genre: genre, type: type)
+        let view = GenreMediaListView(viewModel: viewModel)
+        view.title = genre.name
+        
+        viewModel.events
+            .bind { [weak self] in self?.handle(events: $0) }
+            .disposed(by: self.disposeBag)
+        
+        self.pushViewController(view, animated: true)
+    }
+    
+    private func handle(events: GenreMediaListViewModelOutputEvents) {
+        switch events {
+        case .needShowDetail(let id, let type):
+            self.showDetail(by: id, and: type)
+        }
     }
 }

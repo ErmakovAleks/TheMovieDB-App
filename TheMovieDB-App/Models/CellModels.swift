@@ -66,6 +66,7 @@ struct SearchTableViewCellModel {
     var mediaTitle: String
     var mediaPoster: String
     var mediaOverview: String
+    var mediaReleaseDate: String
     
     var eventHandler: (SearchTableViewCellModelOutputEvents) -> ()
     
@@ -73,11 +74,13 @@ struct SearchTableViewCellModel {
         mediaTitle: String,
         mediaPoster: String,
         mediaOverview: String,
+        mediaReleaseDate: String,
         eventHandler: @escaping (SearchTableViewCellModelOutputEvents) -> Void
     ) {
         self.mediaTitle = mediaTitle
         self.mediaPoster = mediaPoster
         self.mediaOverview = mediaOverview
+        self.mediaReleaseDate = mediaReleaseDate
         self.eventHandler = eventHandler
     }
 }

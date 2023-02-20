@@ -53,8 +53,14 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RdZ-z2-4E5" userLabel="ReleaseDateLabel">
+                                        <rect key="frame" x="61" y="39.333333333333336" width="36" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c7t-Bn-5Uq">
-                                        <rect key="frame" x="0.0" y="39.333333333333329" width="158" height="184.66666666666669"/>
+                                        <rect key="frame" x="0.0" y="60.333333333333329" width="158" height="163.66666666666669"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bli-uE-DE8" userLabel="DescriptionLabel">
                                                 <rect key="frame" x="0.0" y="0.0" width="158" height="17"/>
@@ -83,8 +89,10 @@
                                     <constraint firstItem="brJ-o7-IiG" firstAttribute="top" secondItem="iSy-Jd-3I1" secondAttribute="top" constant="8" id="6ev-ec-hps"/>
                                     <constraint firstItem="c7t-Bn-5Uq" firstAttribute="leading" secondItem="iSy-Jd-3I1" secondAttribute="leading" id="NiP-v3-2aR"/>
                                     <constraint firstAttribute="trailing" secondItem="brJ-o7-IiG" secondAttribute="trailing" constant="8" id="Stz-5R-uAw"/>
-                                    <constraint firstItem="c7t-Bn-5Uq" firstAttribute="top" secondItem="brJ-o7-IiG" secondAttribute="bottom" constant="4" id="YHi-y1-xzl"/>
                                     <constraint firstAttribute="bottom" secondItem="c7t-Bn-5Uq" secondAttribute="bottom" id="bBY-iP-jCT"/>
+                                    <constraint firstItem="RdZ-z2-4E5" firstAttribute="centerX" secondItem="iSy-Jd-3I1" secondAttribute="centerX" id="dz0-V4-0Oj"/>
+                                    <constraint firstItem="c7t-Bn-5Uq" firstAttribute="top" secondItem="RdZ-z2-4E5" secondAttribute="bottom" constant="4" id="kSw-VI-pxA"/>
+                                    <constraint firstItem="RdZ-z2-4E5" firstAttribute="top" secondItem="brJ-o7-IiG" secondAttribute="bottom" constant="4" id="ybU-fB-Bob"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -115,6 +123,7 @@
                 <outlet property="descriptionLabel" destination="bli-uE-DE8" id="Egg-Rf-NlG"/>
                 <outlet property="posterContainerView" destination="dFe-ln-YOD" id="SJR-X1-UZn"/>
                 <outlet property="posterImageView" destination="YV1-eD-3rj" id="XRc-Se-OK1"/>
+                <outlet property="releaseDateLabel" destination="RdZ-z2-4E5" id="8Wh-Xb-2nv"/>
                 <outlet property="spinnerView" destination="bKG-KS-86x" id="LCR-A3-K33"/>
                 <outlet property="titleLabel" destination="brJ-o7-IiG" id="JtS-JL-Hr1"/>
             </connections>

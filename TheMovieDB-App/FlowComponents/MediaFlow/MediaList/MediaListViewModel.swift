@@ -13,6 +13,7 @@ import RxRelay
 
 enum MediaListViewModelOutputEvents: Events {
     case needShowDetail(Int, MediaType)
+    case needShowMore(Genre, MediaType)
 }
 
 class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
@@ -59,6 +60,10 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
                 }
             }
         }
+    }
+    
+    public func showMoreBy(genre: Genre) {
+        self.outputEventsEmiter.accept(.needShowMore(genre, self.type))
     }
     
     // MARK: -
