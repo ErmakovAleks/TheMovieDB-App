@@ -40,7 +40,7 @@ class LoginViewModel: BaseViewModel<LoginViewModelOutputEvents> {
                 case .success(let model):
                     self.getSessionID(token: model.requestToken)
                 case .failure(let error):
-                    debugPrint(error.customMessage)
+                    debugPrint(error.localizedDescription)
                 }
             }
         }
@@ -54,7 +54,7 @@ class LoginViewModel: BaseViewModel<LoginViewModelOutputEvents> {
                 case .success(let model):
                     self.getAccountID(sessionID: model.sessionID)
                 case .failure(let error):
-                    debugPrint(error.customMessage)
+                    debugPrint(error.localizedDescription)
                 }
             }
         }
@@ -68,7 +68,7 @@ class LoginViewModel: BaseViewModel<LoginViewModelOutputEvents> {
                 case .success(let model):
                     self.outputEventsEmiter.accept(.authorized(model.id, sessionID))
                 case .failure(let error):
-                    debugPrint(error.customMessage)
+                    debugPrint(error.localizedDescription)
                 }
             }
         }

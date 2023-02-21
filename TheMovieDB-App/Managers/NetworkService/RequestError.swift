@@ -8,16 +8,17 @@
 
 import Foundation
 
-enum RequestError: Error {
+enum RequestError: LocalizedError {
     
     case decode
+    case failure(Error)
     case invalidURL
     case noResponse
     case unauthorized
     case unexpectedStatusCode
     case unknown
     
-    var customMessage: String {
+    var errorDescription: String? {
         switch self {
         case .decode:
             return "<!> Decode error"
@@ -31,6 +32,8 @@ enum RequestError: Error {
             return "<!> Unexpected status code"
         case .unknown:
             return "<!> Unknown error"
+        case  .failure(let error):
+            return error.localizedDescription
         }
     }
 }
