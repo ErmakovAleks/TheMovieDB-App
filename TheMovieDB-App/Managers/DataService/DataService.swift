@@ -28,7 +28,11 @@ class DataService: PersistentCacheble {
                 case .success(let model):
                     if let model = model as? MediaDetail {
                         completion(.success(model))
-                        PersistentService.save(media: model, path: requestModel.path)
+                        do {
+                            try PersistentService.save(media: model, path: requestModel.path)
+                        } catch {
+                            print(error.localizedDescription)
+                        }
                     }
                 case .failure(let error):
                     completion(.failure(error))
@@ -55,7 +59,11 @@ class DataService: PersistentCacheble {
                     switch result {
                     case .success(let image):
                         DispatchQueue.global(qos: .background).async {
-                            self.cacheService.addToCacheFolder(image: image, url: url)
+                            do {
+                                try self.cacheService.addToCacheFolder(image: image, url: url)
+                            } catch {
+                                print(error.localizedDescription)
+                            }
                         }
 
                         completion(.success(image))

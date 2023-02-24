@@ -58,7 +58,7 @@ struct MediaTableViewCellModel {
 
 enum SearchTableViewCellModelOutputEvents: Events {
     
-    case needLoadPoster(String, UIImageView?)
+    case needLoadPoster(String, UIImageView?, UIActivityIndicatorView?)
 }
 
 struct SearchTableViewCellModel {
@@ -87,7 +87,7 @@ struct SearchTableViewCellModel {
 
 enum FavoritesTableViewCellModelOutputEvents: Events {
     
-    case needLoadPoster(String, UIImageView?)
+    case needLoadPoster(String, UIImageView?, UIActivityIndicatorView?)
 }
 
 struct FavoritesTableViewCellModel {

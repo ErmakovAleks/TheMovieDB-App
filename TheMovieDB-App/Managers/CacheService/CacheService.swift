@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CacheService {
+final class CacheService {
     
     // MARK: -
     // MARK: Variables
@@ -35,22 +35,26 @@ class CacheService {
             .urls(for: .cachesDirectory, in: .userDomainMask)
             .first?.appendingPathComponent("cachedImages")
         
-        do {
-            if let url = self.cachedImagesFolderURL {
-                try? self.fileManager.createDirectory(at: url, withIntermediateDirectories: true, attributes: [:])
-            }
+        if let url = self.cachedImagesFolderURL, !self.directoryExistsAtPath(url) {
+            try? self.fileManager.createDirectory(at: url, withIntermediateDirectories: true, attributes: [:])
         }
     }
     
-    // MARK: -
-    // MARK: Pokemons Cacheble Functions
+    fileprivate func directoryExistsAtPath(_ path: URL) -> Bool {
+        var isDirectory = ObjCBool(true)
+        let exists = self.fileManager.fileExists(atPath: path.pathExtension, isDirectory: &isDirectory)
+        return exists && isDirectory.boolValue
+    }
     
-    func addToCacheFolder(image: UIImage, url: URL) {
-        if let percentURL = url.absoluteString
-            .addingPercentEncoding(withAllowedCharacters: .urlHostAllowed),
+    // MARK: -
+    // MARK: Public Functions
+    
+    func addToCacheFolder(image: UIImage, url: URL) throws {
+        let encoded = url.absoluteString
+            .addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+        if let percentURL = encoded,
            let pngImage = image.pngData(),
-           let fileURL = self.cachedImagesFolderURL?
-            .appendingPathComponent(percentURL)
+           let fileURL = self.cachedImagesFolderURL?.appendingPathComponent(percentURL)
         {
             do {
                 try pngImage.write(to: fileURL)
@@ -62,17 +66,20 @@ class CacheService {
     }
     
     func checkCache(url: URL) -> UIImage? {
-        guard let dataURL = self.cachedImagesFolderURL?
-            .appending(
-                path: url.absoluteString
-                    .addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""),
-        let imageData = try? Data(contentsOf: dataURL) else {
+        let encoded = url.absoluteString
+            .addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
+        
+        let full = self.cachedImagesFolderURL?.appending(path: encoded)
+        
+        guard
+            let dataURL = full,
+            let imageData = try? Data(contentsOf: dataURL)
+        else {
             print("<!> Nothing found")
             return nil
         }
         
-        let image = UIImage(data: imageData)
         print("<!> Image from cache")
-        return image
+        return UIImage(data: imageData)
     }
 }

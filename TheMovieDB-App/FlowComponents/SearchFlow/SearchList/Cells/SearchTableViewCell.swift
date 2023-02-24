@@ -48,8 +48,9 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     public func fill(with model: SearchTableViewCellModel) {
-        model.eventHandler(.needLoadPoster(model.mediaPoster, self.posterImageView))
-        self.spinnerView?.stopAnimating()
+        self.spinnerView?.startAnimating()
+        model.eventHandler(.needLoadPoster(model.mediaPoster, self.posterImageView, self.spinnerView))
+        //self.spinnerView?.stopAnimating()
         self.titleLabel?.text = model.mediaTitle
         self.releaseDateLabel?.text = model.mediaReleaseDate
         self.descriptionLabel?.text = model.mediaOverview

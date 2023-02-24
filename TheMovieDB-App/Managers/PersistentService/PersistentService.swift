@@ -54,7 +54,7 @@ final class PersistentService {
         }
     }
     
-    public static func save(media: MediaDetail, path: String) {
+    public static func save(media: MediaDetail, path: String) throws {
         self.context.performAndWait {
             let entity = MediaDetailEntity(context: context)
             entity.id = path.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)

@@ -51,9 +51,11 @@ class SearchListView: BaseView<SearchListViewModel, SearchListViewModelOutputEve
     
     private func handler(events: SearchTableViewCellModelOutputEvents) {
         switch events {
-        case .needLoadPoster(let url, let posterView):
+        case .needLoadPoster(let url, let posterView, let spinner):
             self.viewModel.fetchPoster(endPath: url) { image in
                 posterView?.image = image
+                spinner?.stopAnimating()
+                spinner?.isHidden = true
             }
         }
     }

@@ -54,7 +54,7 @@ class FavoritesListTableViewCell: UITableViewCell {
     
     public func fill(with model: FavoritesTableViewCellModel) {
         self.model = model
-        model.eventHandler(.needLoadPoster(model.mediaPoster, self.posterImageView))
+        model.eventHandler(.needLoadPoster(model.mediaPoster, self.posterImageView, self.spinnerView))
         self.spinnerView?.stopAnimating()
         self.titleLabel?.text = model.mediaTitle
         self.descriptionLabel?.text = model.mediaOverview

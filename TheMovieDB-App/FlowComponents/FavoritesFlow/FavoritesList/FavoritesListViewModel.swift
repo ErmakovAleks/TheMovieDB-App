@@ -78,9 +78,11 @@ class FavoritesListViewModel: BaseViewModel<FavoritesListViewModelOutputEvents> 
     
     public func handler(events: FavoritesTableViewCellModelOutputEvents) {
         switch events {
-        case .needLoadPoster(let url, let posterView):
+        case .needLoadPoster(let url, let posterView, let spinner):
             self.fetchPoster(endPath: url) { image in
                 posterView?.image = image
+                spinner?.stopAnimating()
+                spinner?.isHidden = true
             }
         }
     }
