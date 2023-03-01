@@ -11,27 +11,25 @@ import Foundation
 protocol Media {
     
     var mediaTitle: String { get }
-    var mediaDescription: String { get }
+    var mediaReleaseDate: String { get }
     var mediaID: Int { get }
     var mediaPoster: String { get }
     var mediaOverview: String { get }
 }
 
-struct MediaItem: Codable, MediaDetail {
+struct MediaItem: Media {
     
-    var mediaID: String
     var mediaTitle: String
-    var mediaDescription: String
-    var mediaRatio: Double
     var mediaReleaseDate: String
-    var mediaGenres: [Genre]
-    var mediaPosterPath: String
+    var mediaID: Int
+    var mediaPoster: String
+    var mediaOverview: String
 }
 
 struct Movie: Codable, Media {
     
     var mediaTitle: String { self.title ?? "No data" }
-    var mediaDescription: String { self.releaseDate ?? "No data" }
+    var mediaReleaseDate: String { self.releaseDate ?? "No data" }
     var mediaID: Int { self.id }
     var mediaPoster: String { self.posterPath ?? "No data"}
     var mediaOverview: String { self.overview ?? "No data"}
@@ -71,7 +69,7 @@ struct Movie: Codable, Media {
 struct TVShow: Codable, Media {
     
     var mediaTitle: String { self.name }
-    var mediaDescription: String { self.firstAirDate ?? "No data" }
+    var mediaReleaseDate: String { self.firstAirDate ?? "No data" }
     var mediaID: Int { self.id }
     var mediaPoster: String { self.posterPath ?? "No data" }
     var mediaOverview: String { self.overview }

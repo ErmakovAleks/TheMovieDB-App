@@ -49,6 +49,7 @@
 		D932C6B12950A3B000552003 /* TheMovieDBAppDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D932C6AF2950A3B000552003 /* TheMovieDBAppDataModel.xcdatamodeld */; };
 		D932C6B32950A3B200552003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D932C6B22950A3B200552003 /* Assets.xcassets */; };
 		D932C6B62950A3B200552003 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D932C6B42950A3B200552003 /* LaunchScreen.storyboard */; };
+		D9675D2D29A8AB85002E6982 /* NetworkMonitorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9675D2C29A8AB85002E6982 /* NetworkMonitorService.swift */; };
 		D97038EB295357D3003ABAF9 /* temp.xib in Resources */ = {isa = PBXBuildFile; fileRef = D97038EA295357D3003ABAF9 /* temp.xib */; };
 		D98AFE152955D31D001665E7 /* SecureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AFE132955D31D001665E7 /* SecureTextField.swift */; };
 		D98AFE162955D31D001665E7 /* SecureTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = D98AFE142955D31D001665E7 /* SecureTextField.xib */; };
@@ -140,6 +141,7 @@
 		D932C6B22950A3B200552003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D932C6B52950A3B200552003 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D932C6B72950A3B200552003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9675D2C29A8AB85002E6982 /* NetworkMonitorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorService.swift; sourceTree = "<group>"; };
 		D97038EA295357D3003ABAF9 /* temp.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = temp.xib; sourceTree = "<group>"; };
 		D98AFE132955D31D001665E7 /* SecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureTextField.swift; sourceTree = "<group>"; };
 		D98AFE142955D31D001665E7 /* SecureTextField.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SecureTextField.xib; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 		D929E5092994DFCB004AF9FB /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				D9675D2B29A8AB68002E6982 /* NetworkMonitorService */,
 				D9AEA7D5299675DD00263741 /* PersistentService */,
 				D929E50E2994E391004AF9FB /* DataService */,
 				D98AFE2B29578502001665E7 /* NetworkService */,
@@ -390,6 +393,14 @@
 				D98AFE172955D528001665E7 /* NibDesignable.swift */,
 			);
 			path = "TheMovieDB-App";
+			sourceTree = "<group>";
+		};
+		D9675D2B29A8AB68002E6982 /* NetworkMonitorService */ = {
+			isa = PBXGroup;
+			children = (
+				D9675D2C29A8AB85002E6982 /* NetworkMonitorService.swift */,
+			);
+			path = NetworkMonitorService;
 			sourceTree = "<group>";
 		};
 		D98AFE0E2955D103001665E7 /* Views */ = {
@@ -695,6 +706,7 @@
 				D926130D29645A83007F9557 /* CustomTableViewHeader.swift in Sources */,
 				D92612DA295D5DF5007F9557 /* MediaListViewModel.swift in Sources */,
 				D932C6A72950A3B000552003 /* AppDelegate.swift in Sources */,
+				D9675D2D29A8AB85002E6982 /* NetworkMonitorService.swift in Sources */,
 				D98AFE3B295822A9001665E7 /* URLContainable.swift in Sources */,
 				D9DC02E829720A8100A951A2 /* MediaDetailView.swift in Sources */,
 				D9261304295E25E3007F9557 /* UITextField+Extensions.swift in Sources */,

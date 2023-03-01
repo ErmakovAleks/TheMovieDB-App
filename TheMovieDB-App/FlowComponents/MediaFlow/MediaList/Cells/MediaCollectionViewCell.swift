@@ -61,6 +61,6 @@ class MediaCollectionViewCell: UICollectionViewCell {
         model?.eventHandler(.needLoadPoster(model?.mediaPoster ?? "", self.posterImageView))
         self.spinnerView?.stopAnimating()
         self.titleLabel?.text = model?.mediaTitle
-        self.directorLabel?.text = model?.mediaDescription
+        self.directorLabel?.text = model?.mediaReleaseDate
     }
 }

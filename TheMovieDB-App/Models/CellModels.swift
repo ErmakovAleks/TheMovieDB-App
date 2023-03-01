@@ -16,7 +16,7 @@ enum MediaCollectionViewCellModelOutputEvents: Events {
 struct MediaCollectionViewCellModel: Media {
     
     var mediaTitle: String
-    var mediaDescription: String
+    var mediaReleaseDate: String
     var mediaID: Int
     var mediaPoster: String
     var mediaOverview: String
@@ -25,7 +25,7 @@ struct MediaCollectionViewCellModel: Media {
     
     init(mediaModel: Media, handler: @escaping (MediaCollectionViewCellModelOutputEvents) -> ()) {
         self.mediaTitle = mediaModel.mediaTitle
-        self.mediaDescription = mediaModel.mediaDescription
+        self.mediaReleaseDate = mediaModel.mediaReleaseDate
         self.mediaID = mediaModel.mediaID
         self.mediaPoster = mediaModel.mediaPoster
         self.mediaOverview = mediaModel.mediaOverview

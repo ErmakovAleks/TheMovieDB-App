@@ -19,6 +19,17 @@ protocol MediaDetail {
     var mediaPosterPath: String { get }
 }
 
+struct MediaDetailItem: Codable, MediaDetail {
+    
+    var mediaID: String
+    var mediaTitle: String
+    var mediaDescription: String
+    var mediaRatio: Double
+    var mediaReleaseDate: String
+    var mediaGenres: [Genre]
+    var mediaPosterPath: String
+}
+
 struct MovieDetail: Codable, MediaDetail {
     
     var mediaID: String { self.id.description }

@@ -69,13 +69,18 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
     // MARK: -
     // MARK: Private functions
     
-    private func prepareInitialData() {
-        self.fetchGenres()
+    public func prepareInitialData() {
+        if NetworkMonitorService.shared.isConnected {
+            print("<!> Network is enabled")
+            self.fetchGenres()
+        } else {
+            self.fetchGenres()
+        }
     }
     
     private func fetchGenres() {
         let params = TMDBGenresParams(type: self.type)
-        Service.sendRequest(requestModel: params) { result in
+        Service.sendCachedRequest(requestModel: params) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
@@ -92,24 +97,32 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
     private func fetchTrending(completion: @escaping ([Media]) -> Void) {
         switch self.type {
         case .movie:
-            let params = TopRatedMoviesParams()
-            Service.sendRequest(requestModel: params) { result in
+            Service.sendCachedRequest(
+                genreID: -1,
+                type: self.type,
+                isTopRated: true,
+                isFavorites: false
+            ) { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let model):
-                        completion(model.results)
+                        completion(model)
                     case .failure(let error):
                         debugPrint(error)
                     }
                 }
             }
         case .tv:
-            let params = TopRatedTVShowsParams()
-            Service.sendRequest(requestModel: params) { result in
+            Service.sendCachedRequest(
+                genreID: -1,
+                type: self.type,
+                isTopRated: true,
+                isFavorites: false
+            ) { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let model):
-                        completion(model.results)
+                        completion(model)
                     case .failure(let error):
                         debugPrint(error)
                     }
@@ -162,11 +175,15 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
         switch self.type {
         case .movie:
             self.group.enter()
-            let params = MovieParams(page: page, genreID: genreID)
-            Service.sendRequest(requestModel: params) { result in
+            Service.sendCachedRequest(
+                genreID: genreID,
+                type: self.type,
+                isTopRated: false,
+                isFavorites: false
+            ) { result in
                 switch result {
                 case .success(let model):
-                    completion(model.results, genreID)
+                    completion(model, genreID)
                 case .failure(let error):
                     debugPrint(error)
                 }
@@ -175,11 +192,15 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
             }
         case .tv:
             self.group.enter()
-            let params = TVShowsParams(page: page, genreID: genreID)
-            Service.sendRequest(requestModel: params) { result in
+            Service.sendCachedRequest(
+                genreID: genreID,
+                type: self.type,
+                isTopRated: false,
+                isFavorites: false
+            ) { result in
                 switch result {
                 case .success(let model):
-                    completion(model.results, genreID)
+                    completion(model, genreID)
                 case .failure(let error):
                     debugPrint(error)
                 }

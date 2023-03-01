@@ -19,6 +19,16 @@ class MediaListView: BaseView<MediaListViewModel, MediaListViewModelOutputEvents
     @IBOutlet var mediaList: UITableView?
     
     // MARK: -
+    // MARK: Variables
+    
+    private let refreshControl: UIRefreshControl = {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(refreshTable(sender:)), for: .valueChanged)
+        
+        return refresh
+    }()
+    
+    // MARK: -
     // MARK: Initializators
     
     init(viewModel: MediaListViewModel) {
@@ -46,6 +56,7 @@ class MediaListView: BaseView<MediaListViewModel, MediaListViewModelOutputEvents
     private func prepareTableView() {
         self.mediaList?.delegate = self
         self.mediaList?.dataSource = self
+        self.mediaList?.refreshControl = self.refreshControl
         self.mediaList?.registerHeaderFooter(headerFooterClass: CustomTableViewHeader.self)
         self.mediaList?.registerCell(cellClass: MediaCollectionTableViewCell.self)
     }
@@ -56,6 +67,12 @@ class MediaListView: BaseView<MediaListViewModel, MediaListViewModelOutputEvents
             let currentGenreMedia = self.viewModel.media[id]
             cell.fill(with: currentGenreMedia?[index])
         }
+    }
+    
+    @objc private func refreshTable(sender: UIRefreshControl) {
+        self.viewModel.genres = []
+        self.viewModel.prepareInitialData()
+        self.refreshControl.endRefreshing()
     }
     
     // MARK: -
@@ -108,7 +125,7 @@ class MediaListView: BaseView<MediaListViewModel, MediaListViewModelOutputEvents
         
         let model = MediaTableViewCellModel(
             id: self.viewModel.genres[indexPath.section].id,
-            numberOfItems: self.viewModel.media[id]?.count ?? 1,
+            numberOfItems: self.viewModel.media[id]?.count ?? 0,
             onFirstSection: onFirstSection) { [weak self] events in
                 self?.handler(events: events)
             } onSelect: { [weak self] index, genreID in

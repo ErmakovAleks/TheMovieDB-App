@@ -28,17 +28,21 @@ class MainCoordinator: BaseCoordinator {
     // MARK: Login
     
     override func start() {
-        let loginCoordinator = LoginCoordinator()
-        loginCoordinator.navController = self
-        
-        loginCoordinator.events.bind { [weak self] in
-            self?.handle(events: $0)
+        if UserDefaults.standard.bool(forKey: "isLoggedIn") {
+            self.showTabBar()
+        } else {
+            let loginCoordinator = LoginCoordinator()
+            loginCoordinator.navController = self
+            
+            loginCoordinator.events.bind { [weak self] in
+                self?.handle(events: $0)
+            }
+            .disposed(by: self.disposeBag)
+            
+            self.pushViewController(loginCoordinator, animated: true)
+            
+            self.loginCoordinator = loginCoordinator
         }
-        .disposed(by: self.disposeBag)
-        
-        self.pushViewController(loginCoordinator, animated: true)
-        
-        self.loginCoordinator = loginCoordinator
     }
     
     private func handle(events: LoginCoordinatorOutputEvents) {
@@ -46,6 +50,7 @@ class MainCoordinator: BaseCoordinator {
         case .needShowSections(let accountID, let sessionID):
             self.userDefaults.set(accountID, forKey: "AccountID")
             self.userDefaults.set(sessionID, forKey: "SessionID")
+            self.userDefaults.set(true, forKey: "isLoggedIn")
             self.showTabBar()
         }
     }
@@ -84,6 +89,7 @@ class MainCoordinator: BaseCoordinator {
             item.title = titles[index]
             item.image = UIImage(systemName: icons[index])
         }
+        
         let searchController = UISearchController()
         tabBar.navigationItem.searchController = searchController
         self.tabBar = tabBar

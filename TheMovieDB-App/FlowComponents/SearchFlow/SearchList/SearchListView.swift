@@ -74,7 +74,7 @@ class SearchListView: BaseView<SearchListViewModel, SearchListViewModelOutputEve
             mediaTitle: item.mediaTitle,
             mediaPoster: item.mediaPoster,
             mediaOverview: item.mediaOverview,
-            mediaReleaseDate: item.mediaDescription) { events in
+            mediaReleaseDate: item.mediaReleaseDate) { events in
                 self.handler(events: events)
             }
         

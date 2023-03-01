@@ -40,12 +40,11 @@ class FavoritesListViewModel: BaseViewModel<FavoritesListViewModelOutputEvents> 
     public func fetchFavorites() {
         switch self.type {
         case .movie:
-            let params = FavoritesMoviesParams()
-            Service.sendRequest(requestModel: params) { result in
+            Service.sendCachedRequest(genreID: -2, type: self.type, isTopRated: false, isFavorites: true) { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let model):
-                        self.favorites = model.results.map {
+                        self.favorites = model.map {
                             FavoritesTableViewCellModel(model: $0) { events in
                                 self.handler(events: events)
                             }
@@ -57,12 +56,11 @@ class FavoritesListViewModel: BaseViewModel<FavoritesListViewModelOutputEvents> 
                 }
             }
         case .tv:
-            let params = FavoritesTVShowsParams()
-            Service.sendRequest(requestModel: params) { result in
+            Service.sendCachedRequest(genreID: -2, type: self.type, isTopRated: false, isFavorites: true) { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let model):
-                        self.favorites = model.results.map {
+                        self.favorites = model.map {
                             FavoritesTableViewCellModel(model: $0) { events in
                                 self.handler(events: events)
                             }
