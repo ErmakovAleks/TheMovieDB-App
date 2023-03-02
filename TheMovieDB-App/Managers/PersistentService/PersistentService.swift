@@ -18,6 +18,7 @@ final class PersistentService {
     private static let fetchMediaDetailRequest = MediaDetailEntity.fetchRequest()
     private static let fetchGenresListRequest = GenresListEntity.fetchRequest()
     private static let fetchMediaRequest = GenreDetailEntity.fetchRequest()
+    private static let fetchFavoritesListRequest = FavoritesListEntity.fetchRequest()
     
     // MARK: -
     // MARK: Functions
@@ -246,6 +247,96 @@ final class PersistentService {
         }
     }
     
+    // MARK: -
+    // MARK: Favorites
+    
+    public static func addFavorite(id: Int, type: MediaType) throws {
+        self.context.performAndWait {
+            self.fetchFavoritesListRequest.predicate = NSPredicate(format: "type = %@", type.rawValue)
+            self.fetchFavoritesListRequest.fetchLimit = 1
+            
+            if
+                let savedFavorites = try? self.context.fetch(self.fetchFavoritesListRequest),
+                !savedFavorites.isEmpty,
+                let favorites = savedFavorites.first
+            {
+                let entity = FavoriteEntity(context: self.context)
+                entity.id = Int64(id)
+                favorites.addToFavoriteEntities(entity)
+                
+                favorites.favoriteEntities?.forEach {
+                    print("<!> favoriteID = \(($0 as! FavoriteEntity).id)")
+                }
+                
+                do {
+                    try self.context.save()
+                    print("<!> Saving is completed!")
+                } catch {
+                    print("<!> Saving did not complete!")
+                }
+            } else {
+                let listEntity = FavoritesListEntity(context: self.context)
+                listEntity.type = type.rawValue
+                let entity = FavoriteEntity(context: self.context)
+                entity.id = Int64(id)
+                listEntity.addToFavoriteEntities(entity)
+                
+                listEntity.favoriteEntities?.forEach {
+                    print("<!> favoriteID = \(($0 as! FavoriteEntity).id)")
+                }
+                
+                do {
+                    try self.context.save()
+                    print("<!> Saving is completed!")
+                } catch {
+                    print("<!> Saving did not complete!")
+                }
+            }
+        }
+    }
+    
+    public static func removeFavorite(id: Int, type: MediaType) throws {
+        self.context.performAndWait {
+            self.fetchFavoritesListRequest.predicate = NSPredicate(format: "type = %@", type.rawValue)
+            self.fetchFavoritesListRequest.fetchLimit = 1
+            
+            if let savedFavorites = try? self.context.fetch(self.fetchFavoritesListRequest),
+               let favorites = savedFavorites.first
+            {
+                favorites.favoriteEntities?.forEach {
+                    if let item = $0 as? FavoriteEntity,
+                       item.id == id
+                    {
+                        favorites.removeFromFavoriteEntities(item)
+                    }
+                }
+                
+                do {
+                    try self.context.save()
+                    print("<!> Saving is completed!")
+                } catch {
+                    print("<!> Saving did not complete!")
+                }
+            }
+        }
+    }
+    
+    public static func checkFavorite(id: Int, type: MediaType) throws -> Bool {
+        self.context.performAndWait {
+            self.fetchFavoritesListRequest.predicate = NSPredicate(format: "type = %@", type.rawValue)
+            self.fetchFavoritesListRequest.fetchLimit = 1
+            
+            if
+                let savedFavorites = try? self.context.fetch(self.fetchFavoritesListRequest),
+                let favorites = savedFavorites.first?.favoriteEntities,
+                let entities = favorites.allObjects as? [FavoriteEntity]
+            {
+                return !entities.filter { $0.id == id }.isEmpty
+            } else {
+                return false
+            }
+        }
+    }
     // MARK: -
     // MARK: Core Data stack
 

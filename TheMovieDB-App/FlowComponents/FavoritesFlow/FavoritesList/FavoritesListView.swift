@@ -109,7 +109,6 @@ class FavoritesListView: BaseView<FavoritesListViewModel, FavoritesListViewModel
                 
                 self.viewModel.favorites.removeAll { $0.mediaID == item.mediaID }
                 tableView.deleteRows(at: [indexPath], with: .fade)
-                tableView.reloadData()
             }
         
         cell.fill(with: model)

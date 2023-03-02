@@ -19,7 +19,9 @@ class MediaDetailViewModel: BaseViewModel<MediaDetailViewModelOutputEvents> {
     // MARK: -
     // MARK: Variables
     
-    public var isFavorite: Bool = false
+    public var isFavorite: Bool {
+        return Service.checkFavorites(id: self.mediaID, type: self.mediaType)
+    }
     
     public let mediaDetail = PublishRelay<MediaDetail>()
     public let videos = PublishRelay<[Video]>()
@@ -102,6 +104,20 @@ class MediaDetailViewModel: BaseViewModel<MediaDetailViewModelOutputEvents> {
     }
     
     public func addToFavorites() {
+        print("<!> isFavorite is \(Service.checkFavorites(id: self.mediaID, type: self.mediaType))")
+        Service.addToFavorites(id: self.mediaID, type: self.mediaType)
+        print("<!> isFavorite is \(Service.checkFavorites(id: self.mediaID, type: self.mediaType))")
+        self.toggleFavorites()
+    }
+    
+    public func removeFromFavorites() {
+        print("<!> isFavorite is \(Service.checkFavorites(id: self.mediaID, type: self.mediaType))")
+        Service.removeFromFavorites(id: self.mediaID, type: mediaType)
+        print("<!> isFavorite is \(Service.checkFavorites(id: self.mediaID, type: self.mediaType))")
+        self.toggleFavorites()
+    }
+    
+    private func toggleFavorites() {
         let params = FavoritesParams(
             mediaID: self.mediaID,
             type: self.mediaType,

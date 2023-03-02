@@ -15,27 +15,32 @@ final class CacheService {
     
     private var fileManager = FileManager.default
     private var cachedImagesFolderURL: URL?
+    private var favoritesFolderURL: URL?
     
     // MARK: -
     // MARK: Initializators
     
     init() {
-        checkAndCreateDirectory()
+        checkAndCreateDirectories()
     }
     
     // MARK: -
     // MARK: Private functions
     
-    private func pathForCacheDirectory() -> URL? {
-        self.fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first
-    }
-    
-    private func checkAndCreateDirectory() {
+    private func checkAndCreateDirectories() {
         self.cachedImagesFolderURL = self.fileManager
             .urls(for: .cachesDirectory, in: .userDomainMask)
             .first?.appendingPathComponent("cachedImages")
         
         if let url = self.cachedImagesFolderURL, !self.directoryExistsAtPath(url) {
+            try? self.fileManager.createDirectory(at: url, withIntermediateDirectories: true, attributes: [:])
+        }
+        
+        self.favoritesFolderURL = self.fileManager
+            .urls(for: .cachesDirectory, in: .userDomainMask)
+            .first?.appendingPathExtension("favoritesData")
+        
+        if let url = self.favoritesFolderURL, !self.directoryExistsAtPath(url) {
             try? self.fileManager.createDirectory(at: url, withIntermediateDirectories: true, attributes: [:])
         }
     }
@@ -47,7 +52,7 @@ final class CacheService {
     }
     
     // MARK: -
-    // MARK: Public Functions
+    // MARK: Images
     
     func addToCacheFolder(image: UIImage, url: URL) throws {
         let encoded = url.absoluteString

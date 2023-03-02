@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="22D68" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="FavoriteEntity" representedClassName="FavoriteEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="favoritesList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FavoritesListEntity" inverseName="favoriteEntities" inverseEntity="FavoritesListEntity"/>
+    </entity>
+    <entity name="FavoritesListEntity" representedClassName="FavoritesListEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="favoriteEntities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FavoriteEntity" inverseName="favoritesList" inverseEntity="FavoriteEntity"/>
+    </entity>
     <entity name="GenreDetailEntity" representedClassName="GenreDetailEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="type" attributeType="String"/>

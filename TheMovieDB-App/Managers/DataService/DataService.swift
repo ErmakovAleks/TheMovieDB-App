@@ -224,4 +224,33 @@ class DataService: PersistentCacheble {
             }
         }
     }
+    
+    // MARK: -
+    // MARK: Favorites
+    
+    static func addToFavorites(id: Int, type: MediaType) {
+        do {
+            try PersistentService.addFavorite(id: id, type: type)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    static func removeFromFavorites(id: Int, type: MediaType) {
+        do {
+            try PersistentService.removeFavorite(id: id, type: type)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    static func checkFavorites(id: Int, type: MediaType) -> Bool {
+        do {
+            return try PersistentService.checkFavorite(id: id, type: type)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        return false
+    }
 }

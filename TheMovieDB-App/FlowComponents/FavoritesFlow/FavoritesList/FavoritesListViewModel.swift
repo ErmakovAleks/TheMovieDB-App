@@ -108,6 +108,7 @@ class FavoritesListViewModel: BaseViewModel<FavoritesListViewModelOutputEvents> 
     }
     
     public func removeFromFavorites(mediaID: Int, type: MediaType) {
+        Service.removeFromFavorites(id: mediaID, type: type)
         let params = FavoritesParams(
             mediaID: mediaID,
             type: type,

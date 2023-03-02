@@ -54,7 +54,14 @@ class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutput
         self.posterView?.layer.cornerRadius = 4
         self.rateButton?.backgroundColor = Colors.gradientBottom
         self.rateButton?.layer.cornerRadius = 4
-        self.watchListButton?.backgroundColor = Colors.gradientBottom
+        self.watchListButton?.backgroundColor = self.viewModel.isFavorite
+            ? .systemGray3
+            : Colors.gradientBottom
+        let title = self.viewModel.isFavorite
+            ? "Added to Watch List"
+            : "Add to Watch List"
+        self.watchListButton?.setTitle(title, for: .normal)
+        self.watchListButton?.isUserInteractionEnabled = !self.viewModel.isFavorite
         self.watchListButton?.layer.cornerRadius = 4
     }
     
@@ -115,13 +122,14 @@ class MediaDetailView: BaseView<MediaDetailViewModel, MediaDetailViewModelOutput
     }
     
     @IBAction private func addToWatchList() {
-        self.viewModel.isFavorite.toggle()
-        print("<!> isFavorite = \(self.viewModel.isFavorite)")
-        if self.viewModel.isFavorite {
+//        self.viewModel.isFavorite.toggle()
+//        print("<!> isFavorite = \(self.viewModel.isFavorite)")
+        if !self.viewModel.isFavorite {
             self.viewModel.addToFavorites()
             self.needReloadFavorites?(self.viewModel.mediaType)
             self.watchListButton?.setTitle("Added to Watch List", for: .normal)
             self.watchListButton?.backgroundColor = .systemGray3
+            self.watchListButton?.isUserInteractionEnabled = false
             self.showPopUp(text: "Media was added to Watch List", desiredView: self.view)
         } else {
             self.watchListButton?.setTitle("Add to Watch List", for: .normal)
