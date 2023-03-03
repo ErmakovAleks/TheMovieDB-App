@@ -10,7 +10,7 @@ import UIKit
 
 enum MediaCollectionViewCellModelOutputEvents: Events {
     
-    case needLoadPoster(String, UIImageView?)
+    case needLoadPoster(String, UIImageView?, UIActivityIndicatorView?)
 }
 
 struct MediaCollectionViewCellModel: Media {

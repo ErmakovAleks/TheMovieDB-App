@@ -54,12 +54,14 @@ class MediaCollectionViewCell: UICollectionViewCell {
         self.spinnerView?.hidesWhenStopped = true
         self.spinnerView?.backgroundColor = Colors.gradientTop
         self.spinnerView?.color = .white
-        self.spinnerView?.startAnimating()
     }
     
     public func fill(with model: MediaCollectionViewCellModel?) {
-        model?.eventHandler(.needLoadPoster(model?.mediaPoster ?? "", self.posterImageView))
-        self.spinnerView?.stopAnimating()
+        model?.eventHandler(
+            .needLoadPoster(model?.mediaPoster ?? "", self.posterImageView, self.spinnerView)
+        )
+        
+        //self.spinnerView?.stopAnimating()
         self.titleLabel?.text = model?.mediaTitle
         self.directorLabel?.text = model?.mediaReleaseDate
     }

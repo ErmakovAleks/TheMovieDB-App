@@ -164,9 +164,12 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
     
     private func handler(events: MediaCollectionViewCellModelOutputEvents) {
         switch events {
-        case .needLoadPoster(let url, let posterView):
+        case .needLoadPoster(let url, let posterView, let spinner):
             self.fetchPoster(endPath: url) { image in
                 posterView?.image = image
+                if image != nil {
+                    spinner?.stopAnimating()
+                }
             }
         }
     }

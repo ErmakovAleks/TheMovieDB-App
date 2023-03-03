@@ -264,10 +264,6 @@ final class PersistentService {
                 entity.id = Int64(id)
                 favorites.addToFavoriteEntities(entity)
                 
-                favorites.favoriteEntities?.forEach {
-                    print("<!> favoriteID = \(($0 as! FavoriteEntity).id)")
-                }
-                
                 do {
                     try self.context.save()
                     print("<!> Saving is completed!")
@@ -280,10 +276,6 @@ final class PersistentService {
                 let entity = FavoriteEntity(context: self.context)
                 entity.id = Int64(id)
                 listEntity.addToFavoriteEntities(entity)
-                
-                listEntity.favoriteEntities?.forEach {
-                    print("<!> favoriteID = \(($0 as! FavoriteEntity).id)")
-                }
                 
                 do {
                     try self.context.save()
