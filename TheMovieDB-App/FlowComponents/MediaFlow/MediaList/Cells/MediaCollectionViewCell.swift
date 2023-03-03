@@ -54,6 +54,7 @@ class MediaCollectionViewCell: UICollectionViewCell {
         self.spinnerView?.hidesWhenStopped = true
         self.spinnerView?.backgroundColor = Colors.gradientTop
         self.spinnerView?.color = .white
+        self.spinnerView?.startAnimating()
     }
     
     public func fill(with model: MediaCollectionViewCellModel?) {
