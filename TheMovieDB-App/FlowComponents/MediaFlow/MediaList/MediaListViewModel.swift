@@ -25,6 +25,7 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
     public var tabTitle: String
     public var trendTitle: String
     public var needUpdateTable = PublishSubject<Void>()
+    public var needShowAlert: (() -> ())?
     public var genres = [Genre]()
     public var media = [Int:[MediaCollectionViewCellModel]]()
     
@@ -75,6 +76,7 @@ class MediaListViewModel: BaseViewModel<MediaListViewModelOutputEvents> {
             self.fetchGenres()
         } else {
             self.fetchGenres()
+            self.needShowAlert?()
         }
     }
     

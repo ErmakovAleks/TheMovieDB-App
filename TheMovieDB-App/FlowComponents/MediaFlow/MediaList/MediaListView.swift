@@ -75,6 +75,14 @@ class MediaListView: BaseView<MediaListViewModel, MediaListViewModelOutputEvents
         self.refreshControl.endRefreshing()
     }
     
+    private func showAlert() {
+        let alert = UIAlertController(title: nil, message: "You are offline", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        
+        alert.addAction(action)
+        self.present(alert, animated: true)
+    }
+    
     // MARK: -
     // MARK: Overrided
     
@@ -87,6 +95,10 @@ class MediaListView: BaseView<MediaListViewModel, MediaListViewModelOutputEvents
                 self?.mediaList?.reloadData()
             }
             .disposed(by: disposeBag)
+        
+        self.viewModel.needShowAlert = {
+            self.showAlert()
+        }
     }
     
     // MARK: -
