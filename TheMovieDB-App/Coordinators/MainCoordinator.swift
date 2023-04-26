@@ -20,6 +20,7 @@ class MainCoordinator: BaseCoordinator {
     private var mediaCoordinator: MediaCoordinator?
     private var searchCoordinator: SearchCoordinator?
     private var favoritesCoordinator: FavoritesCoordinator?
+    private var profileCoordinator: ProfileCoordinator?
     
     private let disposeBag = DisposeBag()
     private let userDefaults = UserDefaults.standard
@@ -43,8 +44,11 @@ class MainCoordinator: BaseCoordinator {
     
     private func handle(events: LoginCoordinatorOutputEvents) {
         switch events {
-        case .needShowSections(let accountID, let sessionID):
-            self.userDefaults.set(accountID, forKey: "AccountID")
+        case .needShowSections(let accountDetails, let sessionID):
+            self.userDefaults.set(accountDetails.id, forKey: "AccountID")
+            self.userDefaults.set(accountDetails.name, forKey: "Name")
+            self.userDefaults.set(accountDetails.username, forKey: "UserName")
+            self.userDefaults.set(accountDetails.avatar.tmdb.avatarPath, forKey: "Avatar")
             self.userDefaults.set(sessionID, forKey: "SessionID")
             self.showTabBar()
         }
@@ -58,12 +62,13 @@ class MainCoordinator: BaseCoordinator {
         let mediaCoordinator = self.mediaFlow()
         let searchCoordinator = self.searchFlow()
         let favoritesCoordinator = self.favoritesFlow()
+        let profileCoordinator = self.profileFlow()
         
         tabBar.setViewControllers([
                 mediaCoordinator,
                 searchCoordinator,
                 favoritesCoordinator,
-                self.viewController()
+                profileCoordinator
             ],
             animated: true
         )
@@ -71,6 +76,7 @@ class MainCoordinator: BaseCoordinator {
         self.mediaCoordinator = mediaCoordinator
         self.searchCoordinator = searchCoordinator
         self.favoritesCoordinator = favoritesCoordinator
+        self.profileCoordinator = profileCoordinator
 
         tabBar.tabBar.tintColor = .white
         tabBar.tabBar.unselectedItemTintColor = Colors.gradientTop
@@ -84,6 +90,7 @@ class MainCoordinator: BaseCoordinator {
             item.title = titles[index]
             item.image = UIImage(systemName: icons[index])
         }
+        
         let searchController = UISearchController()
         tabBar.navigationItem.searchController = searchController
         self.tabBar = tabBar
@@ -135,6 +142,20 @@ class MainCoordinator: BaseCoordinator {
     }
     
     private func handle(events: FavoritesCoordinatorOutputEvents) {
+        
+    }
+    
+    private func profileFlow() -> ProfileCoordinator {
+        let profileCoordinator = ProfileCoordinator()
+        profileCoordinator.events.bind { [weak self] in
+            self?.handle(events: $0)
+        }
+        .disposed(by: self.disposeBag)
+        
+        return profileCoordinator
+    }
+    
+    private func handle(events: ProfileCoordinatorOutputEvents) {
         
     }
     
