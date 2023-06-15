@@ -10,7 +10,7 @@ import Foundation
 
 enum LoginViewModelOutputEvents: Events {
     
-    case authorized(Int, String)
+    case authorized(AccountDetails, String)
 }
 
 class LoginViewModel: BaseViewModel<LoginViewModelOutputEvents> {
@@ -40,7 +40,7 @@ class LoginViewModel: BaseViewModel<LoginViewModelOutputEvents> {
                 case .success(let model):
                     self.getSessionID(token: model.requestToken)
                 case .failure(let error):
-                    debugPrint(error.customMessage)
+                    debugPrint(error.localizedDescription)
                 }
             }
         }
@@ -54,7 +54,7 @@ class LoginViewModel: BaseViewModel<LoginViewModelOutputEvents> {
                 case .success(let model):
                     self.getAccountID(sessionID: model.sessionID)
                 case .failure(let error):
-                    debugPrint(error.customMessage)
+                    debugPrint(error.localizedDescription)
                 }
             }
         }
@@ -66,9 +66,9 @@ class LoginViewModel: BaseViewModel<LoginViewModelOutputEvents> {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
-                    self.outputEventsEmiter.accept(.authorized(model.id, sessionID))
+                    self.outputEventsEmiter.accept(.authorized(model, sessionID))
                 case .failure(let error):
-                    debugPrint(error.customMessage)
+                    debugPrint(error.localizedDescription)
                 }
             }
         }

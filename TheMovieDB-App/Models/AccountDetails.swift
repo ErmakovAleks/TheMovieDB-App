@@ -14,8 +14,23 @@ import Foundation
 struct AccountDetails: Codable {
     
     let id: Int
-    let name: String
-    let username: String
+    let avatar: Avatar
+    let name: String?
+    let username: String?
+}
+
+struct Avatar: Codable {
+    
+    let tmdb: AvatarContainer
+}
+
+struct AvatarContainer: Codable {
+    
+    let avatarPath: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case avatarPath = "avatar_path"
+    }
 }
 
 struct AccountDetailsParams: URLContainable {

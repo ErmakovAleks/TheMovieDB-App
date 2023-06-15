@@ -78,8 +78,8 @@ class NetworkService: NetworkSessionProcessable {
         completion: @escaping ResultCompletion<T.DecodableType>
     ) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let _ = error {
-                completion(.failure(RequestError.unknown))
+            if let error {
+                completion(.failure(RequestError.failure(error)))
             }
             
             if let response = response as? HTTPURLResponse {

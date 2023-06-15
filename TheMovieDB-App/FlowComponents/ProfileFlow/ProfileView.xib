@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileView" customModule="TheMovieDB_App" customModuleProvider="target">
+            <connections>
+                <outlet property="avatarImageView" destination="sL0-1k-g4a" id="dO3-IH-f3H"/>
+                <outlet property="avatarView" destination="rLV-Hw-gNc" id="1JL-QS-rxm"/>
+                <outlet property="nameLabel" destination="t47-rG-CLw" id="8SV-6P-32e"/>
+                <outlet property="nickNameLabel" destination="BGN-uS-2IZ" id="P4S-X8-eKI"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rLV-Hw-gNc" userLabel="AvatarView">
+                    <rect key="frame" x="76.666666666666686" y="99.333333333333314" width="240" height="240"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sL0-1k-g4a">
+                            <rect key="frame" x="10" y="10" width="220" height="220"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="sL0-1k-g4a" secondAttribute="height" id="ZoH-TQ-Lg7"/>
+                                <constraint firstAttribute="width" constant="220" id="qKG-16-PcN"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="rLV-Hw-gNc" secondAttribute="height" id="1eI-z9-lPk"/>
+                        <constraint firstItem="sL0-1k-g4a" firstAttribute="centerY" secondItem="rLV-Hw-gNc" secondAttribute="centerY" id="6BT-C0-wu6"/>
+                        <constraint firstItem="sL0-1k-g4a" firstAttribute="centerX" secondItem="rLV-Hw-gNc" secondAttribute="centerX" id="SuJ-1r-xEq"/>
+                        <constraint firstAttribute="width" constant="240" id="YrO-Pa-aLh"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t47-rG-CLw" userLabel="NameLabel">
+                    <rect key="frame" x="20" y="379.33333333333331" width="353" height="49.333333333333314"/>
+                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="36"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGN-uS-2IZ" userLabel="NickNameLabel">
+                    <rect key="frame" x="20" y="428.66666666666669" width="353" height="33"/>
+                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="rLV-Hw-gNc" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="BcP-Yf-TgV"/>
+                <constraint firstItem="BGN-uS-2IZ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Cx9-cx-sFE"/>
+                <constraint firstItem="BGN-uS-2IZ" firstAttribute="top" secondItem="t47-rG-CLw" secondAttribute="bottom" id="RAX-G6-qaa"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="BGN-uS-2IZ" secondAttribute="trailing" constant="20" id="aSN-ET-qR0"/>
+                <constraint firstItem="t47-rG-CLw" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="huL-AU-Vmv"/>
+                <constraint firstItem="rLV-Hw-gNc" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" multiplier="0.5" id="pZU-p8-43d"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="t47-rG-CLw" secondAttribute="trailing" constant="20" id="qNS-dv-zmT"/>
+                <constraint firstItem="t47-rG-CLw" firstAttribute="top" secondItem="rLV-Hw-gNc" secondAttribute="bottom" constant="40" id="xii-VY-1Nc"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="42" y="21"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

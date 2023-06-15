@@ -46,7 +46,7 @@ class SearchListViewModel: BaseViewModel<SearchListViewModelOutputEvents> {
                 case .success(let image):
                     completion(image)
                 case .failure(let error):
-                    debugPrint(error.customMessage)
+                    debugPrint(error)
                     completion(nil)
                 }
             }
