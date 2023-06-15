@@ -50,7 +50,6 @@
 		D932C6B32950A3B200552003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D932C6B22950A3B200552003 /* Assets.xcassets */; };
 		D932C6B62950A3B200552003 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D932C6B42950A3B200552003 /* LaunchScreen.storyboard */; };
 		D9675D2D29A8AB85002E6982 /* NetworkMonitorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9675D2C29A8AB85002E6982 /* NetworkMonitorService.swift */; };
-		D97038EB295357D3003ABAF9 /* temp.xib in Resources */ = {isa = PBXBuildFile; fileRef = D97038EA295357D3003ABAF9 /* temp.xib */; };
 		D98AFE152955D31D001665E7 /* SecureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AFE132955D31D001665E7 /* SecureTextField.swift */; };
 		D98AFE162955D31D001665E7 /* SecureTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = D98AFE142955D31D001665E7 /* SecureTextField.xib */; };
 		D98AFE182955D528001665E7 /* NibDesignable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AFE172955D528001665E7 /* NibDesignable.swift */; };
@@ -142,7 +141,6 @@
 		D932C6B52950A3B200552003 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D932C6B72950A3B200552003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9675D2C29A8AB85002E6982 /* NetworkMonitorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorService.swift; sourceTree = "<group>"; };
-		D97038EA295357D3003ABAF9 /* temp.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = temp.xib; sourceTree = "<group>"; };
 		D98AFE132955D31D001665E7 /* SecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureTextField.swift; sourceTree = "<group>"; };
 		D98AFE142955D31D001665E7 /* SecureTextField.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SecureTextField.xib; sourceTree = "<group>"; };
 		D98AFE172955D528001665E7 /* NibDesignable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibDesignable.swift; sourceTree = "<group>"; };
@@ -387,7 +385,6 @@
 				D98AFE262956C120001665E7 /* Coordinators */,
 				D98AFE252956C0FB001665E7 /* FlowComponents */,
 				D9261302295E25B4007F9557 /* Extensions */,
-				D97038EA295357D3003ABAF9 /* temp.xib */,
 				D932C6B42950A3B200552003 /* LaunchScreen.storyboard */,
 				D932C6A62950A3B000552003 /* AppDelegate.swift */,
 				D98AFE172955D528001665E7 /* NibDesignable.swift */,
@@ -620,7 +617,6 @@
 				D929E4FD298D5CAD004AF9FB /* FavoritesListView.xib in Resources */,
 				D929E4F3298A642E004AF9FB /* FavoritesView.xib in Resources */,
 				D98AFE162955D31D001665E7 /* SecureTextField.xib in Resources */,
-				D97038EB295357D3003ABAF9 /* temp.xib in Resources */,
 				D929E50529924AB8004AF9FB /* FavoritesListTableViewCell.xib in Resources */,
 				D9F0FEF929599616006D8B10 /* LoginView.xib in Resources */,
 				D9261311296469AD007F9557 /* MediaCollectionTableViewCell.xib in Resources */,
